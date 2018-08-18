@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PhoneVerificationViewController: UIViewController {
+class PhoneVerificationViewController: ModalViewViewController {
   
   var didSetupConstraints = false
   
@@ -195,7 +195,7 @@ extension PhoneVerificationViewController: UITextFieldDelegate {
       })
     }
     
-    if (textField.text?.characters.count)! == 1 {
+    if (textField.text?.count)! == 1 {
       if string == "" {
         if textField == digits[0] {
           digits[0].text = string

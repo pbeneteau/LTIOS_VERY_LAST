@@ -7,34 +7,34 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>323093254646-sl1cprdfpctrjgtjboturdiot8phcpe7.apps.googleusercontent.com</string>
+	<string>968873684191-b04d1idl4qq02ajore7kq02d0mou15e3.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.323093254646-sl1cprdfpctrjgtjboturdiot8phcpe7</string>
+	<string>com.googleusercontent.apps.968873684191-b04d1idl4qq02ajore7kq02d0mou15e3</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBm0ePQNy3jWR-NB5H6EGX5WJ6nS4teQlw</string>
+	<string>AIzaSyBFlAsfbpO-hHu4_C7gW4bMe9mtiUVv8ts</string>
 	<key>GCM_SENDER_ID</key>
-	<string>323093254646</string>
+	<string>968873684191</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.littleworld.littleworld</string>
 	<key>PROJECT_ID</key>
-	<string>thelittleworld-f1469</string>
+	<string>littleworld-bfeb5</string>
 	<key>STORAGE_BUCKET</key>
-	<string>thelittleworld-f1469.appspot.com</string>
+	<string>littleworld-bfeb5.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:323093254646:ios:1d7a7813a59a16d5</string>
+	<string>1:968873684191:ios:1d7a7813a59a16d5</string>
 	<key>DATABASE_URL</key>
-	<string>https://thelittleworld-f1469.firebaseio.com</string>
+	<string>https://littleworld-bfeb5.firebaseio.com</string>
 </dict>
 </plist>

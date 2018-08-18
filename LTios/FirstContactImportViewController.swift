@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FirstContactImportViewController: UIViewController {
+class FirstContactImportViewController: ModalViewViewController {
   
   var didSetupConstraints = false
   

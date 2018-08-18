@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ContactProfileViewController: UIViewController {
+class ContactProfileViewController: ModalViewViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

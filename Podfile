@@ -9,19 +9,26 @@ target 'LTios' do
   pod 'Firebase/Core'
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
-  pod 'Firebase/Database'
+  pod 'Firebase/Firestore'
   pod 'Firebase/Storage'
+  
   pod 'SnapKit'
-  pod 'Pulsator'
-  pod 'Whisper'
+  
+  pod 'SwiftLocation'
   pod 'ReachabilitySwift'
   pod 'CryptoSwift'
   pod 'PhoneNumberKit'
+  
   pod 'SCLAlertView'
-  pod 'SwiftyJSON'
+
   pod 'TextFieldEffects'
-  pod 'NexmoVerify'
+
+  pod 'GoogleMaps'
   pod 'GooglePlaces'
+  
+  pod 'Spring'
+  
+  
 
   target 'LTiosTests' do
     inherit! :search_paths

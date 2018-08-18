@@ -8,7 +8,6 @@
 
 import Foundation
 
-let mainUser = MainUser()
 var firstConnection: Bool = false
 
 let countriesName = ["a": ["Algeria", "Argentina", "Australia", "Austria"], "b": ["Bahamas", "Belgium", "Brazil"], "c": ["Canada", "China", "Colombia", "Croatia"], "d": ["Denmark"], "e": ["Egypt"], "f": ["Filand", "France"], "g": ["Georgia", "Greece"], "h": ["Hong Kong"], "i": ["India", "Ireland", "Italy"], "j": ["Jamaica", "Japan"], "k":["Korea (South)"], "m": ["Mexico", "Morocco"], "n": ["Norway"], "p": ["Poland", "Portugal"], "q": ["Qatar"], "r": ["Romania", "Russia"], "s": ["Saudi Arabia", "Singapore", "South Africa", "Spain", "Sweden", "Switzerland"], "t": ["Taiwan", "Thailand", "Tunisia"], "u": ["United Arab Emirates", "United States "], "v": ["Viet Nam "]]

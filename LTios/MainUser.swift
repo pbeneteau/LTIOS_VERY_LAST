@@ -6,29 +6,71 @@
 //  Copyright © 2017 Tastyapp. All rights reserved.
 //
 
-import UIKit
 import Firebase
+import CoreLocation
 
-class MainUser {
-  
-  // Primary datas
-  var user: User?
-  var publicName: String?
-  var pushID: String?
-  var phoneNumber: String?
-  var email: String?
-  var countryCode: String?
-  
-  init() {
+var mainUserInstance: MainUser!
+
+class MainUser: GlobalUser {
     
-  }
-  
-  init(user: User, publicName: String, pushID: String, phoneNumber: String, email: String, countryCode: String) {
-    self.user = user
-    self.publicName = publicName
-    self.pushID = pushID
-    self.phoneNumber = phoneNumber
-    self.email = email
-    self.countryCode = countryCode
-  }
+    var FIRUser = Auth.auth().currentUser!
+    var address: Address?
+    var location: GeoPoint? {
+        willSet(newLocation) {
+        }
+        didSet {
+            notifyDidUpdateLocation()
+        }
+    }
+    
+    var place: CLPlacemark? {
+        didSet {
+            updateUserLocation(place: place!)
+        }
+    }
+    
+    override init(document: DocumentSnapshot) {
+        super.init(document: document)
+    }
+    
+    func updateUserLocation(place: CLPlacemark) {
+        
+        if let location = place.location,
+            let iso = place.isoCountryCode,
+            let state = place.administrativeArea,
+            let country = place.country,
+            let city = place.locality,
+            let postalCode = place.postalCode {
+            
+            self.address = Address(country: country, ISO: iso, city: city, state: state, postalCode: postalCode)
+            self.location = GeoPoint(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            
+            DatabaseService.shared.updateUserDatabaseLocation()
+            
+        } else {
+            print("Error while unwrapping values to update location")
+        }
+    }
+    
+    func notifyDidUpdateLocation() {
+        NotificationCenter.default.post(name: Notification.Name(rawValue:"didUpdateLocation"), object: nil, userInfo: nil)
+        print("Did update location.")
+    }
+}
+
+
+struct Address {
+    var country: String
+    var ISO: String
+    var city: String
+    var state: String
+    var postalCode: String
+}
+
+func ==(lhs: Address, rhs: Address) -> Bool {
+    return lhs.country == rhs.country
+        && lhs.ISO == rhs.ISO
+        && lhs.city == rhs.city
+        && lhs.state == rhs.state
+        && lhs.postalCode == rhs.postalCode
 }

@@ -34,7 +34,7 @@ private func +=(lhs: inout String?, rhs: String) {
 
 class Node: MaskNode {
   
-  private var nearbyUser: NearbyUser!
+  private var interestingUser: InterestingUser!
   
   public lazy var sprite: SKSpriteNode = { [unowned self] in
     let sprite = SKSpriteNode()
@@ -71,7 +71,7 @@ class Node: MaskNode {
     }
   }
   
-  public init(image: UIImage?, radius: CGFloat, nearbyUser: NearbyUser) {
+  public init(image: UIImage?, radius: CGFloat, interestingUser: InterestingUser) {
     super.init(circleOfRadius: radius)
     
     self.physicsBody = {
@@ -84,15 +84,15 @@ class Node: MaskNode {
     self.fillColor = .clear
     self.strokeColor = .clear
 
-    configure(image: image, nearbyUser: nearbyUser)
+    configure(image: image, interestingUser: interestingUser)
   }
   
   required public init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  open func configure(image: UIImage?, nearbyUser: NearbyUser) {
-    self.nearbyUser = nearbyUser
+  open func configure(image: UIImage?, interestingUser: InterestingUser) {
+    self.interestingUser = interestingUser
     self.image = image
     sprite.run(.setTexture(SKTexture(imageNamed: "defaultNearbyIcon")))
 
@@ -122,8 +122,8 @@ class Node: MaskNode {
     run(.fadeOut(withDuration: 0.2), completion: completion)
   }
   
-  public func getNearbyUser() -> NearbyUser {
-    return nearbyUser
+  public func getInterestingUser() -> InterestingUser {
+    return interestingUser
   }
   
 }

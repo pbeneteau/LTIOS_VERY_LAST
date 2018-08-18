@@ -8,13 +8,13 @@
 
 import UIKit
 
-class PlaceViewController: UIViewController {
+class PlaceViewController: ModalViewViewController {
   
   var didSetupConstraints = false
   
   var collectionView = NearbyPlacesUICollectionView()
   
-  var nearbyPlaces = [[NearbyPlaces]]()
+  var nearbyPlaces = [[NearbyPlace]]()
   var selectedIndex: IndexPath!
   
   

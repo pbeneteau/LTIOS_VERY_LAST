@@ -38,7 +38,7 @@ open class Magnetic: SKScene {
    The selected children.
    */
   var selectedChildren: [Node] {
-    return children.flatMap { $0 as? Node }.filter { $0.isSelected }
+    return children.compactMap { $0 as? Node }.filter { $0.isSelected }
   }
   
   /**

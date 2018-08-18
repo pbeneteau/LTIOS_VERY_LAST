@@ -7,60 +7,304 @@
 //
 
 import UIKit
-import SpriteKit
+import FirebaseAuth
+import Reachability
 
-class ScannerViewController: UIViewController {
-  
-  var scannerView = MagneticView()
-  
-  var magnetic: Magnetic!
-  
-  override func viewDidLoad() {
-    super.viewDidLoad()
+class ScannerViewController: ModalViewViewController {
     
-    view.backgroundColor = .white
+    var didSetupConstraints = false
     
-    scannerView.frame = view.frame
-    scannerView.showsFPS = true
-    scannerView.showsDrawCount = true
-    scannerView.showsQuadCount = true
+    var authHandle: AuthStateDidChangeListenerHandle?
+    var interestingUsers = [InterestingUser]()
+    var locator = LocationService.shared
+    var reachability = Reachability()!
+    var isPrivate = false
     
-    magnetic = scannerView.magnetic
-    magnetic.magneticDelegate = self
+    var errorIcon = UIImageView()
+    var errorTitle = errorTitleLabel()
+    var errorLabel = errorLabelLabel()
     
-    //add(nil)
+    var tableView = InterestingUsersTableView()
     
-    //view.addSubview(scannerView)
-  }
-  
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
-  }
-  
-  func add(_ sender: UIControl?) {
+    enum Alert {
+        case reachability
+        case lalization
+        case privacy
+    }
     
-    let nearbyUser = NearbyUser(uid: "136tweq8et123", publicName: "Antoine Beneteau", pushID: "125ef12512f172")
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        view.backgroundColor = .white
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+        
+        self.view.addSubview(tableView)
+        
+       addConstraints()
+        
+        authHandle = Auth.auth().addStateDidChangeListener() { (auth, user) in
+            print(auth)
+            if let user = user {
+                print("User logged in: \(user.uid)")
+                self.addNotificationsObserver()
+                self.getMainUserInformation()
+            }
+        }
+    }
     
-    let node = Node(image: UIImage(named: "defaultDiscoveredNearbyIcon"), radius: 70, nearbyUser: nearbyUser)
-    magnetic.addChild(node)
+    override func viewWillAppear(_ animated: Bool) {
+        
+        do {
+            try reachability.startNotifier()
+        } catch{
+            print("could not start reachability notifier")
+        }
+    }
     
-  }
-  
+    // init main user datas
+    func getMainUserInformation() {
+        
+        MenuInstance.startLoadingAnimation()
+        
+        DatabaseService.shared.getUserInformation(uid: (Auth.auth().currentUser?.uid)!) { doc in
+            if doc != nil {
+                mainUserInstance = MainUser(document: doc!)
+                self.locator.startUpdatingLocation()
+            }
+        }
+    }
+    
+    func showMessagePrompt(_ text: String) {
+        let alert = UIAlertController(title: "There are people around you!", message: text, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cool !", style: .cancel, handler: nil))
+        self.present(alert, animated: true)
+    }
+ 
 }
 
 
-// MARK: - MagneticDelegate
-extension ScannerViewController: MagneticDelegate {
-  
-  func magnetic(_ magnetic: Magnetic, didSelect node: Node) {
-    print("didSelect -> \(node.getNearbyUser().getPublicName())")
-  }
-  
-  func magnetic(_ magnetic: Magnetic, didDeselect node: Node) {
-    print("didDeselect -> \(node)")
-  }
+// MARK: Data Management
+extension ScannerViewController {
+    
+    @objc func didUpdateNearbyUsers(_ notification: NSNotification) {
+        if let userInfo = notification.userInfo, let nearbyUsers = userInfo["nearbyUsers"] as? [InterestingUser] {
+            InterestingUsers.shared.getInterestingUsers(nearbyUsers: nearbyUsers) { interestingUsers in
+                guard let interestingUsers = interestingUsers else { return }
+                
+                self.interestingUsers = interestingUsers
+                if interestingUsers.count > 0 {
+                    self.showMessagePrompt("\(String(describing: interestingUsers.count)) interesting people detected.")
+                    MenuInstance.stopLoadingAnimation()
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
+    
+    @objc func didUpdateLocation(_ notification: NSNotification) {
+        MenuInstance.updatePlaceName(name: mainUserInstance.place?.name ?? "")
+        DatabaseService.shared.listenForNearbyUsers()
+    }
+    
+    @objc func didRequestPrivacyChange(_ notification: NSNotification) {
+        if isPrivate {
+            print("Removing to ghost mode ...")
+            removeAlert()
+            MenuInstance.privacyDidChange(ghost: false)
+            isPrivate = false
+        } else {
+            print("Switching to ghost mode ...")
+            showAlert(alert: .privacy)
+            MenuInstance.privacyDidChange(ghost: true)
+            isPrivate = true
+        }
+    }
+}
+
+// MARK: Table View Delegates
+extension ScannerViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return interestingUsers.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell: InterestingUsersTableViewCell? = tableView.dequeueReusableCell(withIdentifier: "interestingUserCell", for: indexPath) as? InterestingUsersTableViewCell
+        return cell!
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt: IndexPath) -> CGFloat {
+        return CGFloat(70 * (1 + interestingUsers[heightForRowAt.row].friendsInCommonNb/10))
+    }
+    
+    func tableView(_ tableView: UITableView,
+                            willDisplay cell: UITableViewCell,
+                            forRowAt indexPath: IndexPath) {
+        if let cell = cell as? InterestingUsersTableViewCell {
+            _configureCell(cell, atIndexPath: indexPath)
+        }
+    }
+    
+    fileprivate func _configureCell(_ cell: InterestingUsersTableViewCell, atIndexPath indexPath: IndexPath) {
+        cell.queue.cancelAllOperations()
+        
+        let operation: BlockOperation = BlockOperation()
+        operation.addExecutionBlock { [weak operation] () -> Void in
+            
+            DispatchQueue.main.sync(execute: { [weak operation] () -> Void in
+                
+                if let operation = operation, operation.isCancelled { return }
+                
+                // Initialization
+                cell.selectionStyle = .none
+                cell.backgroundColor = .clear
+            })
+        }
+        cell.queue.addOperation(operation)
+    }
+    
+    
+}
+
+// MARK: Norifications Observer
+extension ScannerViewController {
+    
+    func addNotificationsObserver() {
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.didUpdateLocation(_:)), name: Notification.Name(rawValue:"didUpdateLocation"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showTurnOnLocationServiceAlert(_:)), name: Notification.Name(rawValue:"showTurnOnLocationServiceAlert"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.didUpdateNearbyUsers(_:)), name: Notification.Name(rawValue:"didUpdateNearbyUsers"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.didRequestPrivacyChange(_:)), name: Notification.Name(rawValue:"didRequestPrivacyChange"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(_:)), name: .reachabilityChanged, object: reachability)
+    }
 }
 
 
+// MARK: Alerts
+extension ScannerViewController {
+    
+    @objc func showTurnOnLocationServiceAlert(_ notification: NSNotification){
+        let alert = UIAlertController(title: "Turn on Location Service", message: "To use location tracking feature of the app, please turn on the location service from the Settings app.", preferredStyle: .alert)
+        
+        let settingsAction = UIAlertAction(title: "Settings", style: .default) { (_) -> Void in
+            let settingsUrl = URL(string: UIApplicationOpenSettingsURLString)
+            if let url = settingsUrl {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil)
+        alert.addAction(settingsAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    @objc func reachabilityChanged(_ notification: NSNotification) {
+        let reachability = notification.object as! Reachability
+        
+        switch reachability.connection {
+        case .wifi:
+            print("Reachable via WiFi")
+            MenuInstance.reachabilityDidChange(reachable: true)
+            removeAlert()
+        case .cellular:
+            print("Reachable via Cellular")
+            MenuInstance.reachabilityDidChange(reachable: true)
+            removeAlert()
+        case .none:
+            print("Network not reachable")
+            MenuInstance.reachabilityDidChange(reachable: false)
+            showAlert(alert: .reachability)
+        }
+    }
+    
+    func showAlert(alert: Alert) {
+        
+        switch alert {
+        case .reachability:
+            errorIcon.image = UIImage(named: "wifi_icon")
+            errorTitle.text = "Connexion issue"
+            errorLabel.text = "Make sure you are connected to the internet"
+            self.view.backgroundColor = UIColor(red:0.92, green:0.35, blue:0.35, alpha:1.0)
+        case .privacy:
+            errorIcon.image = UIImage(named: "ghost_icon")
+            errorTitle.text = "Ghost mode"
+            errorLabel.text = "You are now invisible to other users"
+            self.view.backgroundColor = UIColor(red:0.40, green:0.40, blue:0.40, alpha:1.0)
+        default:
+            errorIcon.image = UIImage(named: "location_icon")
+            errorTitle.text = "Localization issue"
+            errorLabel.text = "Make sure you have accepted the localization accessibility"
+            self.view.backgroundColor = UIColor(red:0.92, green:0.35, blue:0.35, alpha:1.0)
+        }
+        
+        view.addSubview(errorIcon)
+        view.addSubview(errorTitle)
+        view.addSubview(errorLabel)
+        
+        self.errorIcon.snp.makeConstraints { (make) -> Void in
+            if alert == .reachability {
+                make.height.equalTo(111)
+                make.width.equalTo(147)
+            } else if alert == .privacy {
+                make.height.equalTo(111)
+                make.width.equalTo(104)
+            }
+            make.centerX.equalTo(self.view.snp.centerX)
+            make.centerY.equalTo(self.view.snp.centerY).multipliedBy(0.8)
+        }
+        self.errorTitle.snp.makeConstraints { (make) -> Void in
+            make.height.equalTo(30)
+            make.width.equalTo(self.view.snp.width).multipliedBy(0.7)
+            make.centerX.equalTo(errorIcon.snp.centerX)
+            make.top.equalTo(errorIcon.snp.bottom).offset(25)
+        }
+        self.errorLabel.snp.makeConstraints { (make) -> Void in
+            make.height.equalTo(60)
+            make.width.equalTo(self.view.snp.width).multipliedBy(0.7)
+            make.centerX.equalTo(errorTitle.snp.centerX)
+            make.top.equalTo(errorTitle.snp.bottom).offset(10)
+        }
+        
+        errorIcon.isHidden = false
+        errorTitle.isHidden = false
+        errorLabel.isHidden = false
+    }
+    
+    func removeAlert() {
+        self.view.backgroundColor = .white
+        errorIcon.isHidden = true
+        errorTitle.isHidden = true
+        errorLabel.isHidden = true
+    }
 
+}
+
+
+// MARK: Constraints
+extension ScannerViewController {
+    
+    func addConstraints() {
+        
+        if !didSetupConstraints {
+            
+            tableView.snp.makeConstraints { (make) -> Void in
+                make.width.equalTo(self.view.snp.width)
+                make.height.equalTo(self.view.snp.height).multipliedBy(0.8)
+                make.bottom.equalTo(self.view)
+                make.centerX.equalTo(self.view)
+            }
+            
+            didSetupConstraints = true
+        }
+    }
+    
+    
+}

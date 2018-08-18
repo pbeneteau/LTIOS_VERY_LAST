@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WhereAreYouViewController: UIViewController {
+class WhereAreYouViewController: ModalViewViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

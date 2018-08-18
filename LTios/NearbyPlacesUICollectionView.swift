@@ -16,7 +16,7 @@ class NearbyPlacesUICollectionView: UICollectionView {
   
   override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
     let layout = UICollectionViewFlowLayout()
-    layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 40, right: 0)
+    layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 80*3)
     super.init(frame: CGRect(), collectionViewLayout: layout)
     commonInit()
