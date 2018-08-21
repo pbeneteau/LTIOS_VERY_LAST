@@ -10,31 +10,29 @@ import UIKit
 
 class ContactsViewController: ModalViewViewController, UITableViewDataSource {
     
-    var containerView = UIView()
+    private var containerView = UIView()
     
-    var tableView = ContactsTableView()
+    private var tableView = ContactsTableView()
     
     var contacts = [Contact]()
-    var filteredContacts = [Contact]()
-    var search: String = ""
+    private var filteredContacts = [Contact]()
+    private var search: String = ""
     
-    var isSearching = false
+    private var isSearching = false
     
-    
-    
-    lazy var searchLine: UIView = {
+    private lazy var searchLine: UIView = {
         let view = UIView()
         view.backgroundColor = .lightGray
         return view
     }()
     
-    lazy var searchIcon: UIImageView = {
+    private lazy var searchIcon: UIImageView = {
         let view = UIImageView()
         view.image = #imageLiteral(resourceName: "searchIconContact")
         return view
     }()
     
-    lazy var searchTextField: UITextField = {
+    private lazy var searchTextField: UITextField = {
         let view = UITextField()
         view.textColor = .gray
         view.font = UIFont(name: "Roboto-Regular", size: 20)
@@ -48,7 +46,6 @@ class ContactsViewController: ModalViewViewController, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
         ContactsService.shared.loadContacts { contacts in
             
@@ -88,34 +85,39 @@ class ContactsViewController: ModalViewViewController, UITableViewDataSource {
         super.viewDidLayoutSubviews()
         containerView.roundCorners(corners: [.topLeft , .topRight], radius: 10)
     }
+}
+
+// MARK: Animations
+extension ContactsViewController {
     
     @objc func searchConstraintsActive() {
+        
         UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: { () -> Void in
             
             self.tableView.snp.remakeConstraints { (make) -> Void in
-                make.width.equalTo(self.containerView.snp.width).multipliedBy(0.97)
-                make.height.equalTo(self.containerView.snp.height).offset(-60)
-                make.centerX.equalTo(self.containerView.snp.centerX)
-                make.top.equalTo(self.containerView.snp.top).offset(60)
+                make.width.equalTo(self.containerView).multipliedBy(0.97)
+                make.height.equalTo(self.containerView).offset(-60)
+                make.centerX.equalTo(self.containerView)
+                make.top.equalTo(self.containerView).offset(60)
             }
             
             self.searchLine.snp.remakeConstraints { (make) -> Void in
-                make.width.equalTo(self.containerView.snp.width)
+                make.width.equalTo(self.containerView)
                 make.height.equalTo(0.5)
-                make.top.equalTo(self.containerView.snp.top).offset(50)
-                make.centerX.equalTo(self.containerView.snp.centerX)
+                make.top.equalTo(self.containerView).offset(50)
+                make.centerX.equalTo(self.containerView)
             }
             
             self.searchIcon.snp.remakeConstraints { (make) -> Void in
                 make.width.equalTo(25)
                 make.height.equalTo(25)
-                make.top.equalTo(self.containerView.snp.top).offset(12.5)
-                make.left.equalTo(self.containerView.snp.left).offset(16)
+                make.top.equalTo(self.containerView).offset(12.5)
+                make.left.equalTo(self.containerView).offset(16)
             }
             
             self.searchTextField.snp.remakeConstraints { (make) -> Void in
-                make.width.equalTo(self.containerView.snp.width).multipliedBy(0.8)
-                make.top.equalTo(self.containerView.snp.top).offset(13)
+                make.width.equalTo(self.containerView).multipliedBy(0.8)
+                make.top.equalTo(self.containerView).offset(13)
                 make.left.equalTo(self.searchIcon.snp.right).offset(10)
             }
             
@@ -124,99 +126,54 @@ class ContactsViewController: ModalViewViewController, UITableViewDataSource {
     }
     
     func searchConstraintsDisable() {
+        
         UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: { () -> Void in
             
             self.tableView.snp.remakeConstraints { (make) -> Void in
-                make.width.equalTo(self.containerView.snp.width).multipliedBy(0.97)
-                make.height.equalTo(self.containerView.snp.height).offset(-50)
-                make.centerX.equalTo(self.containerView.snp.centerX)
-                make.top.equalTo(self.containerView.snp.top).offset(50)
+                make.width.equalTo(self.containerView).multipliedBy(0.97)
+                make.height.equalTo(self.containerView).offset(-50)
+                make.centerX.equalTo(self.containerView)
+                make.top.equalTo(self.containerView).offset(50)
             }
             
             self.searchLine.snp.remakeConstraints { (make) -> Void in
-                make.width.equalTo(self.containerView.snp.width)
+                make.width.equalTo(self.containerView)
                 make.height.equalTo(0.5)
-                make.top.equalTo(self.containerView.snp.top).offset(40)
-                make.centerX.equalTo(self.containerView.snp.centerX)
+                make.top.equalTo(self.containerView).offset(40)
+                make.centerX.equalTo(self.containerView)
             }
             
             self.searchIcon.snp.remakeConstraints { (make) -> Void in
                 make.width.equalTo(20)
                 make.height.equalTo(20)
-                make.top.equalTo(self.containerView.snp.top).offset(10)
-                make.left.equalTo(self.containerView.snp.left).offset(16)
+                make.top.equalTo(self.containerView).offset(10)
+                make.left.equalTo(self.containerView).offset(16)
             }
             
             self.searchTextField.snp.remakeConstraints { (make) -> Void in
-                make.width.equalTo(self.containerView.snp.width).multipliedBy(0.8)
-                make.top.equalTo(self.containerView.snp.top).offset(9)
+                make.width.equalTo(self.containerView).multipliedBy(0.8)
+                make.top.equalTo(self.containerView).offset(9)
                 make.left.equalTo(self.searchIcon.snp.right).offset(10)
             }
             
             self.searchTextField.superview?.layoutIfNeeded()
         })
     }
-    
 }
 
-extension ContactsViewController {
-    
-    override func updateViewConstraints() {
-        
-        containerView.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(view.snp.width)
-            make.height.equalTo(view.snp.height).multipliedBy(0.9)
-            make.bottom.equalTo(view.snp.bottom)
-            make.centerX.equalTo(view.snp.centerX)
-        }
-        
-        tableView.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(containerView.snp.width).multipliedBy(0.97)
-            make.height.equalTo(containerView.snp.height).offset(-50)
-            make.centerX.equalTo(containerView.snp.centerX)
-            make.top.equalTo(containerView.snp.top).offset(50)
-        }
-        
-        searchLine.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(containerView.snp.width)
-            make.height.equalTo(0.5)
-            make.top.equalTo(containerView.snp.top).offset(40)
-            make.centerX.equalTo(containerView.snp.centerX)
-        }
-        
-        searchIcon.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(20)
-            make.height.equalTo(20)
-            make.top.equalTo(containerView.snp.top).offset(10)
-            make.left.equalTo(containerView.snp.left).offset(16)
-        }
-        
-        searchTextField.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(containerView.snp.width).multipliedBy(0.8)
-            make.top.equalTo(containerView.snp.top).offset(9)
-            make.left.equalTo(searchIcon.snp.right).offset(10)
-        }
-        
-        super.updateViewConstraints()
-    }
-    
-}
-
+// MARK: Search Bar Delegate
 extension ContactsViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         return false
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
-    {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         isSearching = true
         
         if string.isEmpty
         {
             search = String(search.dropLast())
-        }
-        else
-        {
+        } else {
             search=textField.text!+string
         }
         
@@ -225,13 +182,11 @@ extension ContactsViewController: UITextFieldDelegate {
             || $0.firstName.range(of: search, options: [.caseInsensitive]) != nil }
         
         
-        if filtered.count > 0
-        {
+        if filtered.count > 0 {
             filteredContacts.removeAll(keepingCapacity: true)
             filteredContacts = filtered
         }
-        else
-        {
+        else {
             filteredContacts = contacts
         }
         tableView.reloadData()
@@ -239,6 +194,7 @@ extension ContactsViewController: UITextFieldDelegate {
     }
 }
 
+// MARK: Table View Delegate
 extension ContactsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -257,15 +213,13 @@ extension ContactsViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if let cell = cell as? ContactsTableViewCell
-        {
+        if let cell = cell as? ContactsTableViewCell {
             _configureCell(cell, atIndexPath: indexPath)
         }
     }
     
     
-    fileprivate func _configureCell(_ cell: ContactsTableViewCell, atIndexPath indexPath: IndexPath)
-    {
+    fileprivate func _configureCell(_ cell: ContactsTableViewCell, atIndexPath indexPath: IndexPath) {
         cell.queue.cancelAllOperations()
         
         let operation: BlockOperation = BlockOperation()
@@ -300,8 +254,53 @@ extension ContactsViewController: UITableViewDelegate {
 }
 
 extension ContactsViewController: UIScrollViewDelegate {
+    
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         view.endEditing(true)
         searchConstraintsDisable()
+    }
+}
+
+
+// MARK: Constraints
+extension ContactsViewController {
+    
+    override func updateViewConstraints() {
+        
+        containerView.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(view)
+            make.height.equalTo(view).multipliedBy(0.9)
+            make.bottom.equalTo(view)
+            make.centerX.equalTo(view)
+        }
+        
+        tableView.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(containerView).multipliedBy(0.97)
+            make.height.equalTo(containerView).offset(-50)
+            make.centerX.equalTo(containerView)
+            make.top.equalTo(containerView).offset(50)
+        }
+        
+        searchLine.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(containerView)
+            make.height.equalTo(0.5)
+            make.top.equalTo(containerView).offset(40)
+            make.centerX.equalTo(containerView)
+        }
+        
+        searchIcon.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(20)
+            make.height.equalTo(20)
+            make.top.equalTo(containerView).offset(10)
+            make.left.equalTo(containerView).offset(16)
+        }
+        
+        searchTextField.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(containerView).multipliedBy(0.8)
+            make.top.equalTo(containerView).offset(9)
+            make.left.equalTo(searchIcon.snp.right).offset(10)
+        }
+        
+        super.updateViewConstraints()
     }
 }

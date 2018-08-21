@@ -19,29 +19,15 @@ enum InteractiveMaskType : UInt {
     case clear
 }
 
-class InteractiveViewController: UIViewController {
+class InteractiveViewController: ModalViewViewController {
 
     var allowedDismissDirection: dismissDirection = .both
     var directionLock = false
     var maskType: InteractiveMaskType = .black
     
-    var window: UIWindow?
-    var topConstraint: NSLayoutConstraint?
-    var intractiveGesture: UIPanGestureRecognizer? = nil
-    
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+    private var window: UIWindow?
+    private var topConstraint: NSLayoutConstraint?
+    private var intractiveGesture: UIPanGestureRecognizer? = nil
     
     override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
         
@@ -75,7 +61,7 @@ class InteractiveViewController: UIViewController {
             self.topConstraint?.constant = self.view.bounds.height
         }
         
-        UIView.animate(withDuration: 0.25, animations: {
+        UIView.animate(withDuration: 0.35, animations: {
             self.window?.backgroundColor = UIColor.clear
             self.window?.layoutIfNeeded()
         }, completion: { finished in
@@ -108,7 +94,7 @@ extension InteractiveViewController: UIGestureRecognizerDelegate {
         topConstraint?.constant = UIScreen.main.bounds.height
         window.layoutIfNeeded()
         topConstraint?.constant = 0
-        UIView.animate(withDuration: 0.5, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             if self.maskType == .black {
                 window.backgroundColor = UIColor(red:0.29, green:0.58, blue:0.96, alpha:0.8)
             }

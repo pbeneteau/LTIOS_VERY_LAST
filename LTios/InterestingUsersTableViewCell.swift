@@ -9,15 +9,14 @@
 import UIKit
 
 class InterestingUsersTableViewCell: UITableViewCell {
-
-    var didSetupConstraints = false
+    
+    private var didSetupConstraints = false
     
     let queue = SerialOperationQueue()
     
-    var user = [InterestingUser]()
+    var user = InterestingUser()
     
-    var bubble = InterestingUserBubble()
-    var optionalBubble = InterestingUserBubble()
+    var bubble = RoundShadowView()
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -26,42 +25,43 @@ class InterestingUsersTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        // add subviews
+        contentView.addSubview(bubble)
+        
+        // constraints
+        addConstraint()
+        
+        // initializations
+        contentView.backgroundColor = .clear
+        bubble.image = UIImage(named: "profilePicture")
+        bubble.clipsToBounds = true
+        bubble.backgroundColor = .red
+        bubble.shadowOpacity = 0.1
+        bubble.shadowOffset = CGSize(width: 0, height: 10)
+        bubble.shadowRadius = 10
+        
+        bubble.layoutSubviews()
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        prepareForReuse()
-    }
-
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
     
-    override func prepareForReuse() {
+    func addConstraint() {
         
-        bubble.userPhoto.image = UIImage(named: "profilePicture")
+        let maxX = Int(contentView.frame.width - contentView.frame.height*0.9 - 20)
         
-        contentView.addSubview(bubble)
+        let x = Int.random(in: 20 ..< maxX)
         
-        addConstraints()
+        bubble.snp.makeConstraints { (make) -> Void in
+            make.height.width.equalTo(contentView.snp.height).multipliedBy(0.9)
+            make.centerY.equalTo(contentView)
+            make.left.equalTo(x)
+        }
+        contentView.layoutIfNeeded()
+        bubble.layoutIfNeeded()
     }
     
-    func addConstraints() {
-        
-        if !didSetupConstraints {
-            
-            let maxX = Int(contentView.frame.width - contentView.frame.height - 20)
-            
-            let x = Int.random(in: 20 ..< maxX)
-
-            bubble.snp.makeConstraints { (make) -> Void in
-                make.height.width.equalTo(contentView.snp.height)
-                make.centerY.equalTo(contentView)
-                make.left.equalTo(x)
-            }
-            
-            didSetupConstraints = true
-        }
-    }
-
 }
+

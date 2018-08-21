@@ -13,69 +13,92 @@ import FirebaseFirestore
 class DatabaseService {
     
     public static var shared = DatabaseService()
+    private var nearbyUserListener: ListenerRegistration!
     
-    let db: Firestore!
-    let settings: FirestoreSettings!
+    private let db: Firestore!
+    private let settings: FirestoreSettings!
+    
+    var lastNearbyUsersSnapshot = [QueryDocumentSnapshot]()
     
     init() {
         
         db = Firestore.firestore()
         
         settings = db.settings
-        settings.areTimestampsInSnapshotsEnabled = true
+        settings.areTimestampsInSnapshotsEnabled = true        
         db.settings = settings
     }
     
+    deinit {
+        stopListeningForNearbyUsers()
+    }
 }
 
 extension DatabaseService {
     
     // Listening for users in the same state
     func listenForNearbyUsers() {
-        db.collection("countries").document((mainUserInstance.address?.ISO)!).collection("states").document((mainUserInstance.address?.state)!).collection("users").addSnapshotListener { documentSnapshot, error in
-            guard let usersCollection = documentSnapshot?.documents else {
-                print("Error fetching document: \(error!)")
-                return
-            }
-            var nearbyUsers = [InterestingUser]()
-            
-            if usersCollection.count > 0 {
-                self.fetchUsersProfile(usersCollection: usersCollection) { users in
-                    guard let users = users else { return }
-                    
-                    nearbyUsers = users
-                    self.notifyDidUpdateNearbyUsers(nearbyUsers: nearbyUsers) // Notify viewcontrollers
-                }
-            }
+        
+        if nearbyUserListener != nil {
+            return
         }
+        
+        print("Start listening for nearby users ...")
+        
+        nearbyUserListener = db.collection("countries")
+            .document((mainUserInstance.address?.ISO)!)
+            .collection("states")
+            .document((mainUserInstance.address?.state)!)
+            .collection("users").addSnapshotListener { documentSnapshot, error in
+                
+                guard let usersCollection = documentSnapshot?.documents else {
+                    print("[Error] listening for nearby users: \(error!.localizedDescription)")
+                    return
+                }
+                
+                if usersCollection.count > 0 {
+                    print("\(usersCollection.count - 1) nearby users found")
+                    self.fetchUsersProfile(usersCollection: usersCollection) { users in
+                        guard let nearbyUsers = users else { print("[Error] unwrapping nearby users profile"); return }
+                        self.notifyDidUpdateNearbyUsers(nearbyUsers: nearbyUsers) // Notify viewControllers
+                    }
+                } else {
+                    print("No nearby users.")
+                }
+        }
+    }
+    
+    func stopListeningForNearbyUsers() {
+        nearbyUserListener.remove()
     }
     
     private func fetchUsersProfile(usersCollection: [QueryDocumentSnapshot], completion: @escaping([InterestingUser]?) -> Void) {
         
-        var nearbyUsers = [InterestingUser]()
-        
-        let asyncOperation = AsyncOperation(numberOfSimultaneousActions: 1, dispatchQueueLabel: "fetchingNearbyUsersInfo")
-        asyncOperation.whenCompleteAll = {
-            completion(nearbyUsers)
-        }
-        for doc in usersCollection {
+        if usersCollection != lastNearbyUsersSnapshot {
             
-            asyncOperation.run { completeClosure in
+            self.lastNearbyUsersSnapshot = usersCollection
+
+            print("Fetching nearby users profile ...")
+            
+            var nearbyUsers = [InterestingUser]()
+            
+            let dispatchGroup = DispatchGroup()
+            
+            for doc in usersCollection {
                 if doc.documentID != mainUserInstance.uid {
-                    
+                    dispatchGroup.enter()
                     DatabaseService.shared.getUserInformation(uid: doc.documentID) { document in
-                        guard let document = document else { completion(nil); return }
+                        dispatchGroup.leave()
+                        guard let document = document else { return }
                         
                         let newUser = InterestingUser(document: document)
-                        
                         nearbyUsers.append(newUser)
-                        
-                        completeClosure()
                     }
-                } else {
-                    completeClosure()
                 }
             }
+            dispatchGroup.notify(queue: .main, execute: {
+                completion(nearbyUsers)
+            })
         }
     }
     
@@ -92,9 +115,7 @@ extension DatabaseService {
             ]
         ]) { err in
             if let err = err {
-                print("Error updating local location: \(err.localizedDescription)")
-            } else {
-                print("Local location updated successfuly.")
+                print("[Error] updating local location: \(err.localizedDescription)")
             }
         }
         
@@ -102,9 +123,7 @@ extension DatabaseService {
             "last_location": GeoPoint(latitude: (mainUserInstance.location?.latitude)!, longitude: (mainUserInstance.location?.longitude)!)
         ]) { err in
             if let err = err {
-                print("Error updating last location: \(err.localizedDescription)")
-            } else {
-                print("Last location updated successfuly.")
+                print("[Error] updating last location: \(err.localizedDescription)")
             }
         }
     }
@@ -114,13 +133,12 @@ extension DatabaseService {
         
         db.collection("users").document(uid).getDocument { (documentSnapshot, error) in
             guard let document = documentSnapshot else {
-                print("Error fetching document: \(error!)")
+                print("[Error] fetching document: \(error!)")
                 completion(nil)
                 return
             }
             if (document.exists) {
                 completion(document)
-                self.notifyDidUpdateUserProfile()
             } else {
                 completion(nil)
             }
@@ -133,7 +151,7 @@ extension DatabaseService {
             "contacts" : contacts
         ]) { err in
             if let err = err {
-                print("Error uploading contacts: \(err.localizedDescription)")
+                print("[Error] uploading contacts: \(err.localizedDescription)")
             } else {
                 print("Contacts uploaded successfuly.")
             }
@@ -157,20 +175,18 @@ extension DatabaseService {
             }
         }
     }
-
+    
+    func onDisconnectHandler() {
+        
+    }
+    
 }
 
 // MARK: Notification Observers
 extension DatabaseService {
     
     func notifyDidUpdateNearbyUsers(nearbyUsers: [InterestingUser]) {
-        NotificationCenter.default.post(name: Notification.Name(rawValue:"didUpdateNearbyUsers"), object: nil, userInfo: ["nearbyUsers" : nearbyUsers])
+        NotificationCenter.default.post(name: Notification.Name(rawValue:"didUpdateCloseUsers"), object: nil, userInfo: ["closeUsers" : nearbyUsers])
         print("Did update nearby users.")
     }
-    
-    func notifyDidUpdateUserProfile() {
-        NotificationCenter.default.post(name: Notification.Name(rawValue:"didUpdateUserProfile"), object: nil, userInfo: nil)
-        print("Did update user profile.")
-    }
-    
 }

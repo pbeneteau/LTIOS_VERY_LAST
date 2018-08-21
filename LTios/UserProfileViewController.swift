@@ -12,21 +12,21 @@ import Spring
 
 class UserProfileViewController: InteractiveViewController {
     
-    var containerView = UIView()
+    private var containerView = UIView()
     
-    var dismissLineView = roundedView()
+    private var dismissLineView = roundedView()
     
-    var profilePictureView = roundedImageView()
-    let outerView = UIView()
+    var profilePictureView = RoundImageView()
+    private let outerView = UIView()
     
     var onlineStatut = roundedView()
     
     var userNameLabel =  UILabel()
     var userTitle = UILabel()
     
-    var contactsButton = SpringButton()
-    var chatButton = SpringButton()
-    var addButton = SpringButton()
+    private var contactsButton = SpringButton()
+    private var chatButton = SpringButton()
+    private var addButton = SpringButton()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +36,9 @@ class UserProfileViewController: InteractiveViewController {
         
         dismissLineView.backgroundColor = .gray
         dismissLineView.alpha = 0.3
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismiss(_:)))
+        dismissLineView.addGestureRecognizer(tap)
+        view.addGestureRecognizer(tap)
         
         profilePictureView.image = UIImage(named: "profilePicture")
         profilePictureView.contentMode = .scaleAspectFill
@@ -60,9 +63,7 @@ class UserProfileViewController: InteractiveViewController {
         addButton.setBackgroundImage(#imageLiteral(resourceName: "add_friend"), for: .normal)
         addButton.addTarget(self, action: #selector(didTapAddButton), for: .touchUpInside)
         
-        
         view.addSubview(containerView)
-        
         containerView.addSubview(dismissLineView)
         outerView.addSubview(profilePictureView)
         containerView.addSubview(outerView)
@@ -83,8 +84,8 @@ class UserProfileViewController: InteractiveViewController {
         
         outerView.clipsToBounds = false
         outerView.layer.shadowColor = UIColor.black.cgColor
-        outerView.layer.shadowOpacity = 0.15
-        outerView.layer.shadowOffset = CGSize(width: 0, height: 2)
+        outerView.layer.shadowOpacity = 0.1
+        outerView.layer.shadowOffset = CGSize(width: 0, height: 10)
         outerView.layer.shadowRadius = 10
         
         onlineStatut.layer.borderWidth = 5
@@ -95,6 +96,7 @@ class UserProfileViewController: InteractiveViewController {
         addButton.layer.shadowOpacity = 0.3
         addButton.layer.shadowOffset = CGSize(width: 0, height: 15)
         addButton.layer.shadowRadius = 10
+        
         
     }
     
@@ -125,6 +127,9 @@ class UserProfileViewController: InteractiveViewController {
         addButton.duration = 1.5
         addButton.animateTo()
     }
+    @objc func dismiss(_ sender: UITapGestureRecognizer) {
+        self.dismiss(animated: true)
+    }
     
     override func updateViewConstraints() {
         
@@ -138,7 +143,7 @@ class UserProfileViewController: InteractiveViewController {
             make.width.equalTo(40)
             make.height.equalTo(5)
             make.centerX.equalTo(containerView.snp.centerX)
-            make.top.equalTo(containerView.snp.top).offset(20)
+            make.top.equalTo(containerView.snp.top).offset(25)
         }
         outerView.snp.makeConstraints { (make) -> Void in
             make.width.equalTo(view.snp.width).multipliedBy(0.3125)
@@ -147,8 +152,7 @@ class UserProfileViewController: InteractiveViewController {
             make.top.equalTo(dismissLineView.snp.top).offset(30)
         }
         profilePictureView.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(outerView.snp.width)
-            make.height.equalTo(profilePictureView.snp.width)
+            make.width.height.equalTo(outerView.snp.width)
             make.center.equalTo(outerView.snp.center)
         }
         onlineStatut.snp.makeConstraints { (make) -> Void in
@@ -187,7 +191,6 @@ class UserProfileViewController: InteractiveViewController {
             make.left.equalTo(chatButton.snp.right).offset(20)
             make.centerY.equalTo(chatButton.snp.centerY)
         }
-        
         
         super.updateViewConstraints()
     }

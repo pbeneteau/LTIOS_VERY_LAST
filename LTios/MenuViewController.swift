@@ -37,24 +37,9 @@ class MenuViewController: UIViewController, UIScrollViewDelegate {
         return view
     }()
     
-    private lazy var verticalScrollView: UIScrollView = {
-        let view = UIScrollView()
-        view.delegate = self
-        view.isPagingEnabled = true
-        view.showsVerticalScrollIndicator = false
-        view.showsHorizontalScrollIndicator = false
-        view.tag = 20
-        view.backgroundColor = .green
-        view.bounces = false
-        if #available(iOS 11.0, *) {
-            view.contentInsetAdjustmentBehavior = .never
-        }
-        return view
-    }()
     
     // MARK: ViewControllers
-    private let addressBookVC = ContactsViewController() // bottom
-    private let scannerVC = ScannerViewController() // middle (0)
+    private let mainVC = MainViewController() // middle (0)
     private let nearbyPlacesVC = NearbyPlacesViewController() // right (1)
     private let profileVC = ProfileViewController() // left (-1)
     
@@ -64,7 +49,7 @@ class MenuViewController: UIViewController, UIScrollViewDelegate {
         let view = TitleLabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.text = currentPlaceName
-        view.textColor = UIColor(red:0.11, green:0.20, blue:0.35, alpha:1.0)
+        view.textColor = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
         view.alpha = 1.0
         view.sizeToFit()
         return view
@@ -72,7 +57,6 @@ class MenuViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: Navigation Menu
     private var profileMenuButton = UIButton()
-    //private var homeMenuButton = UIButton()
     private var homeMenuButton = MenuHomeButtonView()
     private var placesMenuButton = UIButton()
     private var selectionMenuBar = UIView()
@@ -84,35 +68,25 @@ class MenuViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         
         view.addSubview(horizontalScrollView)
-        horizontalScrollView.addSubview(verticalScrollView)
         
-        addChildViewController(scannerVC)
-        verticalScrollView.addSubview(scannerVC.view)
-        scannerVC.didMove(toParentViewController: self)
-        
-        
-        addChildViewController(addressBookVC)
-        verticalScrollView.addSubview(addressBookVC.view)
-        addressBookVC.didMove(toParentViewController: self)
+        addChildViewController(mainVC)
+        horizontalScrollView.addSubview(mainVC.view)
+        mainVC.didMove(toParentViewController: self)
         
         addChildViewController(nearbyPlacesVC)
         horizontalScrollView.addSubview(nearbyPlacesVC.view)
         nearbyPlacesVC.didMove(toParentViewController: self)
         
-        
         addChildViewController(profileVC)
         horizontalScrollView.addSubview(profileVC.view)
         profileVC.didMove(toParentViewController: self)
         
-        
         horizontalScrollView.contentOffset = CGPoint(x: view.frame.size.width, y: 0)
-        verticalScrollView.contentOffset = CGPoint(x: 0, y: 0)
         horizontalScrollView.contentSize = CGSize(width: view.frame.size.width * 3, height: view.frame.size.height)
-        verticalScrollView.contentSize = CGSize(width: view.frame.size.width, height: view.frame.size.height * 2)
         
         colorEffectView.image = #imageLiteral(resourceName: "background_gradient_center")
         colorEffectView.alpha = 0
-        scannerVC.view.addSubview(colorEffectView)
+        mainVC.view.addSubview(colorEffectView)
         
         // MARK: Header
         view.addSubview(titleLabel)
@@ -122,16 +96,11 @@ class MenuViewController: UIViewController, UIScrollViewDelegate {
         let tintedImage = origImage?.withRenderingMode(.alwaysTemplate)
         profileMenuButton.setBackgroundImage(tintedImage, for: .normal)
         
-//        let origImage1 = UIImage(named: "menu_home")
-//        let tintedImage1 = origImage1?.withRenderingMode(.alwaysTemplate)
-//        homeMenuButton.setBackgroundImage(tintedImage1, for: .normal)
-        
         let origImage2 = UIImage(named: "menu_places")
         let tintedImage2 = origImage2?.withRenderingMode(.alwaysTemplate)
         placesMenuButton.setBackgroundImage(tintedImage2, for: .normal)
         
         profileMenuButton.addTarget(self, action: #selector(didTapProfileButton), for: .touchUpInside)
-        //homeMenuButton.addTarget(self, action: #selector(didTapHomeButton), for: .touchUpInside)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.didTapHomeButton(_:)))
         homeMenuButton.addGestureRecognizer(tap)
@@ -164,8 +133,14 @@ class MenuViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLayoutSubviews()
         view.layer.layoutIfNeeded()
     }
+}
+
+
+// MARK: Buttons Actions
+extension MenuViewController {
     
     @objc func didTapProfileButton(sender: UIButton) {
+        
         if currentController != -1 {
             UIView.animate(withDuration: 0.3, delay: 0, options: [.beginFromCurrentState, .curveEaseOut], animations: {
                 self.placesMenuButton.snp.updateConstraints { (make) -> Void in
@@ -176,7 +151,7 @@ class MenuViewController: UIViewController, UIScrollViewDelegate {
                 }
                 self.selectionMenuBar.snp.remakeConstraints { (make) -> Void in
                     make.height.equalTo(10)
-                    make.width.equalTo(60)
+                    make.width.equalTo(self.profileMenuButton.snp.width).multipliedBy(1.15)
                     make.centerX.equalTo(self.profileMenuButton.snp.centerX)
                     make.centerY.equalTo(self.view.snp.bottom)
                 }
@@ -184,7 +159,7 @@ class MenuViewController: UIViewController, UIScrollViewDelegate {
                     make.height.equalTo(22)
                     make.width.equalTo(22)
                     make.centerX.equalTo(self.view.snp.centerX)
-                    make.bottom.equalTo(self.view.snp.bottom).offset(30)
+                    make.bottom.equalTo(self.view.snp.bottom).offset(-30)
                 }
                 self.profileMenuButton.superview?.layoutIfNeeded()
             })
@@ -205,13 +180,13 @@ class MenuViewController: UIViewController, UIScrollViewDelegate {
                 }
                 self.selectionMenuBar.snp.remakeConstraints { (make) -> Void in
                     make.height.equalTo(10)
-                    make.width.equalTo(60)
+                    make.width.equalTo(self.homeMenuButton.snp.width).multipliedBy(1.15)
                     make.centerX.equalTo(self.homeMenuButton.snp.centerX)
                     make.centerY.equalTo(self.view.snp.bottom)
                 }
                 self.homeMenuButton.snp.remakeConstraints { (make) -> Void in
-                    make.height.equalTo(60)
-                    make.width.equalTo(60)
+                    make.height.equalTo(52)
+                    make.width.equalTo(52)
                     make.centerX.equalTo(self.view.snp.centerX)
                     make.bottom.equalTo(self.view.snp.bottom).offset(-30)
                 }
@@ -228,32 +203,36 @@ class MenuViewController: UIViewController, UIScrollViewDelegate {
     }
     
     @objc func didTapPlacesButton(sender: UIButton) {
+        
         if currentController != 1 {
             UIView.animate(withDuration: 0.3, delay: 0, options: [.beginFromCurrentState, .curveEaseOut], animations: {
                 self.placesMenuButton.snp.updateConstraints { (make) -> Void in
-                    make.right.equalTo(self.view.snp.right).offset(-100)
+                    make.right.equalTo(self.view).offset(-100)
                 }
                 self.profileMenuButton.snp.updateConstraints { (make) -> Void in
-                    make.left.equalTo(self.view.snp.left).offset(100)
+                    make.left.equalTo(self.view).offset(100)
                 }
                 self.selectionMenuBar.snp.remakeConstraints { (make) -> Void in
                     make.height.equalTo(10)
-                    make.width.equalTo(60)
+                    make.width.equalTo(self.placesMenuButton.snp.width).multipliedBy(1.15)
                     make.centerX.equalTo(self.placesMenuButton.snp.centerX)
                     make.centerY.equalTo(self.view.snp.bottom)
                 }
                 self.homeMenuButton.snp.remakeConstraints { (make) -> Void in
                     make.height.equalTo(22)
                     make.width.equalTo(22)
-                    make.centerX.equalTo(self.view.snp.centerX)
-                    make.bottom.equalTo(self.view.snp.bottom).offset(-25)
+                    make.centerX.equalTo(self.view)
+                    make.bottom.equalTo(self.view).offset(-30)
                 }
                 self.profileMenuButton.superview?.layoutIfNeeded()
             })
             horizontalScrollView.setContentOffset(CGPoint(x: view.frame.size.width * 2, y: 0), animated: true)
         }
     }
-    
+}
+
+// MARK: Scroll handlers
+extension MenuViewController {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
@@ -261,14 +240,6 @@ class MenuViewController: UIViewController, UIScrollViewDelegate {
             titleManagerHorizontal(scrollX: scrollView.contentOffset.x)
             menuManagerHorizontal(scrollX: scrollView.contentOffset.x)
             
-            // disable vertical scrolling and scannerVC interactions when scrolling horizontally
-            if scrollView.contentOffset.x >= view.frame.width - 20 && scrollView.contentOffset.x <= view.frame.width + 20 {
-                scannerVC.view.isUserInteractionEnabled = true
-                verticalScrollView.isUserInteractionEnabled = true
-            } else {
-                scannerVC.view.isUserInteractionEnabled = false
-                verticalScrollView.isUserInteractionEnabled = false
-            }
             if scrollView.contentOffset.x > view.frame.size.width {
                 let alpha = (scrollView.contentOffset.x  - view.frame.size.width) / (view.frame.size.width)
                 colorEffectView.image = #imageLiteral(resourceName: "background_gradient_right")
@@ -292,7 +263,6 @@ class MenuViewController: UIViewController, UIScrollViewDelegate {
             } else {
                 self.horizontalScrollView.isScrollEnabled = true
             }
-            titleManagerVertical(scrollY: scrollView.contentOffset.y)
             
             if scrollView.contentOffset.y > 0 { // contactsVC
                 let alpha = (scrollView.contentOffset.y) / (view.frame.size.height)
@@ -303,6 +273,7 @@ class MenuViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func titleManagerHorizontal(scrollX: CGFloat) {
+        
         statusBarHorizontalManager(scrollX: scrollX)
         
         if scrollX > view.frame.size.width { // NearbyPlacesVC
@@ -313,7 +284,7 @@ class MenuViewController: UIViewController, UIScrollViewDelegate {
                 self.titleLabel.text = currentPlaceName
                 let alpha = ((scrollX - view.frame.width * 1.5) * 4) / (view.frame.width * 2)
                 self.titleLabel.alpha = alpha * -1
-                self.titleLabel.textColor = UIColor(red:0.11, green:0.15, blue:0.18, alpha:1.0)
+                self.titleLabel.textColor = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
             } else {
                 let alpha = ((scrollX - view.frame.width * 1.5) * 4) / (view.frame.width * 2)
                 self.titleLabel.alpha = alpha
@@ -328,26 +299,10 @@ class MenuViewController: UIViewController, UIScrollViewDelegate {
                 self.titleLabel.text = currentPlaceName
                 let alpha = 1 - (scrollX * 2) / view.frame.width
                 self.titleLabel.alpha = alpha * -1
-                self.titleLabel.textColor = UIColor(red:0.11, green:0.15, blue:0.18, alpha:1.0)
+                self.titleLabel.textColor = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
             } else {
                 self.titleLabel.text = "Profile"
                 let alpha = 1 - (scrollX * 2) / view.frame.width
-                self.titleLabel.alpha = alpha
-                self.titleLabel.textColor = .white
-            }
-        }
-    }
-    
-    func titleManagerVertical(scrollY: CGFloat) {
-        if scrollY > 0 { // addressBook
-            if scrollY < view.frame.size.height * 0.5 { // addressBook
-                self.titleLabel.text = currentPlaceName
-                let alpha = ((scrollY - self.view.frame.height * 0.5) * 4) / (self.view.frame.height * 2)
-                self.titleLabel.textColor = UIColor(red:0.11, green:0.15, blue:0.18, alpha:1.0)
-                self.titleLabel.alpha = alpha * -1
-            } else {
-                self.titleLabel.text = "Carnet d'adresse"
-                let alpha = ((scrollY - self.view.frame.height * 0.5) * 4) / (self.view.frame.height * 2)
                 self.titleLabel.alpha = alpha
                 self.titleLabel.textColor = .white
             }
@@ -369,13 +324,13 @@ class MenuViewController: UIViewController, UIScrollViewDelegate {
                 }
                 self.selectionMenuBar.snp.remakeConstraints { (make) -> Void in
                     make.height.equalTo(10)
-                    make.width.equalTo(60 - offset*25)
-                    make.centerX.equalTo(self.homeMenuButton.snp.centerX).offset(-77 * offset)
+                    make.width.equalTo(65 - offset*35)
+                    make.centerX.equalTo(self.homeMenuButton.snp.centerX).offset(-78 * offset)
                     make.centerY.equalTo(self.view.snp.bottom)
                 }
                 self.homeMenuButton.snp.remakeConstraints { (make) -> Void in
-                    make.height.equalTo(60 - 38 * offset) //->22
-                    make.width.equalTo(60 - 38 * offset) //->22
+                    make.height.equalTo(52 - 30 * offset) //->22
+                    make.width.equalTo(52 - 30 * offset) //->22
                     make.centerX.equalTo(self.view.snp.centerX)
                     make.bottom.equalTo(self.view.snp.bottom).offset(-30)
                 }
@@ -391,21 +346,19 @@ class MenuViewController: UIViewController, UIScrollViewDelegate {
                 }
                 self.selectionMenuBar.snp.remakeConstraints { (make) -> Void in
                     make.height.equalTo(10)
-                    make.width.equalTo(60 - offset*25)
-                    make.centerX.equalTo(self.homeMenuButton.snp.centerX).offset(77 * offset)
+                    make.width.equalTo(65 - offset*25)
+                    make.centerX.equalTo(self.homeMenuButton.snp.centerX).offset(75 * offset)
                     make.centerY.equalTo(self.view.snp.bottom)
                 }
                 self.homeMenuButton.snp.remakeConstraints { (make) -> Void in
-                    make.height.equalTo(60 - 38 * offset) //->22
-                    make.width.equalTo(60 - 38 * offset) //->22
+                    make.height.equalTo(52 - 30 * offset) //->22
+                    make.width.equalTo(52 - 30 * offset) //->22
                     make.centerX.equalTo(self.view.snp.centerX)
                     make.bottom.equalTo(self.view.snp.bottom).offset(-30)
                 }
             }
         }
-        
     }
-
 }
 
 
@@ -436,16 +389,6 @@ extension MenuViewController {
         }
     }
     
-    func statusBarVerticalManager(scrollY: CGFloat) {
-        if scrollY > 0 {
-            if scrollY < view.frame.size.height * 0.5 {
-                makeStatusBarDark()
-            } else {
-                makeStatusBarLight()
-            }
-        }
-    }
-    
     func makeStatusBarDark() {
         statusBarIsDark = true
         setNeedsStatusBarAppearanceUpdate()
@@ -465,97 +408,7 @@ extension MenuViewController {
     }
 }
 
-// MARK: Constraints
-extension MenuViewController {
-    
-    override func updateViewConstraints() {
-        
-        if !didSetupConstraints {
-            
-            horizontalScrollView.snp.makeConstraints { (make) -> Void in
-                make.centerX.equalTo(view.snp.centerX)
-                make.centerY.equalTo(view.snp.centerY)
-                make.width.equalTo(view.snp.width)
-                make.height.equalTo(view.snp.height)
-            }
-            verticalScrollView.snp.makeConstraints { (make) -> Void in
-                make.centerX.equalTo(view.snp.centerX)
-                make.top.equalTo(horizontalScrollView.snp.top)
-                make.width.equalTo(view.snp.width)
-                make.height.equalTo(view.snp.height)
-            }
-            profileVC.view.snp.makeConstraints { (make) -> Void in
-                make.left.equalTo(horizontalScrollView.snp.left)
-                make.bottom.equalTo(view.snp.bottom)
-                make.width.equalTo(view.snp.width)
-                make.height.equalTo(view.snp.height)
-            }
-            nearbyPlacesVC.view.snp.makeConstraints { (make) -> Void in
-                make.left.equalTo(profileVC.view.snp.right).offset(view.frame.size.width)
-                make.bottom.equalTo(view.snp.bottom)
-                make.width.equalTo(view.snp.width)
-                make.height.equalTo(view.snp.height)
-            }
-            scannerVC.view.snp.makeConstraints { (make) -> Void in
-                make.centerX.equalTo(view.snp.centerX)
-                make.centerY.equalTo(view.snp.centerY)
-                make.width.equalTo(view.snp.width)
-                make.height.equalTo(view.snp.height)
-            }
-            addressBookVC.view.snp.makeConstraints { (make) -> Void in
-                make.top.equalTo(verticalScrollView.snp.top).offset(scannerVC.view.frame.height)
-                make.left.equalTo(verticalScrollView.snp.left)
-                make.width.equalTo(view.snp.width)
-                make.height.equalTo(view.snp.height)
-            }
-            colorEffectView.snp.makeConstraints { (make) -> Void in
-                make.centerX.equalTo(scannerVC.view.snp.centerX)
-                make.centerY.equalTo(scannerVC.view.snp.centerY)
-                make.width.equalTo(scannerVC.view.snp.width)
-                make.height.equalTo(scannerVC.view.snp.height)
-            }
-            
-            // MARK: Header
-            titleLabel.snp.makeConstraints { (make) -> Void in
-                make.width.equalTo(view.snp.width).multipliedBy(0.7)
-                make.centerX.equalTo(view.snp.centerX)
-                make.top.equalTo(view.snp.top).offset(50)
-            }
-            
-            // MARK: Navigation Menu
-            profileMenuButton.snp.makeConstraints { (make) -> Void in
-                make.height.equalTo(22)
-                make.width.equalTo(18)
-                make.left.equalTo(view.snp.left).offset(50)
-                make.bottom.equalTo(self.view.snp.bottom).offset(-30)
-            }
-            homeMenuButton.snp.makeConstraints { (make) -> Void in
-                make.height.equalTo(60)
-                make.width.equalTo(60)
-                make.centerX.equalTo(view.snp.centerX)
-                make.bottom.equalTo(view.snp.bottom).offset(-30)
-            }
-            placesMenuButton.snp.makeConstraints { (make) -> Void in
-                make.height.equalTo(22)
-                make.width.equalTo(25)
-                make.right.equalTo(view.snp.right).offset(-50)
-                make.bottom.equalTo(self.view.snp.bottom).offset(-30)
-            }
-            selectionMenuBar.snp.makeConstraints { (make) -> Void in
-                make.height.equalTo(10)
-                make.width.equalTo(60)
-                make.centerX.equalTo(homeMenuButton.snp.centerX)
-                make.centerY.equalTo(self.view.snp.bottom)
-            }
-            
-            didSetupConstraints = true
-        }
-        super.updateViewConstraints()
-    }
-    
-}
-
-// MARK: View Controllers utils
+// MARK: External View Controllers utils
 extension MenuViewController {
     
     func updatePlaceName(name: String) {
@@ -615,3 +468,79 @@ extension MenuViewController {
     }
 }
 
+// MARK: Constraints
+extension MenuViewController {
+    
+    override func updateViewConstraints() {
+        
+        if !didSetupConstraints {
+            
+            horizontalScrollView.snp.makeConstraints { (make) -> Void in
+                make.centerX.equalTo(view)
+                make.centerY.equalTo(view)
+                make.width.equalTo(view)
+                make.height.equalTo(view)
+            }
+            mainVC.view.snp.makeConstraints { (make) -> Void in
+                make.centerX.equalTo(view)
+                make.top.equalTo(horizontalScrollView)
+                make.width.equalTo(view)
+                make.height.equalTo(view)
+            }
+            profileVC.view.snp.makeConstraints { (make) -> Void in
+                make.left.equalTo(horizontalScrollView)
+                make.bottom.equalTo(view)
+                make.width.equalTo(view)
+                make.height.equalTo(view)
+            }
+            nearbyPlacesVC.view.snp.makeConstraints { (make) -> Void in
+                make.left.equalTo(profileVC.view.snp.right).offset(view.frame.size.width)
+                make.bottom.equalTo(view)
+                make.width.equalTo(view)
+                make.height.equalTo(view)
+            }
+            colorEffectView.snp.makeConstraints { (make) -> Void in
+                make.centerX.equalTo(mainVC.view)
+                make.centerY.equalTo(mainVC.view)
+                make.width.equalTo(mainVC.view)
+                make.height.equalTo(mainVC.view)
+            }
+            
+            // MARK: Header
+            titleLabel.snp.makeConstraints { (make) -> Void in
+                make.width.equalTo(view).multipliedBy(0.7)
+                make.centerX.equalTo(view)
+                make.top.equalTo(view).offset(50)
+            }
+            
+            // MARK: Navigation Menu
+            profileMenuButton.snp.makeConstraints { (make) -> Void in
+                make.height.equalTo(22)
+                make.width.equalTo(18)
+                make.left.equalTo(view).offset(50)
+                make.bottom.equalTo(view).offset(-30)
+            }
+            homeMenuButton.snp.makeConstraints { (make) -> Void in
+                make.height.equalTo(52)
+                make.width.equalTo(52)
+                make.centerX.equalTo(view)
+                make.bottom.equalTo(view).offset(-30)
+            }
+            placesMenuButton.snp.makeConstraints { (make) -> Void in
+                make.height.equalTo(22)
+                make.width.equalTo(25)
+                make.right.equalTo(view).offset(-50)
+                make.bottom.equalTo(view).offset(-30)
+            }
+            selectionMenuBar.snp.makeConstraints { (make) -> Void in
+                make.height.equalTo(10)
+                make.width.equalTo(60)
+                make.centerX.equalTo(homeMenuButton)
+                make.centerY.equalTo(view.snp.bottom)
+            }
+            
+            didSetupConstraints = true
+        }
+        super.updateViewConstraints()
+    }
+}

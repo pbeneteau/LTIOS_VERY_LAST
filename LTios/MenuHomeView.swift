@@ -10,15 +10,17 @@ import UIKit
 
 class MenuHomeButtonView: UIView {
     
+    private var constraintsAdded = false
+    
     var circle1 = MenuHomeButtonCircleView()
     var circle2 = MenuHomeButtonCircleView()
     var circle3 = MenuHomeButtonCircleView()
     
-    var sizes: [CGFloat] = [CGFloat(0.50), CGFloat(0.40), CGFloat(0.36)] // big - medium - small
-    var circlesCenters = [CGPoint]()
+    private var sizes: [CGFloat] = [CGFloat(0.52), CGFloat(0.42), CGFloat(0.38)] // big - medium - small
+    private var circlesCenters = [CGPoint]()
+    private var decreaseFactor: CGFloat = 0.55
     
-    var constraintsAdded = false
-    
+    var isAnimating = false
     var shouldStopAnimation = false
     
     required init(coder aDecoder: NSCoder) {
@@ -42,8 +44,10 @@ class MenuHomeButtonView: UIView {
     }
     
     override func layoutSubviews() {
-        if !constraintsAdded {
+        if !constraintsAdded || !isAnimating {
             addConstraints()
+        } else {
+            
         }
     }
     
@@ -65,7 +69,7 @@ class MenuHomeButtonView: UIView {
         circle2.snp.remakeConstraints { (make) -> Void in
             make.height.width.equalTo(viewHeight * sizes[1])
             make.rightMargin.equalTo(0)
-            make.centerY.equalTo(self).inset(-viewHeight * 0.05)
+            make.centerY.equalTo(self).inset(-viewHeight * 0.02)
         }
         
         circle3.snp.remakeConstraints { (make) -> Void in
@@ -81,7 +85,8 @@ class MenuHomeButtonView: UIView {
         circlesCenters = [circle1.center, circle2.center, circle3.center]
     }
     
-    func startAnimation() {        
+    func startAnimation() {
+        isAnimating = true
         decreaseCirclesSizeAnimation(withDuration: 0.4) { end in
             self.animattionCycles()
         }
@@ -96,6 +101,7 @@ class MenuHomeButtonView: UIView {
             if self.shouldStopAnimation {
                 self.increaseCirclesSizeAnimation(withDuration: 0.4) { end in
                     self.shouldStopAnimation = false
+                    self.isAnimating = false
                     return
                 }
             } else {
@@ -107,7 +113,7 @@ class MenuHomeButtonView: UIView {
     func updateSmallCirclesConstraints() {
         
         let viewHeight = self.frame.size.height
-        let factor: CGFloat = 0.6
+        let factor: CGFloat = decreaseFactor
         var center = CGPoint()
         
         center = circlesCenters[0]
@@ -139,7 +145,7 @@ class MenuHomeButtonView: UIView {
     func decreaseCirclesSizeAnimation(withDuration: Float, completion: @escaping(Bool) -> Void) {
         
         let viewHeight = self.frame.size.height
-        let factor: CGFloat = 0.6
+        let factor: CGFloat = decreaseFactor
         var center = CGPoint()
         
         center = circlesCenters[0]
@@ -169,7 +175,7 @@ class MenuHomeButtonView: UIView {
     
     func moveCirclesAnimation(withDuration: Float, completion: @escaping(Bool) -> Void) {
         
-        let factor: CGFloat = 0.6
+        let factor: CGFloat = decreaseFactor
         let viewHeight = self.frame.size.height
         var center = CGPoint()
         

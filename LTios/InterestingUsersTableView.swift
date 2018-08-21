@@ -22,8 +22,11 @@ class InterestingUsersTableView: UITableView {
     
     func commonInit() {
         
+        alwaysBounceVertical = false
+        bounces = false
         allowsMultipleSelection = false
         backgroundColor = .clear
+        separatorStyle = .none
         
         frame = UIScreen.main.bounds
         

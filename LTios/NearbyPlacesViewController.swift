@@ -8,13 +8,17 @@
 
 import UIKit
 import CoreLocation
+import ViewAnimator
 
 class NearbyPlacesViewController: ModalViewViewController {
     
-    var didSetupConstraints = false
-    var containerView = UIView()
-    var collectionView = NearbyPlacesUICollectionView()
-    var nearbyPlaces = [[NearbyPlace]]()
+    private var didSetupConstraints = false
+    private var containerView = UIView()
+    private var collectionView = NearbyPlacesUICollectionView()
+    
+    private let animations = [AnimationType.from(direction: .bottom, offset: 30.0)]
+
+    private var nearbyPlaces = [[NearbyPlace]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,12 +43,16 @@ class NearbyPlacesViewController: ModalViewViewController {
     }
     
     @objc func didUpdateLocation(_ notification: NSNotification) {
-        
         //getPlaces()
     }
     
     func appendPlaceToNearbyPlaces(place: NearbyPlace) {
         guard let distance = place.distance else { return }
+        nearbyPlaces.removeAll()
+        
+        nearbyPlaces.append([NearbyPlace]())
+        nearbyPlaces.append([NearbyPlace]())
+        nearbyPlaces.append([NearbyPlace]())
         
         if distance <= 100 {
             nearbyPlaces[0].append(place)
@@ -61,10 +69,12 @@ class NearbyPlacesViewController: ModalViewViewController {
     
     func getPlaces() {
         
-        let asyncOperation = AsyncOperation(numberOfSimultaneousActions: 1, dispatchQueueLabel: "fetchingNearbyPlacesInfo")
+        let asyncOperation = AsyncOperation(numberOfSimultaneousActions: 20, dispatchQueueLabel: "fetchingNearbyPlacesInfo")
         asyncOperation.whenCompleteAll = {
             print("Nearby Places fetched.")
             self.collectionView.reloadData()
+            UIView.animate(views: self.collectionView.visibleCells, animations: self.animations, completion: {
+            })
         }
         
         LocationService.shared.getCurrentGMSPlaceLikelihoodList { likelihoods in
@@ -105,33 +115,10 @@ class NearbyPlacesViewController: ModalViewViewController {
         
         containerView.roundCorners(corners: [.topLeft , .topRight], radius: 10)
     }
-    
-    override func updateViewConstraints() {
-        
-        if !didSetupConstraints {
-            
-            containerView.snp.makeConstraints { (make) -> Void in
-                make.width.equalTo(view.snp.width)
-                make.height.equalTo(view.snp.height).multipliedBy(0.9)
-                make.centerX.equalTo(view.snp.centerX)
-                make.bottom.equalTo(view.snp.bottom)
-            }
-            
-            collectionView.snp.makeConstraints { (make) -> Void in
-                make.width.equalTo(containerView.snp.width)
-                make.height.equalTo(containerView.snp.height)
-                make.centerX.equalTo(containerView.snp.centerX)
-                make.top.equalTo(containerView.snp.top)
-            }
-            
-            didSetupConstraints = true
-        }
-        
-        super.updateViewConstraints()
-    }
-    
+
 }
 
+// MARK: Collection View Delegate and Datasource
 extension NearbyPlacesViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -148,7 +135,6 @@ extension NearbyPlacesViewController: UICollectionViewDelegateFlowLayout, UIColl
         return cell!
     }
     
-    ///
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if let cell = cell as? NearbyPlacesUICollectionViewCell {
             _configureCell(cell, atIndexPath: indexPath)
@@ -220,7 +206,7 @@ extension NearbyPlacesViewController: UICollectionViewDelegateFlowLayout, UIColl
     }
 }
 
-// Segues
+// MARK: Segues
 extension NearbyPlacesViewController {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -228,17 +214,44 @@ extension NearbyPlacesViewController {
         let placeVC = PlaceViewController()
         placeVC.selectedIndex = indexPath
         
-        show(placeVC, sender: nil)
+        //show(placeVC, sender: nil)
     }
     
 }
 
-
+// MARK: Notifications
 extension NearbyPlacesViewController {
     
     func addNotificationsObserver() {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.didUpdateLocation(_:)), name: Notification.Name(rawValue:"didUpdateLocation"), object: nil)
         
+    }
+}
+
+// MARK: Constraints
+extension NearbyPlacesViewController {
+    
+    override func updateViewConstraints() {
+        
+        if !didSetupConstraints {
+            
+            containerView.snp.makeConstraints { (make) -> Void in
+                make.width.equalTo(view)
+                make.height.equalTo(view).multipliedBy(0.9)
+                make.centerX.equalTo(view)
+                make.bottom.equalTo(view)
+            }
+            
+            collectionView.snp.makeConstraints { (make) -> Void in
+                make.width.equalTo(containerView)
+                make.height.equalTo(containerView)
+                make.centerX.equalTo(containerView)
+                make.top.equalTo(containerView)
+            }
+            
+            didSetupConstraints = true
+        }
+        super.updateViewConstraints()
     }
 }

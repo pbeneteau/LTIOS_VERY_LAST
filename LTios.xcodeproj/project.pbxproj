@@ -17,9 +17,6 @@
 		0029BA661F30A37F00C67810 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0029BA651F30A37F00C67810 /* Extension.swift */; };
 		002D61561F24DB4E00C2768F /* Variables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002D61551F24DB4E00C2768F /* Variables.swift */; };
 		004288F51F33B591007FD732 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004288F41F33B591007FD732 /* MenuViewController.swift */; };
-		0042893B1F4A1198007FD732 /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0042893A1F4A1198007FD732 /* Scene.swift */; };
-		0042893D1F4A11AF007FD732 /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0042893C1F4A11AF007FD732 /* ScannerView.swift */; };
-		0042893F1F4A11CB007FD732 /* ScannerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0042893E1F4A11CB007FD732 /* ScannerNode.swift */; };
 		004289411F4AE3B6007FD732 /* GlobalUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004289401F4AE3B6007FD732 /* GlobalUser.swift */; };
 		006AC8591FA3A4DB00AFCCCE /* ContactsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006AC8581FA3A4DB00AFCCCE /* ContactsTableView.swift */; };
 		006AC85B1FA3A4F000AFCCCE /* ContactsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006AC85A1FA3A4F000AFCCCE /* ContactsTableViewCell.swift */; };
@@ -31,7 +28,7 @@
 		006BDCCF1F2F88CA006DEF17 /* NearbyPlacesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006BDCCE1F2F88CA006DEF17 /* NearbyPlacesViewController.swift */; };
 		006BDCD11F2F88D4006DEF17 /* PlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006BDCD01F2F88D4006DEF17 /* PlaceViewController.swift */; };
 		006BDCD31F2F88E1006DEF17 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006BDCD21F2F88E1006DEF17 /* ContactsViewController.swift */; };
-		006BDCD51F2F88E9006DEF17 /* ScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006BDCD41F2F88E9006DEF17 /* ScannerViewController.swift */; };
+		006BDCD51F2F88E9006DEF17 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006BDCD41F2F88E9006DEF17 /* MainViewController.swift */; };
 		006BDCD71F2F88F9006DEF17 /* WhereAreYouViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006BDCD61F2F88F9006DEF17 /* WhereAreYouViewController.swift */; };
 		006BDCD91F2F8961006DEF17 /* ContactProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006BDCD81F2F8961006DEF17 /* ContactProfileViewController.swift */; };
 		006BDCE21F2F89FE006DEF17 /* Registering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006BDCE11F2F89FE006DEF17 /* Registering.swift */; };
@@ -79,6 +76,10 @@
 		38B8528121288F68002EBB18 /* InterestingUserBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B8528021288F68002EBB18 /* InterestingUserBubble.swift */; };
 		38B8528321289019002EBB18 /* InterestingUsersTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B8528221289019002EBB18 /* InterestingUsersTableView.swift */; };
 		38B852852128935B002EBB18 /* InterestingUsersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B852842128935B002EBB18 /* InterestingUsersTableViewCell.swift */; };
+		38B852882128D21B002EBB18 /* RoundShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B852872128D21B002EBB18 /* RoundShadowView.swift */; };
+		38B8528C2129AE0A002EBB18 /* ImageViewWithGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B8528B2129AE09002EBB18 /* ImageViewWithGradient.swift */; };
+		38B8528E2129C2D0002EBB18 /* RoundedBorderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B8528D2129C2D0002EBB18 /* RoundedBorderButton.swift */; };
+		38FEA1BD212C8A7A00561CF4 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38FEA1BC212C8A7A00561CF4 /* StorageService.swift */; };
 		98CA6EFB58DD7B6491BEE45C /* Pods_LTiosUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D63D386CE37523546D50354D /* Pods_LTiosUITests.framework */; };
 		9A502145D7C38C05BE014890 /* Pods_LTios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ACEF576580160AAA28DC6F2 /* Pods_LTios.framework */; };
 /* End PBXBuildFile section */
@@ -117,9 +118,6 @@
 		0029BA651F30A37F00C67810 /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		002D61551F24DB4E00C2768F /* Variables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Variables.swift; sourceTree = "<group>"; };
 		004288F41F33B591007FD732 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
-		0042893A1F4A1198007FD732 /* Scene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
-		0042893C1F4A11AF007FD732 /* ScannerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
-		0042893E1F4A11CB007FD732 /* ScannerNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannerNode.swift; sourceTree = "<group>"; };
 		004289401F4AE3B6007FD732 /* GlobalUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalUser.swift; sourceTree = "<group>"; };
 		006AC8581FA3A4DB00AFCCCE /* ContactsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsTableView.swift; sourceTree = "<group>"; };
 		006AC85A1FA3A4F000AFCCCE /* ContactsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsTableViewCell.swift; sourceTree = "<group>"; };
@@ -131,7 +129,7 @@
 		006BDCCE1F2F88CA006DEF17 /* NearbyPlacesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyPlacesViewController.swift; sourceTree = "<group>"; };
 		006BDCD01F2F88D4006DEF17 /* PlaceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceViewController.swift; sourceTree = "<group>"; };
 		006BDCD21F2F88E1006DEF17 /* ContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
-		006BDCD41F2F88E9006DEF17 /* ScannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannerViewController.swift; sourceTree = "<group>"; };
+		006BDCD41F2F88E9006DEF17 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		006BDCD61F2F88F9006DEF17 /* WhereAreYouViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhereAreYouViewController.swift; sourceTree = "<group>"; };
 		006BDCD81F2F8961006DEF17 /* ContactProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactProfileViewController.swift; sourceTree = "<group>"; };
 		006BDCE11F2F89FE006DEF17 /* Registering.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Registering.swift; sourceTree = "<group>"; };
@@ -179,6 +177,10 @@
 		38B8528021288F68002EBB18 /* InterestingUserBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestingUserBubble.swift; sourceTree = "<group>"; };
 		38B8528221289019002EBB18 /* InterestingUsersTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestingUsersTableView.swift; sourceTree = "<group>"; };
 		38B852842128935B002EBB18 /* InterestingUsersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestingUsersTableViewCell.swift; sourceTree = "<group>"; };
+		38B852872128D21B002EBB18 /* RoundShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundShadowView.swift; sourceTree = "<group>"; };
+		38B8528B2129AE09002EBB18 /* ImageViewWithGradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewWithGradient.swift; sourceTree = "<group>"; };
+		38B8528D2129C2D0002EBB18 /* RoundedBorderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedBorderButton.swift; sourceTree = "<group>"; };
+		38FEA1BC212C8A7A00561CF4 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		6ABAAA08C0B5E246906D3643 /* Pods_LTiosTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LTiosTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		71D3A809CBE0D3BB16C4D7CF /* Pods-LTiosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LTiosUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LTiosUITests/Pods-LTiosUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		9ACEF576580160AAA28DC6F2 /* Pods_LTios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LTios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -236,15 +238,14 @@
 			name = Login;
 			sourceTree = "<group>";
 		};
-		000328861F2F86E1003F81F7 /* Scanning */ = {
+		000328861F2F86E1003F81F7 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				004289391F4A115F007FD732 /* Magnet */,
-				006BDCD41F2F88E9006DEF17 /* ScannerViewController.swift */,
+				006BDCD41F2F88E9006DEF17 /* MainViewController.swift */,
 				38B8527521243A23002EBB18 /* UserProfileViewController.swift */,
 				006BDCD61F2F88F9006DEF17 /* WhereAreYouViewController.swift */,
 			);
-			name = Scanning;
+			name = Main;
 			sourceTree = "<group>";
 		};
 		000328871F2F86F3003F81F7 /* Contacts */ = {
@@ -252,8 +253,6 @@
 			children = (
 				006BDCD21F2F88E1006DEF17 /* ContactsViewController.swift */,
 				006BDCD81F2F8961006DEF17 /* ContactProfileViewController.swift */,
-				00FF14E11FA752E600D9F6FB /* ContactsSearchController.swift */,
-				00FF14E31FA7537B00D9F6FB /* ContactsSearchbar.swift */,
 			);
 			name = Contacts;
 			sourceTree = "<group>";
@@ -331,16 +330,6 @@
 			path = LTiosUITests;
 			sourceTree = "<group>";
 		};
-		004289391F4A115F007FD732 /* Magnet */ = {
-			isa = PBXGroup;
-			children = (
-				0042893A1F4A1198007FD732 /* Scene.swift */,
-				0042893C1F4A11AF007FD732 /* ScannerView.swift */,
-				0042893E1F4A11CB007FD732 /* ScannerNode.swift */,
-			);
-			name = Magnet;
-			sourceTree = "<group>";
-		};
 		006BDCDA1F2F8994006DEF17 /* Registering */ = {
 			isa = PBXGroup;
 			children = (
@@ -381,6 +370,8 @@
 			children = (
 				006AC8581FA3A4DB00AFCCCE /* ContactsTableView.swift */,
 				006AC85A1FA3A4F000AFCCCE /* ContactsTableViewCell.swift */,
+				00FF14E11FA752E600D9F6FB /* ContactsSearchController.swift */,
+				00FF14E31FA7537B00D9F6FB /* ContactsSearchbar.swift */,
 			);
 			name = Contacts;
 			sourceTree = "<group>";
@@ -388,7 +379,6 @@
 		006BDCE01F2F89BE006DEF17 /* Scanning */ = {
 			isa = PBXGroup;
 			children = (
-				38B8527721243AB7002EBB18 /* InteractiveViewController.swift */,
 				006BDCE51F2F8A09006DEF17 /* Scanning.swift */,
 			);
 			name = Scanning;
@@ -417,10 +407,9 @@
 			isa = PBXGroup;
 			children = (
 				004288F41F33B591007FD732 /* MenuViewController.swift */,
-				38B852792124E8D8002EBB18 /* ModalViewViewController.swift */,
 				006BDD0B1F2F9613006DEF17 /* CountryViewController.swift */,
 				38B8527B21258E70002EBB18 /* Start */,
-				000328861F2F86E1003F81F7 /* Scanning */,
+				000328861F2F86E1003F81F7 /* Main */,
 				0003288A1F2F870F003F81F7 /* Profile */,
 				000328881F2F86FA003F81F7 /* NearbyPlaces */,
 				000328871F2F86F3003F81F7 /* Contacts */,
@@ -432,6 +421,7 @@
 			isa = PBXGroup;
 			children = (
 				0029BA631F2FEE1A00C67810 /* CountrySelector.swift */,
+				38B852862128D202002EBB18 /* Utils */,
 				38B8527F21288F41002EBB18 /* InterestingUsers */,
 				38B8527C21259044002EBB18 /* Menu */,
 				006BDCDA1F2F8994006DEF17 /* Registering */,
@@ -486,6 +476,7 @@
 				384863A72122E70E004222DE /* ContactsService.swift */,
 				384863A52122E70B004222DE /* DatabaseService.swift */,
 				384863A62122E70D004222DE /* LocationService.swift */,
+				38FEA1BC212C8A7A00561CF4 /* StorageService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -514,8 +505,20 @@
 				38B8528221289019002EBB18 /* InterestingUsersTableView.swift */,
 				38B852842128935B002EBB18 /* InterestingUsersTableViewCell.swift */,
 				38B8528021288F68002EBB18 /* InterestingUserBubble.swift */,
+				38B8527721243AB7002EBB18 /* InteractiveViewController.swift */,
 			);
 			name = InterestingUsers;
+			sourceTree = "<group>";
+		};
+		38B852862128D202002EBB18 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				38B852872128D21B002EBB18 /* RoundShadowView.swift */,
+				38B8528B2129AE09002EBB18 /* ImageViewWithGradient.swift */,
+				38B8528D2129C2D0002EBB18 /* RoundedBorderButton.swift */,
+				38B852792124E8D8002EBB18 /* ModalViewViewController.swift */,
+			);
+			name = Utils;
 			sourceTree = "<group>";
 		};
 		53E49E158886914849036045 /* Pods */ = {
@@ -760,6 +763,7 @@
 				"${BUILT_PRODUCTS_DIR}/SwiftLocation/SwiftLocation.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/TextFieldEffects/TextFieldEffects.framework",
+				"${BUILT_PRODUCTS_DIR}/ViewAnimator/ViewAnimator.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-ProtoRPC/ProtoRPC.framework",
@@ -782,6 +786,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftLocation.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TextFieldEffects.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ViewAnimator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProtoRPC.framework",
@@ -837,6 +842,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38B852882128D21B002EBB18 /* RoundShadowView.swift in Sources */,
 				006AC8591FA3A4DB00AFCCCE /* ContactsTableView.swift in Sources */,
 				006AC85B1FA3A4F000AFCCCE /* ContactsTableViewCell.swift in Sources */,
 				00FF14E21FA752E600D9F6FB /* ContactsSearchController.swift in Sources */,
@@ -845,6 +851,7 @@
 				006BDCD31F2F88E1006DEF17 /* ContactsViewController.swift in Sources */,
 				006BDCE81F2F8A0F006DEF17 /* Profile.swift in Sources */,
 				384863A92122E70F004222DE /* LocationService.swift in Sources */,
+				38B8528E2129C2D0002EBB18 /* RoundedBorderButton.swift in Sources */,
 				006BDCCF1F2F88CA006DEF17 /* NearbyPlacesViewController.swift in Sources */,
 				38B8527E21259066002EBB18 /* MenuHomeView.swift in Sources */,
 				00FF14E41FA7537B00D9F6FB /* ContactsSearchbar.swift in Sources */,
@@ -854,8 +861,8 @@
 				38B8528321289019002EBB18 /* InterestingUsersTableView.swift in Sources */,
 				006BDCE21F2F89FE006DEF17 /* Registering.swift in Sources */,
 				006BDCEC1F2F8A25006DEF17 /* NearbyPlace.swift in Sources */,
-				0042893F1F4A11CB007FD732 /* ScannerNode.swift in Sources */,
 				38B8527A2124E8D8002EBB18 /* ModalViewViewController.swift in Sources */,
+				38FEA1BD212C8A7A00561CF4 /* StorageService.swift in Sources */,
 				384863A32122E6B7004222DE /* InterestingUsers.swift in Sources */,
 				00FF14DE1FA7475D00D9F6FB /* Contact.swift in Sources */,
 				006BDCC31F2F8845006DEF17 /* RegisterationFormViewController.swift in Sources */,
@@ -870,15 +877,14 @@
 				0007E4DD1F1FECD700EBA50C /* StartViewController.swift in Sources */,
 				006BDCC91F2F889B006DEF17 /* ProfileViewController.swift in Sources */,
 				006BDCE41F2F8A03006DEF17 /* Login.swift in Sources */,
-				0042893D1F4A11AF007FD732 /* ScannerView.swift in Sources */,
 				0029BA641F2FEE1A00C67810 /* CountrySelector.swift in Sources */,
 				006BDCC71F2F8883006DEF17 /* PasswordVerificationViewController.swift in Sources */,
-				006BDCD51F2F88E9006DEF17 /* ScannerViewController.swift in Sources */,
+				006BDCD51F2F88E9006DEF17 /* MainViewController.swift in Sources */,
+				38B8528C2129AE0A002EBB18 /* ImageViewWithGradient.swift in Sources */,
 				006BDD0C1F2F9613006DEF17 /* CountryViewController.swift in Sources */,
 				006BDCD71F2F88F9006DEF17 /* WhereAreYouViewController.swift in Sources */,
 				0003288C1F2F874F003F81F7 /* PhoneVerificationViewController.swift in Sources */,
 				006BDCE61F2F8A09006DEF17 /* Scanning.swift in Sources */,
-				0042893B1F4A1198007FD732 /* Scene.swift in Sources */,
 				0007E4DB1F1FECD700EBA50C /* AppDelegate.swift in Sources */,
 				006BDCC51F2F8863006DEF17 /* FirstContactImportViewController.swift in Sources */,
 				0007E4E31F1FECD700EBA50C /* LTios.xcdatamodeld in Sources */,

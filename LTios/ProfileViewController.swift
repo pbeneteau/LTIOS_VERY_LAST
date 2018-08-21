@@ -17,13 +17,14 @@ class ProfileViewController: ModalViewViewController {
     
     private var settingsButton = UIButton()
     
-    private var profilePictureView = roundedImageView()
-    private let outerView = UIView()
+    private var profilePictureView = RoundImageView()
     
     private var usernameLabel = UILabel()
     private var badgeLabel = UILabel()
     private var lineView = UIView()
     private var block1 = UIImageView()
+    
+    private var contactsBox = roundedCornerView()
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -39,46 +40,56 @@ class ProfileViewController: ModalViewViewController {
         profilePictureView.image = UIImage(named: "profilePicture")
         profilePictureView.contentMode = .scaleAspectFill
         
-        settingsButton.setBackgroundImage(UIImage(named: "ic_settings"), for: .normal)
+        let ic_settings = UIImage(named: "ic_settings")
+        let tintedImage = ic_settings?.withRenderingMode(.alwaysTemplate)
+        settingsButton.setBackgroundImage(tintedImage, for: .normal)
+        settingsButton.tintColor = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
         containerView.addSubview(settingsButton)
         
-        logoutConfirmationButton.backgroundColor = .white
+        logoutConfirmationButton.backgroundColor = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
         logoutConfirmationButton.layer.cornerRadius = 3
         logoutConfirmationButton.isHidden = true
         logoutConfirmationButton.alpha = 0
-        logoutConfirmationButton.setTitle("  Disconnect   ", for: .normal)
+        logoutConfirmationButton.setTitle(" Disconnect  ", for: .normal)
         
-        logoutConfirmationButton.setTitleColor(UIColor(red:0.64, green:0.23, blue:1.00, alpha:1.0), for: .normal)
+        logoutConfirmationButton.setTitleColor(.white, for: .normal)
         containerView.addSubview(logoutConfirmationButton)
         
-        logoutButton.setBackgroundImage(UIImage(named: "ic_logout"), for: .normal)
+        let ic_settings2 = UIImage(named: "ic_logout")
+        let tintedImage2 = ic_settings2?.withRenderingMode(.alwaysTemplate)
+        logoutButton.setBackgroundImage(tintedImage2, for: .normal)
+        logoutButton.tintColor = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
         logoutButton.addTarget(self, action: #selector(didTapLogOutButton), for: .touchUpInside)
         containerView.addSubview(logoutButton)
         
-        usernameLabel.text = "Hacker"
+        usernameLabel.text = ""
         usernameLabel.font = UIFont.boldSystemFont(ofSize: 25)
         usernameLabel.textColor = UIColor(red:0.00, green:0.05, blue:0.25, alpha:1.0)
         usernameLabel.textAlignment = .center
         containerView.addSubview(usernameLabel)
         
-        badgeLabel.text = "Explorer"
+        badgeLabel.text = ""
         badgeLabel.font = UIFont.boldSystemFont(ofSize: 15)
-        badgeLabel.textColor = UIColor(red:0.57, green:0.42, blue:0.75, alpha:1.0)
+        badgeLabel.textColor = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
         badgeLabel.textAlignment = .center
         containerView.addSubview(badgeLabel)
         
         lineView.backgroundColor = .gray
-        lineView.alpha = 0.2
+        lineView.alpha = 0.15
         containerView.addSubview(lineView)
         
         block1.image = #imageLiteral(resourceName: "profile_block_1")
-        view.addSubview(block1)
+        block1.contentMode = .scaleAspectFill
         
-        outerView.addSubview(profilePictureView)
-        containerView.addSubview(outerView)
+        containerView.addSubview(block1)
+        containerView.addSubview(profilePictureView)
+        
+        contactsBox.backgroundColor = .white
+        contactsBox.withShadow = true
+        contactsBox.cornerRadius = 10
+        containerView.addSubview(contactsBox)
         
         addNotificationsObserver()
-        
     }
     
     @objc func didTapLogOutButton() {
@@ -98,28 +109,6 @@ class ProfileViewController: ModalViewViewController {
     
 }
 
-class roundedImageView: UIImageView {
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        let radius: CGFloat = self.bounds.size.width / 2.0
-        
-        self.layer.cornerRadius = radius
-        
-        self.clipsToBounds = true
-    }
-}
-
-class roundedView: UIView {
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        let radius: CGFloat = self.bounds.size.width / 2.0
-        
-        self.layer.cornerRadius = radius
-    }
-}
-
 // MARK: Constraints
 extension ProfileViewController {
     
@@ -131,75 +120,71 @@ extension ProfileViewController {
         containerView.layer.shadowOpacity = 0.15
         containerView.layer.shadowOffset = CGSize(width: 0, height: 0)
         containerView.layer.shadowRadius = 5
-        
-        outerView.clipsToBounds = false
-        outerView.layer.shadowColor = UIColor.black.cgColor
-        outerView.layer.shadowOpacity = 0.15
-        outerView.layer.shadowOffset = CGSize(width: 0, height: 2)
-        outerView.layer.shadowRadius = 5
     }
     
     override func updateViewConstraints() {
         
         containerView.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(view.snp.width)
-            make.height.equalTo(view.snp.height)
-            make.centerX.equalTo(view.snp.centerX)
-            make.top.equalTo(view.snp.bottom).multipliedBy(0.1)
+            make.width.equalTo(view)
+            make.height.equalTo(view).multipliedBy(0.9)
+            make.centerX.equalTo(view)
+            make.bottom.equalTo(view)
         }
         logoutButton.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(21)
+            make.width.equalTo(22)
             make.height.equalTo(25)
-            make.left.equalTo(containerView.snp.left).offset(20)
-            make.top.equalTo(containerView.snp.top).inset(20)
+            make.left.equalTo(containerView).offset(20)
+            make.top.equalTo(containerView).inset(20)
         }
         logoutConfirmationButton.snp.makeConstraints { (make) -> Void in
             make.width.equalTo(150)
             make.height.equalTo(35)
-            make.left.equalTo(logoutButton.snp.left).offset(-5)
-            make.centerY.equalTo(logoutButton.snp.centerY)
+            make.left.equalTo(logoutButton).offset(-5)
+            make.centerY.equalTo(logoutButton)
         }
         settingsButton.snp.makeConstraints { (make) -> Void in
             make.width.equalTo(27)
             make.height.equalTo(27)
-            make.right.equalTo(containerView.snp.right).inset(20)
-            make.top.equalTo(containerView.snp.top).inset(20)
-        }
-        outerView.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(view.snp.width).multipliedBy(0.3125)
-            make.height.equalTo(outerView.snp.width)
-            make.centerX.equalTo(view.snp.centerX)
-            make.top.equalTo(containerView.snp.top).offset(40)
+            make.right.equalTo(containerView).inset(20)
+            make.top.equalTo(containerView).inset(20)
         }
         profilePictureView.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(outerView.snp.width)
+            make.width.equalTo(containerView).multipliedBy(0.3125)
             make.height.equalTo(profilePictureView.snp.width)
-            make.center.equalTo(outerView.snp.center)
+            make.centerX.equalTo(containerView)
+            make.top.equalTo(containerView).offset(40)
         }
         usernameLabel.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(view.snp.width).multipliedBy(0.7)
+            make.width.equalTo(containerView).multipliedBy(0.7)
             make.height.equalTo(25)
-            make.centerX.equalTo(view.snp.centerX)
-            make.top.equalTo(outerView.snp.bottom).offset(10)
+            make.centerX.equalTo(containerView)
+            make.top.equalTo(profilePictureView.snp.bottom).offset(10)
         }
         badgeLabel.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(view.snp.width).multipliedBy(0.7)
+            make.width.equalTo(containerView).multipliedBy(0.7)
             make.height.equalTo(25)
-            make.centerX.equalTo(view.snp.centerX)
+            make.centerX.equalTo(containerView)
             make.top.equalTo(usernameLabel.snp.bottom).offset(3)
         }
         lineView.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(view.snp.width).multipliedBy(0.3)
+            make.width.equalTo(containerView).multipliedBy(0.3)
             make.height.equalTo(0.5)
-            make.centerX.equalTo(view.snp.centerX)
+            make.centerX.equalTo(containerView)
             make.top.equalTo(badgeLabel.snp.bottom).offset(8)
         }
         block1.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(view.snp.width).multipliedBy(0.97)
-            make.height.equalTo(90)
-            make.centerX.equalTo(view.snp.centerX)
+            make.width.equalTo(containerView).multipliedBy(0.9)
+            make.height.equalTo(89)
+            make.centerX.equalTo(containerView)
             make.top.equalTo(lineView.snp.bottom).offset(20)
         }
+        contactsBox.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(containerView).multipliedBy(0.9)
+            make.height.equalTo(containerView).multipliedBy(0.35)
+            make.centerX.equalTo(containerView)
+            make.bottom.equalTo(containerView).offset(-75)
+        }
+        
         super.updateViewConstraints()
     }
 }
@@ -209,7 +194,6 @@ extension ProfileViewController {
     
     func addNotificationsObserver() {
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.didUpdateUserProfile), name: Notification.Name(rawValue:"didUpdateUserProfile"), object: nil)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.didUpdateUserProfile), name: Notification.Name(rawValue:"didUpdateUserInformation"), object: nil)
     }
 }

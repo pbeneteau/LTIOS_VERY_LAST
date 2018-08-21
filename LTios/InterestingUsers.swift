@@ -15,6 +15,7 @@ class InterestingUser: GlobalUser {
     var distance: Int!
     var friendsInCommon: [String:String]!
     var location: GeoPoint?
+    var image = UIImage(named: "profilePicture")
     
     var friendsInCommonNb: Int! {
         get {
@@ -38,6 +39,14 @@ class InterestingUser: GlobalUser {
     }
 }
 
+extension InterestingUser: Equatable {
+    
+    public static func == (lhs: InterestingUser, rhs: InterestingUser) -> Bool {
+        return lhs.uid == rhs.uid &&
+            lhs.uid == rhs.uid
+    }
+}
+
 
 // Close users & friends in common > 0
 class InterestingUsers {
@@ -53,12 +62,9 @@ class InterestingUsers {
     func getInterestingUsers(nearbyUsers: [InterestingUser], completion: @escaping([InterestingUser]?) -> Void) {
         
         if nearbyUsers.count <= 0 { completion(nil); return }
-        
         var interestingUsers = [InterestingUser]()
-        
         guard let latitude = mainUserInstance.location?.latitude,
             let longitude = mainUserInstance.location?.longitude else { print("Main user location not set."); return }
-        
         let mainUserLocation = CLLocation(latitude: latitude, longitude: longitude)
         
         for user in nearbyUsers {
@@ -67,7 +73,6 @@ class InterestingUsers {
                 let longitude1 = user.location?.longitude else { print("No location for \(String(describing: user.firstName))."); continue }
             
             let userLocation = CLLocation(latitude: latitude1, longitude: longitude1)
-            
             // if user is nearby
             let distance = LocationService.shared.getDistanceBetweenLocations(location1: mainUserLocation, location2: userLocation)
             if !isCloseEnough(distance: distance) { continue }
@@ -75,20 +80,16 @@ class InterestingUsers {
             guard let userContacts = user.contacts else { print("\(String(describing: user.firstName)) does not have any contact."); continue }
             
             // and if friends in common...
-            if let interestingUser = user as? InterestingUser {
+            let interestingUser = user
+            
+            guard let friendsInCommon = ContactsService.shared.getCommonFriends(userContacts: userContacts) else { continue }
+            if friendsInCommon.count > 0 {
                 
-                guard let friendsInCommon = ContactsService.shared.getCommonFriends(userContacts: userContacts) else { continue }
-                if friendsInCommon.count > 0 {
-                    
-                    interestingUser.friendsInCommon = friendsInCommon
-                    interestingUser.distance = distance
-                    
-                    interestingUsers.append(interestingUser)
-                } else {
-                    print("Someone does not have friends in common")
-                }
+                interestingUser.friendsInCommon = friendsInCommon
+                interestingUser.distance = distance
+                interestingUsers.append(interestingUser)
             } else {
-                print(user.firstName)
+                print("Someone does not have friends in common")
             }
         }
         completion(interestingUsers)

@@ -5,30 +5,33 @@ target 'LTios' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
 
-  # Pods for LTios
+  # Firebase SDKs
   pod 'Firebase/Core'
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
   pod 'Firebase/Storage'
   
-  pod 'SnapKit'
-  
+  # Services
   pod 'SwiftLocation'
   pod 'ReachabilitySwift'
+  
+  # Phone Numbers
   pod 'CryptoSwift'
   pod 'PhoneNumberKit'
   
-  pod 'SCLAlertView'
-
-  pod 'TextFieldEffects'
-
+  # Google SDKs
   pod 'GoogleMaps'
   pod 'GooglePlaces'
   
+  # Views
   pod 'Spring'
+  pod 'ViewAnimator'
+  pod 'SCLAlertView'
+  pod 'TextFieldEffects'
   
-  
+  # Constraints
+  pod 'SnapKit'
 
   target 'LTiosTests' do
     inherit! :search_paths

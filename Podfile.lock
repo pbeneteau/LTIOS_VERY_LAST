@@ -130,6 +130,7 @@ PODS:
     - SwiftyJSON (~> 4.0.0-alpha.1)
   - SwiftyJSON (4.0.0)
   - TextFieldEffects (1.4.0)
+  - ViewAnimator (2.1.2)
 
 DEPENDENCIES:
   - CryptoSwift
@@ -146,6 +147,7 @@ DEPENDENCIES:
   - Spring
   - SwiftLocation
   - TextFieldEffects
+  - ViewAnimator
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -179,6 +181,7 @@ SPEC REPOS:
     - SwiftLocation
     - SwiftyJSON
     - TextFieldEffects
+    - ViewAnimator
 
 SPEC CHECKSUMS:
   BoringSSL: e10f92a27043805c01071fe815a5cd98ae8212e7
@@ -211,7 +214,8 @@ SPEC CHECKSUMS:
   SwiftLocation: a3c3bc2023118171ef3572188a31def94aa0892c
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
   TextFieldEffects: 4ee41b5216e674d55fb6ac25107bf1af7629176f
+  ViewAnimator: 20df9a24a076c6ee78b77a4dbf1943808c94954e
 
-PODFILE CHECKSUM: effa9ee0d0816d058565e7863b0768a10f70536d
+PODFILE CHECKSUM: e2c4485aa7b0c0217a6bd77fdd6efc144cbae973
 
 COCOAPODS: 1.5.3

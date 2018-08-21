@@ -15,14 +15,13 @@ class LocationService: NSObject, CLLocationManagerDelegate {
     
     public static var shared = LocationService()
     
-    let googleApiKey = "AIzaSyC6HXD576iBNzxAXG7CeUmvSeEzO_qzreM"
+    private let googleApiKey = "AIzaSyC6HXD576iBNzxAXG7CeUmvSeEzO_qzreM"
     
-    let locationManager: CLLocationManager
-    var locationDataArray: [CLLocation]
-    var useFilter: Bool
+    private let locationManager: CLLocationManager
+    private var locationDataArray: [CLLocation]
+    private var useFilter: Bool
     
-    let horizontalAccuracy: Double = 200
-    
+    private let horizontalAccuracy: Double = 200
     
     override init() {
         locationManager = CLLocationManager()
@@ -52,7 +51,7 @@ class LocationService: NSObject, CLLocationManagerDelegate {
     }
     
     // Filters for location update
-    func filterAndAddLocation(_ location: CLLocation) -> Bool {
+    private func filterAndAddLocation(_ location: CLLocation) -> Bool {
         let age = -location.timestamp.timeIntervalSinceNow
         
         if age > 10 {
@@ -71,6 +70,8 @@ class LocationService: NSObject, CLLocationManagerDelegate {
         }
         
         print("Location quality is good enough (\(location.horizontalAccuracy.rounded())).")
+        
+        locationManager.stopUpdatingLocation()
         
         lookUpCurrentLocation(lastLocation: GeoPoint(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)) { place in
             guard let place = place else { return }
@@ -148,7 +149,7 @@ extension LocationService {
         }
     }
     
-    func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata, completion: @escaping(UIImage?) -> Void) {
+    private func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata, completion: @escaping(UIImage?) -> Void) {
         GMSPlacesClient.shared().loadPlacePhoto(photoMetadata, callback: {
             (photo, error) -> Void in
             if let error = error {
@@ -175,11 +176,10 @@ extension LocationService {
                 if useFilter {
                     locationAdded = filterAndAddLocation(newLocation)
                 } else {
-                    mainUserInstance.location = GeoPoint(latitude: newLocation.coordinate.latitude, longitude: newLocation.coordinate.longitude)
                     locationAdded = true
                 }
                 if locationAdded {
-                    locationManager.stopUpdatingLocation()
+                    //locationManager.stopUpdatingLocation()
                 }
             }
         } else {
@@ -205,7 +205,7 @@ extension LocationService {
 // MARK: Notifications
 extension LocationService {
     
-    func showTurnOnLocationServiceAlert() {
+    private func showTurnOnLocationServiceAlert() {
         NotificationCenter.default.post(name: Notification.Name(rawValue:"showTurnOnLocationServiceAlert"), object: nil)
     }
 }

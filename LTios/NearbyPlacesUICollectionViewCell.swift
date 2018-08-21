@@ -33,8 +33,7 @@ class NearbyPlacesUICollectionViewCell: UICollectionViewCell {
         prepareForReuse()
     }
     
-    override func prepareForReuse()
-    {
+    override func prepareForReuse() {
         super.prepareForReuse()
         
         contentView.addSubview(shadowEffectView)
@@ -76,90 +75,70 @@ class NearbyPlacesUICollectionViewCell: UICollectionViewCell {
         
     }
     
+}
+
+// MARK: Constraints
+extension NearbyPlacesUICollectionViewCell {
     
     override func updateConstraints() {
         
         if !didSetupConstraints {
             
             placeImageView.snp.makeConstraints { (make) -> Void in
-                make.width.equalTo(contentView.snp.width).multipliedBy(0.8875)
-                make.height.equalTo(contentView.snp.height).multipliedBy(0.95)
-                make.centerX.equalTo(contentView.snp.centerX)
-                make.top.equalTo(contentView.snp.top)
+                make.width.equalTo(contentView).multipliedBy(0.8875)
+                make.height.equalTo(contentView).multipliedBy(0.95)
+                make.centerX.equalTo(contentView)
+                make.top.equalTo(contentView)
             }
             
             shadowEffectView.snp.makeConstraints { (make) -> Void in
-                make.width.equalTo(placeImageView.snp.width).multipliedBy(0.95)
-                make.height.equalTo(placeImageView.snp.height).multipliedBy(0.95)
-                make.center.equalTo(placeImageView.snp.center)
+                make.width.equalTo(placeImageView).multipliedBy(0.95)
+                make.height.equalTo(placeImageView).multipliedBy(0.95)
+                make.center.equalTo(placeImageView)
             }
             
             typeLabel.snp.makeConstraints { (make) -> Void in
-                make.width.equalTo(placeImageView.snp.width).multipliedBy(0.65)
-                make.left.equalTo(placeImageView.snp.left).offset(10)
+                make.width.equalTo(placeImageView).multipliedBy(0.65)
+                make.left.equalTo(placeImageView).offset(10)
                 make.bottom.equalTo(publicNameLabel.snp.top).inset(-5)
             }
             
             publicNameLabel.snp.makeConstraints { (make) -> Void in
-                make.width.equalTo(placeImageView.snp.width).multipliedBy(0.65)
-                make.left.equalTo(typeLabel.snp.left)
-                make.bottom.equalTo(placeImageView.snp.bottom).multipliedBy(0.85)
+                make.width.equalTo(placeImageView).multipliedBy(0.65)
+                make.left.equalTo(typeLabel)
+                make.bottom.equalTo(placeImageView).multipliedBy(0.85)
             }
             
             distanceIcon.snp.makeConstraints { (make) -> Void in
                 make.height.equalTo(20)
                 make.width.equalTo(distanceIcon.snp.height).multipliedBy(0.70683333)
-                make.left.equalTo(publicNameLabel.snp.left)
-                make.bottom.equalTo(placeImageView.snp.bottom).multipliedBy(0.95)
+                make.left.equalTo(publicNameLabel)
+                make.bottom.equalTo(placeImageView).multipliedBy(0.95)
             }
             
             distanceLabel.snp.makeConstraints { (make) -> Void in
-                make.width.equalTo(placeImageView.snp.width).multipliedBy(0.65)
-                make.left.equalTo(distanceIcon.snp.left).offset(20)
-                make.centerY.equalTo(distanceIcon.snp.centerY)
+                make.width.equalTo(placeImageView).multipliedBy(0.65)
+                make.left.equalTo(distanceIcon).offset(20)
+                make.centerY.equalTo(distanceIcon)
             }
             
             peopleLabel.snp.makeConstraints { (make) -> Void in
                 make.width.equalTo(30)
                 make.height.equalTo(21)
-                make.right.equalTo(placeImageView.snp.right).offset(-15)
-                make.centerY.equalTo(distanceIcon.snp.centerY)
+                make.right.equalTo(placeImageView).offset(-15)
+                make.centerY.equalTo(distanceIcon)
             }
             
             peopleIcon.snp.makeConstraints { (make) -> Void in
                 make.width.equalTo(distanceIcon.snp.height)
                 make.height.equalTo(peopleIcon.snp.width)
                 make.right.equalTo(peopleLabel.snp.left)
-                make.centerY.equalTo(distanceIcon.snp.centerY)
+                make.centerY.equalTo(distanceIcon)
             }
             
             didSetupConstraints = true
             
         }
         super.updateConstraints()
-    }
-}
-
-class SerialOperationQueue: OperationQueue
-{
-    override init()
-    {
-        super.init()
-        maxConcurrentOperationCount = 1
-    }
-}
-
-class ImageViewWithGradient: UIImageView {
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = [UIColor.clear.cgColor, UIColor(red:0.00, green:0.00, blue:0.00, alpha:0.7).cgColor]
-        gradientLayer.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y + self.frame.height / 2, width: self.frame.width, height: self.frame.height / 2)
-        
-        self.layer.shouldRasterize = true
-        self.layer.rasterizationScale = UIScreen.main.scale;
-        
-        self.layer.addSublayer(gradientLayer)
     }
 }

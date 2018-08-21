@@ -19,7 +19,6 @@ struct NearbyPlace {
         didSet {
             guard let location = mainUserInstance.location  else { print("Main user location not set."); return }
             self.distance = Int(CLLocation(latitude: location.latitude, longitude: location.longitude).distance(from: CLLocation(latitude: self.coordinate.latitude, longitude: self.coordinate.longitude)))
-            print(self.distance)
         }
     }
     var description: String?

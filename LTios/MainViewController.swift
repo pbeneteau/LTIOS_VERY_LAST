@@ -9,22 +9,26 @@
 import UIKit
 import FirebaseAuth
 import Reachability
+import ViewAnimator
 
-class ScannerViewController: ModalViewViewController {
+class MainViewController: ModalViewViewController {
     
-    var didSetupConstraints = false
+    private var didSetupConstraints = false
     
-    var authHandle: AuthStateDidChangeListenerHandle?
-    var interestingUsers = [InterestingUser]()
-    var locator = LocationService.shared
-    var reachability = Reachability()!
-    var isPrivate = false
+    private var interestingUsers = [InterestingUser]()
+    private var locator = LocationService.shared
+    private var reachability = Reachability()!
+    private var isPrivate = false
     
-    var errorIcon = UIImageView()
-    var errorTitle = errorTitleLabel()
-    var errorLabel = errorLabelLabel()
+    private let animations = [AnimationType.from(direction: .bottom, offset: 10)]
     
-    var tableView = InterestingUsersTableView()
+    private var interestingPeopleNumbersLabel = UILabel()
+    
+    private var errorIcon = UIImageView()
+    private var errorTitle = errorTitleLabel()
+    private var errorLabel = errorLabelLabel()
+    
+    private var tableView = InterestingUsersTableView()
     
     enum Alert {
         case reachability
@@ -35,23 +39,25 @@ class ScannerViewController: ModalViewViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        mainUserInstance = MainUser()
+        
         view.backgroundColor = .white
         
         tableView.dataSource = self
         tableView.delegate = self
         
+        interestingPeopleNumbersLabel.textAlignment = .center
+        interestingPeopleNumbersLabel.textColor = .lightGray
+        interestingPeopleNumbersLabel.font = UIFont(name: "Roboto-Regular", size: 16)
+        interestingPeopleNumbersLabel.numberOfLines = 2
+        interestingPeopleNumbersLabel.lineBreakMode = .byWordWrapping
+        
+        self.view.addSubview(interestingPeopleNumbersLabel)
         self.view.addSubview(tableView)
         
-       addConstraints()
+        addConstraints()
         
-        authHandle = Auth.auth().addStateDidChangeListener() { (auth, user) in
-            print(auth)
-            if let user = user {
-                print("User logged in: \(user.uid)")
-                self.addNotificationsObserver()
-                self.getMainUserInformation()
-            }
-        }
+        self.addNotificationsObserver()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -59,48 +65,45 @@ class ScannerViewController: ModalViewViewController {
         do {
             try reachability.startNotifier()
         } catch{
-            print("could not start reachability notifier")
+            print("Could not start reachability notifier.")
         }
     }
-    
-    // init main user datas
-    func getMainUserInformation() {
-        
-        MenuInstance.startLoadingAnimation()
-        
-        DatabaseService.shared.getUserInformation(uid: (Auth.auth().currentUser?.uid)!) { doc in
-            if doc != nil {
-                mainUserInstance = MainUser(document: doc!)
-                self.locator.startUpdatingLocation()
-            }
-        }
-    }
-    
-    func showMessagePrompt(_ text: String) {
-        let alert = UIAlertController(title: "There are people around you!", message: text, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Cool !", style: .cancel, handler: nil))
-        self.present(alert, animated: true)
-    }
- 
 }
 
 
 // MARK: Data Management
-extension ScannerViewController {
+extension MainViewController {
     
     @objc func didUpdateNearbyUsers(_ notification: NSNotification) {
-        if let userInfo = notification.userInfo, let nearbyUsers = userInfo["nearbyUsers"] as? [InterestingUser] {
+        
+        if let userInfo = notification.userInfo, let nearbyUsers = userInfo["closeUsers"] as? [InterestingUser] {
+            
             InterestingUsers.shared.getInterestingUsers(nearbyUsers: nearbyUsers) { interestingUsers in
-                guard let interestingUsers = interestingUsers else { return }
                 
-                self.interestingUsers = interestingUsers
-                if interestingUsers.count > 0 {
-                    self.showMessagePrompt("\(String(describing: interestingUsers.count)) interesting people detected.")
-                    MenuInstance.stopLoadingAnimation()
-                    self.tableView.reloadData()
-                }
+                guard let interestingUsers = interestingUsers else { print("Error while unwrapping nearby users"); return }
+                self.addDataToTableView(newInterestingUsers: interestingUsers)
             }
         }
+    }
+    
+    func addDataToTableView(newInterestingUsers: [InterestingUser]) {
+        
+        MenuInstance.stopLoadingAnimation()
+        
+        if newInterestingUsers.count > 0 {
+            self.interestingUsers = newInterestingUsers
+            self.interestingPeopleNumbersLabel.text = "\(interestingUsers.count) interesting people found close to you"
+            tableView.reloadData()
+            
+        } else {
+            self.interestingPeopleNumbersLabel.text = "Arf... We haven't found anyone around you"
+            self.interestingUsers.removeAll()
+            self.tableView.reloadData()
+        }
+    }
+    
+    func animateCells() {
+        UIView.animate(views: tableView.visibleCells, animations: animations, completion: nil)
     }
     
     @objc func didUpdateLocation(_ notification: NSNotification) {
@@ -124,7 +127,7 @@ extension ScannerViewController {
 }
 
 // MARK: Table View Delegates
-extension ScannerViewController: UITableViewDelegate, UITableViewDataSource {
+extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return interestingUsers.count
@@ -140,9 +143,7 @@ extension ScannerViewController: UITableViewDelegate, UITableViewDataSource {
         return CGFloat(70 * (1 + interestingUsers[heightForRowAt.row].friendsInCommonNb/10))
     }
     
-    func tableView(_ tableView: UITableView,
-                            willDisplay cell: UITableViewCell,
-                            forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if let cell = cell as? InterestingUsersTableViewCell {
             _configureCell(cell, atIndexPath: indexPath)
         }
@@ -158,19 +159,49 @@ extension ScannerViewController: UITableViewDelegate, UITableViewDataSource {
                 
                 if let operation = operation, operation.isCancelled { return }
                 
-                // Initialization
+                // Initializations
                 cell.selectionStyle = .none
                 cell.backgroundColor = .clear
+                cell.bubble.tag = indexPath.row
+                
+                print(cell.bubble.tag)
+                
+                let tap = UITapGestureRecognizer(target: self, action: #selector(self.didTouchBubble(_:)))
+                cell.bubble.addGestureRecognizer(tap)
+                
+                cell.user = self.interestingUsers[indexPath.row]
             })
         }
         cell.queue.addOperation(operation)
     }
+}
+ 
+// MARK: Buttons Actions
+extension MainViewController {
     
-    
+    @objc func didTouchBubble(_ gesture: UITapGestureRecognizer) {
+        
+        if let bubble = gesture.view as? InterestingUserBubble {
+            let tag = bubble.tag
+            
+            bubble.didTap()
+            
+            print("Selected: \(String(describing: interestingUsers[tag].fullName!)) (\(tag))")
+            
+            let vc = UserProfileViewController()
+            
+            vc.allowedDismissDirection = dismissDirection(rawValue: 0)!
+            vc.directionLock = true
+            vc.maskType = InteractiveMaskType(rawValue: UInt(0))!
+            vc.userNameLabel.text = interestingUsers[tag].fullName
+            vc.userTitle.text = interestingUsers[tag].publicName
+            vc.showInteractive()
+        }
+    }
 }
 
 // MARK: Norifications Observer
-extension ScannerViewController {
+extension MainViewController {
     
     func addNotificationsObserver() {
         
@@ -178,7 +209,7 @@ extension ScannerViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.showTurnOnLocationServiceAlert(_:)), name: Notification.Name(rawValue:"showTurnOnLocationServiceAlert"), object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.didUpdateNearbyUsers(_:)), name: Notification.Name(rawValue:"didUpdateNearbyUsers"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.didUpdateNearbyUsers(_:)), name: Notification.Name(rawValue:"didUpdateCloseUsers"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.didRequestPrivacyChange(_:)), name: Notification.Name(rawValue:"didRequestPrivacyChange"), object: nil)
         
@@ -188,7 +219,7 @@ extension ScannerViewController {
 
 
 // MARK: Alerts
-extension ScannerViewController {
+extension MainViewController {
     
     @objc func showTurnOnLocationServiceAlert(_ notification: NSNotification){
         let alert = UIAlertController(title: "Turn on Location Service", message: "To use location tracking feature of the app, please turn on the location service from the Settings app.", preferredStyle: .alert)
@@ -284,22 +315,29 @@ extension ScannerViewController {
         errorTitle.isHidden = true
         errorLabel.isHidden = true
     }
-
+    
 }
 
 
 // MARK: Constraints
-extension ScannerViewController {
+extension MainViewController {
     
-    func addConstraints() {
+    private func addConstraints() {
         
         if !didSetupConstraints {
             
+            interestingPeopleNumbersLabel.snp.makeConstraints { (make) -> Void in
+                make.width.equalTo(view).multipliedBy(0.6)
+                make.height.equalTo(40)
+                make.top.equalTo(view).offset(90)
+                make.centerX.equalTo(view)
+            }
+            
             tableView.snp.makeConstraints { (make) -> Void in
-                make.width.equalTo(self.view.snp.width)
-                make.height.equalTo(self.view.snp.height).multipliedBy(0.8)
-                make.bottom.equalTo(self.view)
-                make.centerX.equalTo(self.view)
+                make.width.equalTo(view.snp.width)
+                make.height.equalTo(view.snp.height).multipliedBy(0.8)
+                make.bottom.equalTo(view)
+                make.centerX.equalTo(view)
             }
             
             didSetupConstraints = true

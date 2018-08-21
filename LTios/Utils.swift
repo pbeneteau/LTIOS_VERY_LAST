@@ -50,6 +50,14 @@ class AsyncOperation {
     }
 }
 
+class SerialOperationQueue: OperationQueue {
+    override init()
+    {
+        super.init()
+        maxConcurrentOperationCount = 1
+    }
+}
+
 class CustomNavigationController: UINavigationController {
     
     override var prefersStatusBarHidden: Bool {
@@ -98,5 +106,5 @@ final class ForceTouchGestureRecognizer: UIGestureRecognizer {
             state = UIGestureRecognizer.State.recognized
         }
     }
-    
 }
+
