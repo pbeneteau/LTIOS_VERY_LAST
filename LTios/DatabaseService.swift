@@ -8,6 +8,7 @@
 
 import CoreLocation
 import FirebaseFirestore
+import FirebaseDatabase
 
 // MARK: Firebase database related queries
 class DatabaseService {
@@ -17,8 +18,6 @@ class DatabaseService {
     
     private let db: Firestore!
     private let settings: FirestoreSettings!
-    
-    var lastNearbyUsersSnapshot = [QueryDocumentSnapshot]()
     
     init() {
         
@@ -35,6 +34,23 @@ class DatabaseService {
 }
 
 extension DatabaseService {
+    
+    func makeUserOnline() {
+        
+        let userStatusDatabaseRef = Database.database().reference().child("/status/" + mainUserInstance.uid)
+        let firestore = Firestore.firestore().collection("users").document(mainUserInstance.uid)
+        
+        // Set the specific user's online status to true
+        firestore.setData(["online": true], merge: true)
+        userStatusDatabaseRef.setValue(true)
+    }
+    
+    func setOnDisconnectHandler() {
+        
+        let presenceRef = Database.database().reference(withPath: "status/\(String(describing: mainUserInstance.uid!))");
+        // Write a string when this client loses connection
+        presenceRef.onDisconnectSetValue(false)
+    }
     
     // Listening for users in the same state
     func listenForNearbyUsers() {
@@ -74,31 +90,35 @@ extension DatabaseService {
     
     private func fetchUsersProfile(usersCollection: [QueryDocumentSnapshot], completion: @escaping([InterestingUser]?) -> Void) {
         
-        if usersCollection != lastNearbyUsersSnapshot {
+        if usersCollection.count != 0 {
             
-            self.lastNearbyUsersSnapshot = usersCollection
-
             print("Fetching nearby users profile ...")
             
             var nearbyUsers = [InterestingUser]()
-            
             let dispatchGroup = DispatchGroup()
             
             for doc in usersCollection {
                 if doc.documentID != mainUserInstance.uid {
                     dispatchGroup.enter()
                     DatabaseService.shared.getUserInformation(uid: doc.documentID) { document in
-                        dispatchGroup.leave()
-                        guard let document = document else { return }
+                        guard let document = document else { dispatchGroup.leave(); return }
                         
                         let newUser = InterestingUser(document: document)
-                        nearbyUsers.append(newUser)
+                        
+                        StorageService.shared.downloadUserPicture(uid: newUser.uid) { photo in
+                            guard let photo = photo else { dispatchGroup.leave(); return }
+                            newUser.photo = photo
+                            nearbyUsers.append(newUser)
+                            dispatchGroup.leave()
+                        }
                     }
                 }
             }
             dispatchGroup.notify(queue: .main, execute: {
                 completion(nearbyUsers)
             })
+        } else {
+            completion(nil)
         }
     }
     
@@ -164,9 +184,11 @@ extension DatabaseService {
         // Add a new document in collection "cities"
         self.db.document("users/\(uid)").setData([
             "name": [
-                "firstname": firstname,
-                "lastname": lastname
-            ]
+                "firstName": firstname,
+                "lastName": lastname
+            ],
+            "publicName": "Drope",
+            "pushID": uid
         ]) { err in
             if let err = err {
                 print("Error creating user: \(err.localizedDescription).")

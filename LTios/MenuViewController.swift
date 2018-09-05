@@ -26,7 +26,6 @@ class MenuViewController: UIViewController, UIScrollViewDelegate {
         view.delegate = self
         view.isPagingEnabled = true
         view.showsHorizontalScrollIndicator = false
-        view.showsHorizontalScrollIndicator = false
         view.tag = 10
         view.backgroundColor = .clear
         view.bounces = false

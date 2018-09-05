@@ -27,7 +27,7 @@ class UserProfileViewController: InteractiveViewController {
     private var contactsButton = SpringButton()
     private var chatButton = SpringButton()
     private var addButton = SpringButton()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,7 +40,6 @@ class UserProfileViewController: InteractiveViewController {
         dismissLineView.addGestureRecognizer(tap)
         view.addGestureRecognizer(tap)
         
-        profilePictureView.image = UIImage(named: "profilePicture")
         profilePictureView.contentMode = .scaleAspectFill
         
         onlineStatut.backgroundColor = UIColor(red:0.22, green:0.82, blue:0.88, alpha:1.0)
@@ -49,7 +48,6 @@ class UserProfileViewController: InteractiveViewController {
         userNameLabel.textAlignment = .center
         userNameLabel.font = UIFont(name: "Roboto-Regular", size: 20)
         
-        userTitle.text = "Example"
         userTitle.textColor = .gray
         userTitle.alpha = 0.5
         userTitle.textAlignment = .center
@@ -76,7 +74,7 @@ class UserProfileViewController: InteractiveViewController {
         
         view.setNeedsUpdateConstraints()
     }
-
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -143,7 +141,7 @@ class UserProfileViewController: InteractiveViewController {
             make.width.equalTo(40)
             make.height.equalTo(5)
             make.centerX.equalTo(containerView.snp.centerX)
-            make.top.equalTo(containerView.snp.top).offset(25)
+            make.top.equalTo(containerView.snp.top).offset(15)
         }
         outerView.snp.makeConstraints { (make) -> Void in
             make.width.equalTo(view.snp.width).multipliedBy(0.3125)
@@ -194,5 +192,5 @@ class UserProfileViewController: InteractiveViewController {
         
         super.updateViewConstraints()
     }
-
+    
 }

@@ -35,7 +35,7 @@ class MainUser: GlobalUser {
             updateUserLocation(place: place!)
         }
     }
-    var photo: UIImage? {
+    override var photo: UIImage? {
         didSet {
             uploadPhoto()
         }
@@ -48,10 +48,13 @@ class MainUser: GlobalUser {
             if let user = user {
                 print("User logged in: \(user.uid)")
                 self.uid = user.uid
+                DatabaseService.shared.makeUserOnline()
+                DatabaseService.shared.setOnDisconnectHandler()
                 self.getMainInformation(uid: user.uid)
             }
         }
     }
+    
     
     // init main user datas and start fetching location
     func getMainInformation(uid: String) {
@@ -62,7 +65,9 @@ class MainUser: GlobalUser {
             guard let information = doc else { print("[Error] while unwrapping main user information"); return }
             self.initMainInformation(document: information)
             
-            LocationService.shared.startUpdatingLocation()
+            if self.contacts != nil {
+                LocationService.shared.startUpdatingLocation()
+            }
         }
     }
     
@@ -76,13 +81,19 @@ class MainUser: GlobalUser {
         self.uid = document.documentID
         self.publicName = (data["publicName"] as? String)!
         self.pushID = (data["pushID"] as? String)!
-        self.contacts = (data["contacts"] as? [String : String])!
+        
+        if let contacts = data["contacts"] as? [String : String] {
+            self.contacts = contacts
+        } else {
+            ContactsService.shared.updateContacts()
+        }
         
         let name = data["name"] as? [String:String]
         self.firstName = (name!["firstName"])!
         self.lastName = (name!["lastName"])!
         
-        self.notifyDidUpdateUserInformation()
+        saveBasicInformation()
+        notifyDidUpdateUserInformation()
     }
     
     private func updateUserLocation(place: CLPlacemark) {
@@ -98,7 +109,6 @@ class MainUser: GlobalUser {
             self.location = GeoPoint(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
             
             DatabaseService.shared.updateUserDatabaseLocation()
-            
         } else {
             print("[Error] unwrapping values to update location")
         }
@@ -109,6 +119,16 @@ class MainUser: GlobalUser {
             guard let imageData = UIImageJPEGRepresentation(image, 1) else { return }
             StorageService.shared.uploadUserPicture(imageData: imageData, uid: uid)
         }
+    }
+    
+    private func saveBasicInformation() {
+        
+        // Setting
+        let defaults = UserDefaults.standard
+        defaults.set("publicName", forKey: publicName)
+        defaults.set("firstName", forKey: fullName)
+        defaults.set("lsatName", forKey: fullName)
+        defaults.set("pushID", forKey: pushID)
     }
     
     func notifyDidUpdateLocation() {

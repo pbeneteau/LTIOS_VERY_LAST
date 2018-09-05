@@ -77,17 +77,20 @@ class StartViewController: ModalViewViewController {
             worldIsAnimating = true
         }
         
-        let email = "paulbeneteau@hotmail.fr"
+        let email = "inesbenett@hotmail.fr"
         let password = "combava"
+        let firstname = "Inès"
+        let lastname = "Bénéteau"
         
         // [START headless_email_auth]
-        Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
+        Auth.auth().signIn(withEmail: email, password: password) { (authResult, error) in
             // [START_EXCLUDE]
             
             if let error = error {
                 print(error.localizedDescription)
             }
-            else if user != nil {
+            else if let user = authResult?.user {
+                //DatabaseService.shared.createNewUserInDatabase(uid: user.uid, firstname: firstname, lastname: lastname)
                 let vc = MenuViewController()
                 self.present(vc, animated: true, completion: nil)
             }

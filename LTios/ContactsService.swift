@@ -55,6 +55,7 @@ class ContactsService {
                     serializedContacts[hash!] = "\(contact.givenName) \(contact.familyName)"
                 }
             }
+            mainUserInstance.contacts = serializedContacts
             DatabaseService.shared.uploadUserContactsToDatabase(contacts: serializedContacts)
         }
     }
@@ -105,5 +106,15 @@ class ContactsService {
         }
         return commonFriends
     }
+    
+    func isAlreadyInContactList(phoneNumber: String) -> Bool {
+
+        if mainUserInstance.contacts.keys.contains(phoneNumber.sha256()) {
+            return true
+        } else {
+            return false
+        }
+    }
+    
     
 }

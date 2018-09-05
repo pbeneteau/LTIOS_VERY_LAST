@@ -13,10 +13,13 @@ class GlobalUser {
     
     var uid: String!
     var publicName: String!
-    var pushID: String!
     var firstName: String!
     var lastName: String!
+    var phoneNumber: String!
     var contacts: [String:String]!
+    var photo: UIImage?
+    var pushID: String!
+
     
     var fullName: String! {
         get {
@@ -35,6 +38,7 @@ class GlobalUser {
         self.publicName = (data["publicName"] as? String)!
         self.pushID = (data["pushID"] as? String)!
         self.contacts = (data["contacts"] as? [String : String])!
+        self.phoneNumber = (data["phoneNumber"] as? String)!
         
         let name = data["name"] as? [String:String]
         self.firstName = (name!["firstName"])!

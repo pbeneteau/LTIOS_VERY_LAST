@@ -14,6 +14,9 @@ PODS:
     - FirebaseAnalytics (= 5.1.0)
   - Firebase/CoreOnly (5.5.0):
     - FirebaseCore (= 5.1.0)
+  - Firebase/Database (5.5.0):
+    - Firebase/CoreOnly
+    - FirebaseDatabase (= 5.0.2)
   - Firebase/Firestore (5.5.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (= 0.13.0)
@@ -37,6 +40,9 @@ PODS:
   - FirebaseAuthInterop (1.0.0)
   - FirebaseCore (5.1.0):
     - GoogleUtilities/Logger (~> 5.2)
+  - FirebaseDatabase (5.0.2):
+    - FirebaseCore (~> 5.0)
+    - leveldb-library (~> 1.18)
   - FirebaseFirestore (0.13.0):
     - FirebaseAuthInterop (~> 1.0)
     - FirebaseCore (~> 5.0)
@@ -136,6 +142,7 @@ DEPENDENCIES:
   - CryptoSwift
   - Firebase/Auth
   - Firebase/Core
+  - Firebase/Database
   - Firebase/Firestore
   - Firebase/Storage
   - GoogleMaps
@@ -158,6 +165,7 @@ SPEC REPOS:
     - FirebaseAuth
     - FirebaseAuthInterop
     - FirebaseCore
+    - FirebaseDatabase
     - FirebaseFirestore
     - FirebaseInstanceID
     - FirebaseStorage
@@ -191,6 +199,7 @@ SPEC CHECKSUMS:
   FirebaseAuth: 657a25e4be044d2d333663ebf515a861c5a59cd7
   FirebaseAuthInterop: 0ffa57668be100582bb7643d4fcb7615496c41fc
   FirebaseCore: ee4b35cf8c8e781da296cc7c15125e4608bb954d
+  FirebaseDatabase: 27be5ac5bc75e0b17537b2bbfada8258addcc8cd
   FirebaseFirestore: 0a6e4b9256ae39ed41258aa46213975c93908a74
   FirebaseInstanceID: 8cd2c6cfe7b9ab65ce7e248f6da7f26f6775b9be
   FirebaseStorage: 7ca4bb7b58a25fa647b04f524033fc7cb7eb272b
@@ -216,6 +225,6 @@ SPEC CHECKSUMS:
   TextFieldEffects: 4ee41b5216e674d55fb6ac25107bf1af7629176f
   ViewAnimator: 20df9a24a076c6ee78b77a4dbf1943808c94954e
 
-PODFILE CHECKSUM: e2c4485aa7b0c0217a6bd77fdd6efc144cbae973
+PODFILE CHECKSUM: 52b500c0018c9425bbc9659266ba53712e3dc839
 
 COCOAPODS: 1.5.3

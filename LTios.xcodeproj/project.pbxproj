@@ -73,7 +73,6 @@
 		38B8527821243AB7002EBB18 /* InteractiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B8527721243AB7002EBB18 /* InteractiveViewController.swift */; };
 		38B8527A2124E8D8002EBB18 /* ModalViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B852792124E8D8002EBB18 /* ModalViewViewController.swift */; };
 		38B8527E21259066002EBB18 /* MenuHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B8527D21259066002EBB18 /* MenuHomeView.swift */; };
-		38B8528121288F68002EBB18 /* InterestingUserBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B8528021288F68002EBB18 /* InterestingUserBubble.swift */; };
 		38B8528321289019002EBB18 /* InterestingUsersTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B8528221289019002EBB18 /* InterestingUsersTableView.swift */; };
 		38B852852128935B002EBB18 /* InterestingUsersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B852842128935B002EBB18 /* InterestingUsersTableViewCell.swift */; };
 		38B852882128D21B002EBB18 /* RoundShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B852872128D21B002EBB18 /* RoundShadowView.swift */; };
@@ -174,7 +173,6 @@
 		38B8527721243AB7002EBB18 /* InteractiveViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractiveViewController.swift; sourceTree = "<group>"; };
 		38B852792124E8D8002EBB18 /* ModalViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalViewViewController.swift; sourceTree = "<group>"; };
 		38B8527D21259066002EBB18 /* MenuHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuHomeView.swift; sourceTree = "<group>"; };
-		38B8528021288F68002EBB18 /* InterestingUserBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestingUserBubble.swift; sourceTree = "<group>"; };
 		38B8528221289019002EBB18 /* InterestingUsersTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestingUsersTableView.swift; sourceTree = "<group>"; };
 		38B852842128935B002EBB18 /* InterestingUsersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestingUsersTableViewCell.swift; sourceTree = "<group>"; };
 		38B852872128D21B002EBB18 /* RoundShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundShadowView.swift; sourceTree = "<group>"; };
@@ -473,9 +471,9 @@
 		384863A42122E700004222DE /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				384863A72122E70E004222DE /* ContactsService.swift */,
 				384863A52122E70B004222DE /* DatabaseService.swift */,
 				384863A62122E70D004222DE /* LocationService.swift */,
+				384863A72122E70E004222DE /* ContactsService.swift */,
 				38FEA1BC212C8A7A00561CF4 /* StorageService.swift */,
 			);
 			name = Services;
@@ -504,7 +502,6 @@
 			children = (
 				38B8528221289019002EBB18 /* InterestingUsersTableView.swift */,
 				38B852842128935B002EBB18 /* InterestingUsersTableViewCell.swift */,
-				38B8528021288F68002EBB18 /* InterestingUserBubble.swift */,
 				38B8527721243AB7002EBB18 /* InteractiveViewController.swift */,
 			);
 			name = InterestingUsers;
@@ -855,7 +852,6 @@
 				006BDCCF1F2F88CA006DEF17 /* NearbyPlacesViewController.swift in Sources */,
 				38B8527E21259066002EBB18 /* MenuHomeView.swift in Sources */,
 				00FF14E41FA7537B00D9F6FB /* ContactsSearchbar.swift in Sources */,
-				38B8528121288F68002EBB18 /* InterestingUserBubble.swift in Sources */,
 				006BDCD11F2F88D4006DEF17 /* PlaceViewController.swift in Sources */,
 				384863A82122E70F004222DE /* DatabaseService.swift in Sources */,
 				38B8528321289019002EBB18 /* InterestingUsersTableView.swift in Sources */,

@@ -15,7 +15,7 @@ class InterestingUser: GlobalUser {
     var distance: Int!
     var friendsInCommon: [String:String]!
     var location: GeoPoint?
-    var image = UIImage(named: "profilePicture")
+    var known: Bool = false
     
     var friendsInCommonNb: Int! {
         get {
@@ -30,8 +30,11 @@ class InterestingUser: GlobalUser {
             print("Missing user information during initialization.")
             return
         }
-        
         self.location = (data["last_location"] as? GeoPoint)!
+        
+        if ContactsService.shared.isAlreadyInContactList(phoneNumber: phoneNumber) {
+            self.known = true
+        }
     }
     
     override init() {
@@ -56,7 +59,6 @@ class InterestingUsers {
     var db = Firestore.firestore()
     
     let distanceRequiered = 20000
-    
     
     // looking for potential friends from local users (distance, friends in common, ...?)
     func getInterestingUsers(nearbyUsers: [InterestingUser], completion: @escaping([InterestingUser]?) -> Void) {

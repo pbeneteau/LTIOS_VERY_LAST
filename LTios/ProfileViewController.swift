@@ -7,13 +7,13 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class ProfileViewController: ModalViewViewController {
     
     private var containerView = UIView()
     
     private var logoutButton = UIButton()
-    private var logoutConfirmationButton = UIButton()
     
     private var settingsButton = UIButton()
     
@@ -45,15 +45,6 @@ class ProfileViewController: ModalViewViewController {
         settingsButton.setBackgroundImage(tintedImage, for: .normal)
         settingsButton.tintColor = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
         containerView.addSubview(settingsButton)
-        
-        logoutConfirmationButton.backgroundColor = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
-        logoutConfirmationButton.layer.cornerRadius = 3
-        logoutConfirmationButton.isHidden = true
-        logoutConfirmationButton.alpha = 0
-        logoutConfirmationButton.setTitle(" Disconnect  ", for: .normal)
-        
-        logoutConfirmationButton.setTitleColor(.white, for: .normal)
-        containerView.addSubview(logoutConfirmationButton)
         
         let ic_settings2 = UIImage(named: "ic_logout")
         let tintedImage2 = ic_settings2?.withRenderingMode(.alwaysTemplate)
@@ -93,18 +84,25 @@ class ProfileViewController: ModalViewViewController {
     }
     
     @objc func didTapLogOutButton() {
-        
-        logoutConfirmationButton.isHidden = false
-        
-        UIView.animate(withDuration: 0.2, animations: {
-            self.logoutConfirmationButton.alpha = 1
-        })
+        do { try Auth.auth().signOut() }
+        catch let error {
+            print("[Error] while signing out: \(error.localizedDescription)")
+        }
     }
     
     @objc func didUpdateUserProfile() {
         
-        self.usernameLabel.text = mainUserInstance.fullName
-        self.badgeLabel.text = mainUserInstance.publicName
+        usernameLabel.text = mainUserInstance.fullName
+        badgeLabel.text = mainUserInstance.publicName
+        
+        if mainUserInstance.photo == nil {
+            StorageService.shared.downloadUserPicture(uid: mainUserInstance.uid) { photo in
+                guard let photo = photo else {print("[Error] unwrapping user photo"); return }
+                self.profilePictureView.image = photo
+            }
+        } else {
+            self.profilePictureView.image = mainUserInstance.photo
+        }
     }
     
 }
@@ -135,12 +133,6 @@ extension ProfileViewController {
             make.height.equalTo(25)
             make.left.equalTo(containerView).offset(20)
             make.top.equalTo(containerView).inset(20)
-        }
-        logoutConfirmationButton.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(150)
-            make.height.equalTo(35)
-            make.left.equalTo(logoutButton).offset(-5)
-            make.centerY.equalTo(logoutButton)
         }
         settingsButton.snp.makeConstraints { (make) -> Void in
             make.width.equalTo(27)

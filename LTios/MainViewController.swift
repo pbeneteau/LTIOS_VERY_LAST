@@ -61,7 +61,6 @@ class MainViewController: ModalViewViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
         do {
             try reachability.startNotifier()
         } catch{
@@ -93,17 +92,11 @@ extension MainViewController {
         if newInterestingUsers.count > 0 {
             self.interestingUsers = newInterestingUsers
             self.interestingPeopleNumbersLabel.text = "\(interestingUsers.count) interesting people found close to you"
-            tableView.reloadData()
-            
+            self.tableView.reloadData()
         } else {
             self.interestingPeopleNumbersLabel.text = "Arf... We haven't found anyone around you"
             self.interestingUsers.removeAll()
-            self.tableView.reloadData()
         }
-    }
-    
-    func animateCells() {
-        UIView.animate(views: tableView.visibleCells, animations: animations, completion: nil)
     }
     
     @objc func didUpdateLocation(_ notification: NSNotification) {
@@ -140,7 +133,10 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt: IndexPath) -> CGFloat {
-        return CGFloat(70 * (1 + interestingUsers[heightForRowAt.row].friendsInCommonNb/10))
+        if interestingUsers[heightForRowAt.row].friendsInCommonNb > 3 {
+            return CGFloat(self.tableView.frame.width * (3/8))
+        }
+        return CGFloat(self.tableView.frame.width) * CGFloat(interestingUsers[heightForRowAt.row].friendsInCommonNb/8)
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -164,8 +160,6 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.backgroundColor = .clear
                 cell.bubble.tag = indexPath.row
                 
-                print(cell.bubble.tag)
-                
                 let tap = UITapGestureRecognizer(target: self, action: #selector(self.didTouchBubble(_:)))
                 cell.bubble.addGestureRecognizer(tap)
                 
@@ -180,11 +174,11 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
 extension MainViewController {
     
     @objc func didTouchBubble(_ gesture: UITapGestureRecognizer) {
-        
-        if let bubble = gesture.view as? InterestingUserBubble {
+                
+        if let bubble = gesture.view as? RoundShadowView {
             let tag = bubble.tag
             
-            bubble.didTap()
+            //bubble.didTap()
             
             print("Selected: \(String(describing: interestingUsers[tag].fullName!)) (\(tag))")
             
@@ -195,6 +189,7 @@ extension MainViewController {
             vc.maskType = InteractiveMaskType(rawValue: UInt(0))!
             vc.userNameLabel.text = interestingUsers[tag].fullName
             vc.userTitle.text = interestingUsers[tag].publicName
+            vc.profilePictureView.image = interestingUsers[tag].photo
             vc.showInteractive()
         }
     }

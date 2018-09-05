@@ -14,9 +14,13 @@ class InterestingUsersTableViewCell: UITableViewCell {
     
     let queue = SerialOperationQueue()
     
-    var user = InterestingUser()
-    
     var bubble = RoundShadowView()
+    
+    var user = InterestingUser() {
+        didSet {
+            commonInit()
+        }
+    }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -34,13 +38,15 @@ class InterestingUsersTableViewCell: UITableViewCell {
         
         // initializations
         contentView.backgroundColor = .clear
-        bubble.image = UIImage(named: "profilePicture")
+
         bubble.clipsToBounds = true
         bubble.backgroundColor = .red
         bubble.shadowOpacity = 0.1
         bubble.shadowOffset = CGSize(width: 0, height: 10)
         bubble.shadowRadius = 10
+        bubble.isUserInteractionEnabled = true
         
+        // Layout
         bubble.layoutSubviews()
     }
     
@@ -48,20 +54,30 @@ class InterestingUsersTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func addConstraint() {
+    private func commonInit() {
         
-        let maxX = Int(contentView.frame.width - contentView.frame.height*0.9 - 20)
+        bubble.image = user.photo
         
-        let x = Int.random(in: 20 ..< maxX)
+        if !user.known {
+            print("Unknown user nearby !")
+        }
+    }
+    
+    private func addConstraint() {
+        
+        let maxX = Int(contentView.frame.width - contentView.frame.height * 0.8 - 25)
+        
+        let x = Int.random(in: 25 ..< maxX)
         
         bubble.snp.makeConstraints { (make) -> Void in
-            make.height.width.equalTo(contentView.snp.height).multipliedBy(0.9)
+            make.height.width.equalTo(contentView.snp.height).multipliedBy(0.8)
             make.centerY.equalTo(contentView)
             make.left.equalTo(x)
         }
         contentView.layoutIfNeeded()
         bubble.layoutIfNeeded()
     }
+    
     
 }
 
