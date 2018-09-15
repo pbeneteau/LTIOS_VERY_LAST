@@ -32,7 +32,7 @@ class StorageService {
             //let size = metadata.size
             // You can also access to download URL after upload.
             photoRef.downloadURL { (url, error) in
-                guard let downloadURL = url else {
+                guard let _ = url else {
                     print("[Error] uploading user photo: \(String(describing: error?.localizedDescription))")
                     return
                 }

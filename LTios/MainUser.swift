@@ -18,6 +18,7 @@ class MainUser: GlobalUser {
     private var authHandle: AuthStateDidChangeListenerHandle?
     
     private var FIRUser = Auth.auth().currentUser!
+    var mail: String?
     var address: Address?
     var location: GeoPoint? {
         didSet {
@@ -51,10 +52,10 @@ class MainUser: GlobalUser {
                 DatabaseService.shared.makeUserOnline()
                 DatabaseService.shared.setOnDisconnectHandler()
                 self.getMainInformation(uid: user.uid)
+                self.mail = user.email ?? ""
             }
         }
     }
-    
     
     // init main user datas and start fetching location
     func getMainInformation(uid: String) {
@@ -74,7 +75,7 @@ class MainUser: GlobalUser {
     private func initMainInformation(document: DocumentSnapshot) {
         
         guard let data = document.data() else {
-            print("Missing user information during initialization.")
+            print("[Error] Missing user information during initialization.")
             return
         }
         
@@ -133,12 +134,10 @@ class MainUser: GlobalUser {
     
     func notifyDidUpdateLocation() {
         NotificationCenter.default.post(name: Notification.Name(rawValue:"didUpdateLocation"), object: nil, userInfo: nil)
-        print("Did update location.")
     }
     
     func notifyDidUpdateUserInformation() {
         NotificationCenter.default.post(name: Notification.Name(rawValue:"didUpdateUserInformation"), object: nil, userInfo: nil)
-        print("Did update user information.")
     }
 }
 

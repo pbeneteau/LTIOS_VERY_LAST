@@ -64,7 +64,7 @@ class MainViewController: ModalViewViewController {
         do {
             try reachability.startNotifier()
         } catch{
-            print("Could not start reachability notifier.")
+            print("[Error] Could not start reachability notifier.")
         }
     }
 }
@@ -79,7 +79,7 @@ extension MainViewController {
             
             InterestingUsers.shared.getInterestingUsers(nearbyUsers: nearbyUsers) { interestingUsers in
                 
-                guard let interestingUsers = interestingUsers else { print("Error while unwrapping nearby users"); return }
+                guard let interestingUsers = interestingUsers else { print("[Error] while unwrapping nearby users"); return }
                 self.addDataToTableView(newInterestingUsers: interestingUsers)
             }
         }
@@ -106,12 +106,10 @@ extension MainViewController {
     
     @objc func didRequestPrivacyChange(_ notification: NSNotification) {
         if isPrivate {
-            print("Removing to ghost mode ...")
             removeAlert()
             MenuInstance.privacyDidChange(ghost: false)
             isPrivate = false
         } else {
-            print("Switching to ghost mode ...")
             showAlert(alert: .privacy)
             MenuInstance.privacyDidChange(ghost: true)
             isPrivate = true
@@ -237,15 +235,12 @@ extension MainViewController {
         
         switch reachability.connection {
         case .wifi:
-            print("Reachable via WiFi")
             MenuInstance.reachabilityDidChange(reachable: true)
             removeAlert()
         case .cellular:
-            print("Reachable via Cellular")
             MenuInstance.reachabilityDidChange(reachable: true)
             removeAlert()
         case .none:
-            print("Network not reachable")
             MenuInstance.reachabilityDidChange(reachable: false)
             showAlert(alert: .reachability)
         }

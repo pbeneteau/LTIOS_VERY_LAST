@@ -59,7 +59,6 @@ class InterestingUsersTableViewCell: UITableViewCell {
         bubble.image = user.photo
         
         if !user.known {
-            print("Unknown user nearby !")
         }
     }
     

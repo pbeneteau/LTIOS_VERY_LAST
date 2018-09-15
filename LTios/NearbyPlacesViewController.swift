@@ -47,7 +47,7 @@ class NearbyPlacesViewController: ModalViewViewController {
     }
     
     func appendPlaceToNearbyPlaces(place: NearbyPlace) {
-        guard let distance = place.distance else { return }
+        let distance = place.distance
         nearbyPlaces.removeAll()
         
         nearbyPlaces.append([NearbyPlace]())
@@ -56,13 +56,13 @@ class NearbyPlacesViewController: ModalViewViewController {
         
         if distance <= 100 {
             nearbyPlaces[0].append(place)
-            nearbyPlaces[0] = nearbyPlaces[0].sorted(by: { $0.distance! < $1.distance! })
+            nearbyPlaces[0] = nearbyPlaces[0].sorted(by: { $0.distance < $1.distance })
         } else if distance > 100 && distance <= 1000 {
             nearbyPlaces[1].append(place)
-            nearbyPlaces[1] = nearbyPlaces[1].sorted(by: { $0.distance! < $1.distance! })
+            nearbyPlaces[1] = nearbyPlaces[1].sorted(by: { $0.distance < $1.distance })
         } else {
             nearbyPlaces[2].append(place)
-            nearbyPlaces[2] = nearbyPlaces[2].sorted(by: { $0.distance! < $1.distance! })
+            nearbyPlaces[2] = nearbyPlaces[2].sorted(by: { $0.distance < $1.distance })
         }
     }
     
@@ -71,7 +71,6 @@ class NearbyPlacesViewController: ModalViewViewController {
         
         let asyncOperation = AsyncOperation(numberOfSimultaneousActions: 20, dispatchQueueLabel: "fetchingNearbyPlacesInfo")
         asyncOperation.whenCompleteAll = {
-            print("Nearby Places fetched.")
             self.collectionView.reloadData()
             UIView.animate(views: self.collectionView.visibleCells, animations: self.animations, completion: {
             })
@@ -79,7 +78,7 @@ class NearbyPlacesViewController: ModalViewViewController {
         
         LocationService.shared.getCurrentGMSPlaceLikelihoodList { likelihoods in
             
-            guard let likelihoods = likelihoods else { print("Error while retrieving likelihoods"); return }
+            guard let likelihoods = likelihoods else { print("[Error] while retrieving likelihoods"); return }
             var i = 0
             
             for likelihood in likelihoods {
@@ -92,16 +91,18 @@ class NearbyPlacesViewController: ModalViewViewController {
                     LocationService.shared.loadFirstPhotoForPlace(placeID: place.placeID) { photo in
                         
                         guard let photo = photo else { completeClosure(); return }
-                        let type = place.types.first
                         
                         self.appendPlaceToNearbyPlaces(place:
-                            NearbyPlace(ID: "\(i)",
-                                name: place.name,
-                                status: Bool(truncating: Int(Float(place.openNowStatus.rawValue)) as NSNumber),
-                                coordinate: place.coordinate,
-                                description: place.formattedAddress ?? "",
-                                type: type ?? "",
-                                image: photo)
+                            
+                            NearbyPlace(ID: place.placeID,
+                                        name: place.name,
+                                        status: place.openNowStatus.rawValue,
+                                        description: place.description,
+                                        distance: 0,
+                                        category: place.types.first ?? "",
+                                        city: "", price: place.priceLevel.rawValue,
+                                        averageRating: place.rating,
+                                        image: photo)
                         )
                         completeClosure()
                     }
@@ -152,12 +153,11 @@ extension NearbyPlacesViewController: UICollectionViewDelegateFlowLayout, UIColl
                 if let operation = operation, operation.isCancelled { return }
                 
                 cell.publicNameLabel.text = self.nearbyPlaces[indexPath.section][indexPath.row].name
-                if let distance = self.nearbyPlaces[indexPath.section][indexPath.row].distance {
-                    cell.distanceLabel.text = "\(String(describing: distance))m"
-                } else {
-                    cell.distanceLabel.text = ""
-                }
-                cell.typeLabel.text = self.nearbyPlaces[indexPath.section][indexPath.row].type
+                
+                let distance = self.nearbyPlaces[indexPath.section][indexPath.row].distance
+                cell.distanceLabel.text = "\(String(describing: distance))m"
+               
+                cell.typeLabel.text = self.nearbyPlaces[indexPath.section][indexPath.row].category
                 cell.placeImageView.image = self.nearbyPlaces[indexPath.section][indexPath.row].image
                 cell.peopleLabel.text = "4"
                 

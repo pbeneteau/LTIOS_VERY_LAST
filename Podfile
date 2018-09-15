@@ -25,6 +25,10 @@ target 'LTios' do
   pod 'GoogleMaps'
   pod 'GooglePlaces'
   
+  # Snapchat/Bitmoji SDK
+  pod 'PINCache'
+  pod 'SnapSDK'
+  
   # Views
   pod 'Spring'
   pod 'ViewAnimator'

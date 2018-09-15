@@ -59,8 +59,6 @@ extension DatabaseService {
             return
         }
         
-        print("Start listening for nearby users ...")
-        
         nearbyUserListener = db.collection("countries")
             .document((mainUserInstance.address?.ISO)!)
             .collection("states")
@@ -73,13 +71,10 @@ extension DatabaseService {
                 }
                 
                 if usersCollection.count > 0 {
-                    print("\(usersCollection.count - 1) nearby users found")
                     self.fetchUsersProfile(usersCollection: usersCollection) { users in
                         guard let nearbyUsers = users else { print("[Error] unwrapping nearby users profile"); return }
                         self.notifyDidUpdateNearbyUsers(nearbyUsers: nearbyUsers) // Notify viewControllers
                     }
-                } else {
-                    print("No nearby users.")
                 }
         }
     }
@@ -91,8 +86,6 @@ extension DatabaseService {
     private func fetchUsersProfile(usersCollection: [QueryDocumentSnapshot], completion: @escaping([InterestingUser]?) -> Void) {
         
         if usersCollection.count != 0 {
-            
-            print("Fetching nearby users profile ...")
             
             var nearbyUsers = [InterestingUser]()
             let dispatchGroup = DispatchGroup()
@@ -172,8 +165,6 @@ extension DatabaseService {
         ]) { err in
             if let err = err {
                 print("[Error] uploading contacts: \(err.localizedDescription)")
-            } else {
-                print("Contacts uploaded successfuly.")
             }
         }
     }
@@ -192,8 +183,6 @@ extension DatabaseService {
         ]) { err in
             if let err = err {
                 print("Error creating user: \(err.localizedDescription).")
-            } else {
-                print("New user created successfuly.")
             }
         }
     }
@@ -209,6 +198,5 @@ extension DatabaseService {
     
     func notifyDidUpdateNearbyUsers(nearbyUsers: [InterestingUser]) {
         NotificationCenter.default.post(name: Notification.Name(rawValue:"didUpdateCloseUsers"), object: nil, userInfo: ["closeUsers" : nearbyUsers])
-        print("Did update nearby users.")
     }
 }

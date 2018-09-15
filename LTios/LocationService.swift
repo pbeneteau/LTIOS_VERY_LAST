@@ -55,21 +55,16 @@ class LocationService: NSObject, CLLocationManagerDelegate {
         let age = -location.timestamp.timeIntervalSinceNow
         
         if age > 10 {
-            print("Location is old.")
             return false
         }
         
         if location.horizontalAccuracy < 0 {
-            print("Latitude and longitude values are invalid.")
             return false
         }
         
         if location.horizontalAccuracy > horizontalAccuracy {
-            print("Accuracy is too low (\(location.horizontalAccuracy.rounded())).")
             return false
         }
-        
-        print("Location quality is good enough (\(location.horizontalAccuracy.rounded())).")
         
         locationManager.stopUpdatingLocation()
         
@@ -119,7 +114,7 @@ extension LocationService {
         
         placesClient?.currentPlace(callback: { (places, error) in
             if let error = error {
-                print("Pick Place error: \(error.localizedDescription)")
+                print("[Error] Pick Place \(error.localizedDescription)")
                 completion(nil)
                 return
             }
@@ -135,7 +130,7 @@ extension LocationService {
         GMSPlacesClient.shared().lookUpPhotos(forPlaceID: placeID) { (photos, error) -> Void in
             if let error = error {
                 // TODO: handle the error.
-                print("Error: \(error.localizedDescription)")
+                print("[Error] \(error.localizedDescription)")
                 completion(nil)
                 return
             } else {
@@ -154,7 +149,7 @@ extension LocationService {
             (photo, error) -> Void in
             if let error = error {
                 // TODO: handle the error.
-                print("Error: \(error.localizedDescription)")
+                print("[Error] \(error.localizedDescription)")
                 completion(nil)
             } else {
                 completion(photo)
@@ -189,7 +184,7 @@ extension LocationService {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("Failed to find user's location: \(error.localizedDescription)")
+        print("[Error] Failed to find user's location: \(error.localizedDescription)")
         showTurnOnLocationServiceAlert()
     }
     

@@ -64,9 +64,11 @@
 		384863A92122E70F004222DE /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384863A62122E70D004222DE /* LocationService.swift */; };
 		384863AA2122E70F004222DE /* ContactsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384863A72122E70E004222DE /* ContactsService.swift */; };
 		384863AC2122E832004222DE /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384863AB2122E832004222DE /* Utils.swift */; };
+		3861C049214D7155008670D9 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3861C048214D7155008670D9 /* Settings.swift */; };
 		386466281F85264D00C18D53 /* Labels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386466271F85264D00C18D53 /* Labels.swift */; };
 		3864662A1F85267D00C18D53 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386466291F85267D00C18D53 /* Fonts.swift */; };
 		3864662C1F8526B200C18D53 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3864662B1F8526B200C18D53 /* Colors.swift */; };
+		38700AE7214C2A8D000ACE44 /* BitmojiServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38700AE6214C2A8D000ACE44 /* BitmojiServices.swift */; };
 		38B8526E21233F9E002EBB18 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 38B8526D21233F9E002EBB18 /* GoogleService-Info.plist */; };
 		38B85270212340C1002EBB18 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38B8526F212340C1002EBB18 /* MapKit.framework */; };
 		38B8527621243A24002EBB18 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B8527521243A23002EBB18 /* UserProfileViewController.swift */; };
@@ -164,9 +166,11 @@
 		384863A62122E70D004222DE /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		384863A72122E70E004222DE /* ContactsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsService.swift; sourceTree = "<group>"; };
 		384863AB2122E832004222DE /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		3861C048214D7155008670D9 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		386466271F85264D00C18D53 /* Labels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Labels.swift; sourceTree = "<group>"; };
 		386466291F85267D00C18D53 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		3864662B1F8526B200C18D53 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		38700AE6214C2A8D000ACE44 /* BitmojiServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitmojiServices.swift; sourceTree = "<group>"; };
 		38B8526D21233F9E002EBB18 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		38B8526F212340C1002EBB18 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		38B8527521243A23002EBB18 /* UserProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
@@ -441,6 +445,7 @@
 				00FF14DD1FA7475D00D9F6FB /* Contact.swift */,
 				006BDCEB1F2F8A25006DEF17 /* NearbyPlace.swift */,
 				002D61551F24DB4E00C2768F /* Variables.swift */,
+				3861C048214D7155008670D9 /* Settings.swift */,
 				0029BA651F30A37F00C67810 /* Extension.swift */,
 				386466271F85264D00C18D53 /* Labels.swift */,
 				386466291F85267D00C18D53 /* Fonts.swift */,
@@ -475,6 +480,7 @@
 				384863A62122E70D004222DE /* LocationService.swift */,
 				384863A72122E70E004222DE /* ContactsService.swift */,
 				38FEA1BC212C8A7A00561CF4 /* StorageService.swift */,
+				38700AE6214C2A8D000ACE44 /* BitmojiServices.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -751,17 +757,25 @@
 				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/PINCache/PINCache.framework",
+				"${BUILT_PRODUCTS_DIR}/PINOperation/PINOperation.framework",
 				"${BUILT_PRODUCTS_DIR}/PhoneNumberKit/PhoneNumberKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/SCLAlertView/SCLAlertView.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${PODS_ROOT}/SnapSDK/SCSDKBitmojiKit.framework",
+				"${PODS_ROOT}/SnapSDK/SCSDKCoreKit.framework",
+				"${PODS_ROOT}/SnapSDK/SCSDKCreativeKit.framework",
+				"${PODS_ROOT}/SnapSDK/SCSDKLoginKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Spring/Spring.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftLocation/SwiftLocation.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/TextFieldEffects/TextFieldEffects.framework",
 				"${BUILT_PRODUCTS_DIR}/ViewAnimator/ViewAnimator.framework",
+				"${BUILT_PRODUCTS_DIR}/YYImage/YYImage.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-ProtoRPC/ProtoRPC.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-RxLibrary/RxLibrary.framework",
@@ -774,17 +788,25 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINCache.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINOperation.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PhoneNumberKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCLAlertView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCSDKBitmojiKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCSDKCreativeKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCSDKLoginKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Spring.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftLocation.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TextFieldEffects.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ViewAnimator.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProtoRPC.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxLibrary.framework",
@@ -857,6 +879,7 @@
 				38B8528321289019002EBB18 /* InterestingUsersTableView.swift in Sources */,
 				006BDCE21F2F89FE006DEF17 /* Registering.swift in Sources */,
 				006BDCEC1F2F8A25006DEF17 /* NearbyPlace.swift in Sources */,
+				3861C049214D7155008670D9 /* Settings.swift in Sources */,
 				38B8527A2124E8D8002EBB18 /* ModalViewViewController.swift in Sources */,
 				38FEA1BD212C8A7A00561CF4 /* StorageService.swift in Sources */,
 				384863A32122E6B7004222DE /* InterestingUsers.swift in Sources */,
@@ -890,6 +913,7 @@
 				38B8527821243AB7002EBB18 /* InteractiveViewController.swift in Sources */,
 				0029BA661F30A37F00C67810 /* Extension.swift in Sources */,
 				006BDCCB1F2F88A7006DEF17 /* SettingsViewController.swift in Sources */,
+				38700AE7214C2A8D000ACE44 /* BitmojiServices.swift in Sources */,
 				38B852852128935B002EBB18 /* InterestingUsersTableViewCell.swift in Sources */,
 				3864662A1F85267D00C18D53 /* Fonts.swift in Sources */,
 				004289411F4AE3B6007FD732 /* GlobalUser.swift in Sources */,
@@ -1048,7 +1072,7 @@
 				DEVELOPMENT_TEAM = D8J97J3MM9;
 				INFOPLIST_FILE = LTios/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.littleworld.littleworld;
+				PRODUCT_BUNDLE_IDENTIFIER = com.littleworld.tastyapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
@@ -1069,7 +1093,7 @@
 				DEVELOPMENT_TEAM = D8J97J3MM9;
 				INFOPLIST_FILE = LTios/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.littleworld.littleworld;
+				PRODUCT_BUNDLE_IDENTIFIER = com.littleworld.tastyapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;

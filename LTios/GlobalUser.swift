@@ -30,7 +30,7 @@ class GlobalUser {
     init(document: DocumentSnapshot) {
         
         guard let data = document.data() else {
-            print("Missing user information during initialization.")
+            print("[Error] Missing user information during initialization.")
             return
         }
         

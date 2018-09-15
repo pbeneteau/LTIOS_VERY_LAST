@@ -15,3 +15,4 @@ let countriesName = ["a": ["Algeria", "Argentina", "Australia", "Austria"], "b":
 let countriesCode = ["a": ["DZ", "AR", "AU", "AT"], "b": ["BS", "BE", "BR"], "c": ["CA", "CN", "CO", "HR"], "d": ["DK"], "e": ["EG"], "f": ["FI", "FR"], "g": ["GE", "GR"], "h": ["HK"], "i": ["IN", "IE", "IT"], "j": ["JM", "JP"], "k": ["KR"], "m": ["MX", "MA"], "n": ["NO"], "p": ["PL", "PT"], "q": ["QA"], "r": ["RO", "RU"], "s": ["SA", "SG", "ZA", "ES", "SE", "CH"], "t": ["TW", "TH", "TN"], "u": ["AE", "US"], "v": ["VN"]]
 
 var selectedCountry: String = "FR"
+

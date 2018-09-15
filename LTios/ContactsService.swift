@@ -70,7 +70,7 @@ class ContactsService {
             return phoneNumberKit.format(parsedPhoneNumber, toType: .international)
         }
         catch {
-            print("Generic parser error for phone number: \(phoneNumber.stringValue)")
+            print("[Error] Generic parser for phone number: \(phoneNumber.stringValue)")
             return nil
         }
         
@@ -96,7 +96,7 @@ class ContactsService {
 
     func getCommonFriends(userContacts: [String:String]) -> [String:String]? {
         
-        guard let contacts = mainUserInstance.contacts else { print("Main user contacts not initialized"); return nil }
+        guard let contacts = mainUserInstance.contacts else { print("[Error] Main user contacts not initialized"); return nil }
         
         let commonElements: Array = Set(contacts.keys).filter(Set(userContacts.keys).contains)
         var commonFriends = [String:String]()

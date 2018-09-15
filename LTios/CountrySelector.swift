@@ -19,7 +19,6 @@ class CountryTableViewCell: UITableViewCell {
   
   var didSetupConstraints = false
   
-  
   let countryLabel = UILabel()
   let countryFlag = UIImageView()
   let check = UIImageView(image: #imageLiteral(resourceName: "check"))

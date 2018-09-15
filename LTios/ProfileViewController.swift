@@ -8,12 +8,11 @@
 
 import UIKit
 import FirebaseAuth
+import SCSDKLoginKit
 
 class ProfileViewController: ModalViewViewController {
     
     private var containerView = UIView()
-    
-    private var logoutButton = UIButton()
     
     private var settingsButton = UIButton()
     
@@ -40,26 +39,15 @@ class ProfileViewController: ModalViewViewController {
         profilePictureView.image = UIImage(named: "profilePicture")
         profilePictureView.contentMode = .scaleAspectFill
         
-        let ic_settings = UIImage(named: "ic_settings")
-        let tintedImage = ic_settings?.withRenderingMode(.alwaysTemplate)
-        settingsButton.setBackgroundImage(tintedImage, for: .normal)
-        settingsButton.tintColor = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
+        settingsButton.setBackgroundImage(UIImage(named: "settings"), for: .normal)
+        settingsButton.addTarget(self, action: #selector(didTapSettingsButton), for: .touchUpInside)
         containerView.addSubview(settingsButton)
         
-        let ic_settings2 = UIImage(named: "ic_logout")
-        let tintedImage2 = ic_settings2?.withRenderingMode(.alwaysTemplate)
-        logoutButton.setBackgroundImage(tintedImage2, for: .normal)
-        logoutButton.tintColor = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
-        logoutButton.addTarget(self, action: #selector(didTapLogOutButton), for: .touchUpInside)
-        containerView.addSubview(logoutButton)
-        
-        usernameLabel.text = ""
         usernameLabel.font = UIFont.boldSystemFont(ofSize: 25)
         usernameLabel.textColor = UIColor(red:0.00, green:0.05, blue:0.25, alpha:1.0)
         usernameLabel.textAlignment = .center
         containerView.addSubview(usernameLabel)
         
-        badgeLabel.text = ""
         badgeLabel.font = UIFont.boldSystemFont(ofSize: 15)
         badgeLabel.textColor = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
         badgeLabel.textAlignment = .center
@@ -81,9 +69,43 @@ class ProfileViewController: ModalViewViewController {
         containerView.addSubview(contactsBox)
         
         addNotificationsObserver()
+        
+    }
+    
+    func handleSnapchatLogin() {
+        
+        if  !SCSDKLoginClient.isUserLoggedIn {
+            
+            SCSDKLoginClient.login(from: self, completion: { success, error in
+                
+                if let error = error {
+                    print(error.localizedDescription)
+                    return
+                }
+                if success {
+                    BitmojiServices.shared.fetchAvatarURL { url in
+                        print(url!)
+                    }
+                }
+            })
+        } else {
+            BitmojiServices.shared.fetchAvatarURL { url in
+                print(url!)
+            }
+        }
+    }
+    
+    @objc func didTapSettingsButton() {
+        
+        let controller: SettingsViewController = SettingsViewController()
+
+        prepareSettingsSegue { end in
+            self.segueToSettingsVC(controller: controller)
+        }
     }
     
     @objc func didTapLogOutButton() {
+        
         do { try Auth.auth().signOut() }
         catch let error {
             print("[Error] while signing out: \(error.localizedDescription)")
@@ -103,6 +125,43 @@ class ProfileViewController: ModalViewViewController {
         } else {
             self.profilePictureView.image = mainUserInstance.photo
         }
+    }
+    
+}
+
+// MARK: Norifications Observer
+extension ProfileViewController {
+    
+    func addNotificationsObserver() {
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.didUpdateUserProfile), name: Notification.Name(rawValue:"didUpdateUserInformation"), object: nil)
+    }
+}
+
+// MARK: Animations
+extension ProfileViewController {
+    
+    
+    func prepareSettingsSegue(completion: @escaping(Bool) -> Void) {
+        
+        profilePictureView.snp.remakeConstraints { (make) -> Void in
+            make.height.width.equalTo(95)
+            make.left.equalTo(25)
+            make.top.equalTo(25)
+        }
+        
+        UIView.animate(withDuration: TimeInterval(0.5), animations: {
+            self.view.layoutIfNeeded()
+            
+            self.usernameLabel.alpha = 0
+            self.badgeLabel.alpha = 0
+            self.lineView.alpha = 0
+            self.block1.alpha = 0
+            self.contactsBox.alpha = 0
+            
+        }, completion: { end in
+            completion(true)
+        })
     }
     
 }
@@ -128,15 +187,9 @@ extension ProfileViewController {
             make.centerX.equalTo(view)
             make.bottom.equalTo(view)
         }
-        logoutButton.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(22)
-            make.height.equalTo(25)
-            make.left.equalTo(containerView).offset(20)
-            make.top.equalTo(containerView).inset(20)
-        }
         settingsButton.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(27)
-            make.height.equalTo(27)
+            make.width.equalTo(33)
+            make.height.equalTo(9)
             make.right.equalTo(containerView).inset(20)
             make.top.equalTo(containerView).inset(20)
         }
@@ -181,11 +234,17 @@ extension ProfileViewController {
     }
 }
 
-// MARK: Norifications Observer
+// MARK: Segues
 extension ProfileViewController {
     
-    func addNotificationsObserver() {
+    func segueToSettingsVC(controller: SettingsViewController) {
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.didUpdateUserProfile), name: Notification.Name(rawValue:"didUpdateUserInformation"), object: nil)
+        controller.view.frame = self.containerView.bounds
+        controller.view.backgroundColor = .clear
+        
+        controller.willMove(toParentViewController: self)
+        self.containerView.addSubview(controller.view)
+        self.addChildViewController(controller)
+        controller.didMove(toParentViewController: self)
     }
 }
