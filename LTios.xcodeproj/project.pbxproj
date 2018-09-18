@@ -64,11 +64,15 @@
 		384863A92122E70F004222DE /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384863A62122E70D004222DE /* LocationService.swift */; };
 		384863AA2122E70F004222DE /* ContactsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384863A72122E70E004222DE /* ContactsService.swift */; };
 		384863AC2122E832004222DE /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384863AB2122E832004222DE /* Utils.swift */; };
-		3861C049214D7155008670D9 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3861C048214D7155008670D9 /* Settings.swift */; };
+		38523EA6214DB7BC0078B0A1 /* SettingsUITableViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38523EA5214DB7BC0078B0A1 /* SettingsUITableViewHeader.xib */; };
+		38523EA8214DB94F0078B0A1 /* SettingsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38523EA7214DB94F0078B0A1 /* SettingsHeaderView.swift */; };
+		38523EAB214DBB530078B0A1 /* SettingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38523EAA214DBB530078B0A1 /* SettingsCell.xib */; };
+		38523EAD214DBC390078B0A1 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38523EAC214DBC390078B0A1 /* SettingsCell.swift */; };
 		386466281F85264D00C18D53 /* Labels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386466271F85264D00C18D53 /* Labels.swift */; };
 		3864662A1F85267D00C18D53 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386466291F85267D00C18D53 /* Fonts.swift */; };
 		3864662C1F8526B200C18D53 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3864662B1F8526B200C18D53 /* Colors.swift */; };
 		38700AE7214C2A8D000ACE44 /* BitmojiServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38700AE6214C2A8D000ACE44 /* BitmojiServices.swift */; };
+		387A20B321501CD800B50AF4 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387A20B221501CD800B50AF4 /* SettingsModel.swift */; };
 		38B8526E21233F9E002EBB18 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 38B8526D21233F9E002EBB18 /* GoogleService-Info.plist */; };
 		38B85270212340C1002EBB18 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38B8526F212340C1002EBB18 /* MapKit.framework */; };
 		38B8527621243A24002EBB18 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B8527521243A23002EBB18 /* UserProfileViewController.swift */; };
@@ -166,11 +170,15 @@
 		384863A62122E70D004222DE /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		384863A72122E70E004222DE /* ContactsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsService.swift; sourceTree = "<group>"; };
 		384863AB2122E832004222DE /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
-		3861C048214D7155008670D9 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		38523EA5214DB7BC0078B0A1 /* SettingsUITableViewHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsUITableViewHeader.xib; sourceTree = "<group>"; };
+		38523EA7214DB94F0078B0A1 /* SettingsHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsHeaderView.swift; sourceTree = "<group>"; };
+		38523EAA214DBB530078B0A1 /* SettingsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsCell.xib; sourceTree = "<group>"; };
+		38523EAC214DBC390078B0A1 /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		386466271F85264D00C18D53 /* Labels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Labels.swift; sourceTree = "<group>"; };
 		386466291F85267D00C18D53 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		3864662B1F8526B200C18D53 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		38700AE6214C2A8D000ACE44 /* BitmojiServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitmojiServices.swift; sourceTree = "<group>"; };
+		387A20B221501CD800B50AF4 /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 		38B8526D21233F9E002EBB18 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		38B8526F212340C1002EBB18 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		38B8527521243A23002EBB18 /* UserProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
@@ -352,6 +360,7 @@
 			isa = PBXGroup;
 			children = (
 				006BDCE71F2F8A0F006DEF17 /* Profile.swift */,
+				38523EA9214DB9940078B0A1 /* Settings */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -409,7 +418,6 @@
 			isa = PBXGroup;
 			children = (
 				004288F41F33B591007FD732 /* MenuViewController.swift */,
-				006BDD0B1F2F9613006DEF17 /* CountryViewController.swift */,
 				38B8527B21258E70002EBB18 /* Start */,
 				000328861F2F86E1003F81F7 /* Main */,
 				0003288A1F2F870F003F81F7 /* Profile */,
@@ -445,7 +453,6 @@
 				00FF14DD1FA7475D00D9F6FB /* Contact.swift */,
 				006BDCEB1F2F8A25006DEF17 /* NearbyPlace.swift */,
 				002D61551F24DB4E00C2768F /* Variables.swift */,
-				3861C048214D7155008670D9 /* Settings.swift */,
 				0029BA651F30A37F00C67810 /* Extension.swift */,
 				386466271F85264D00C18D53 /* Labels.swift */,
 				386466291F85267D00C18D53 /* Fonts.swift */,
@@ -485,9 +492,38 @@
 			name = Services;
 			sourceTree = "<group>";
 		};
+		38523EA9214DB9940078B0A1 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				387A20B421501D0000B50AF4 /* ViewModel */,
+				387A20B521501D2000B50AF4 /* Cells */,
+				38523EA5214DB7BC0078B0A1 /* SettingsUITableViewHeader.xib */,
+				38523EA7214DB94F0078B0A1 /* SettingsHeaderView.swift */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		387A20B421501D0000B50AF4 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				387A20B221501CD800B50AF4 /* SettingsModel.swift */,
+			);
+			name = ViewModel;
+			sourceTree = "<group>";
+		};
+		387A20B521501D2000B50AF4 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				38523EAA214DBB530078B0A1 /* SettingsCell.xib */,
+				38523EAC214DBC390078B0A1 /* SettingsCell.swift */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
 		38B8527B21258E70002EBB18 /* Start */ = {
 			isa = PBXGroup;
 			children = (
+				006BDD0B1F2F9613006DEF17 /* CountryViewController.swift */,
 				0007E4DC1F1FECD700EBA50C /* StartViewController.swift */,
 				000328841F2F86D0003F81F7 /* Registering */,
 				000328851F2F86DA003F81F7 /* Login */,
@@ -676,6 +712,7 @@
 			files = (
 				006BDD0A1F2F8E8B006DEF17 /* Assets.xcassets in Resources */,
 				006BDD051F2F8E34006DEF17 /* Roboto-Medium.ttf in Resources */,
+				38523EAB214DBB530078B0A1 /* SettingsCell.xib in Resources */,
 				006BDD011F2F8E34006DEF17 /* Roboto-BoldItalic.ttf in Resources */,
 				006BDD001F2F8E34006DEF17 /* Roboto-Bold.ttf in Resources */,
 				006BDD021F2F8E34006DEF17 /* Roboto-Italic.ttf in Resources */,
@@ -684,6 +721,7 @@
 				006BDCFE1F2F8E34006DEF17 /* Roboto-Black.ttf in Resources */,
 				006BDD031F2F8E34006DEF17 /* Roboto-Light.ttf in Resources */,
 				006BDD091F2F8E34006DEF17 /* Roboto-ThinItalic.ttf in Resources */,
+				38523EA6214DB7BC0078B0A1 /* SettingsUITableViewHeader.xib in Resources */,
 				006BDD061F2F8E34006DEF17 /* Roboto-MediumItalic.ttf in Resources */,
 				006BDD081F2F8E34006DEF17 /* Roboto-Thin.ttf in Resources */,
 				006BDCFF1F2F8E34006DEF17 /* Roboto-BlackItalic.ttf in Resources */,
@@ -879,12 +917,12 @@
 				38B8528321289019002EBB18 /* InterestingUsersTableView.swift in Sources */,
 				006BDCE21F2F89FE006DEF17 /* Registering.swift in Sources */,
 				006BDCEC1F2F8A25006DEF17 /* NearbyPlace.swift in Sources */,
-				3861C049214D7155008670D9 /* Settings.swift in Sources */,
 				38B8527A2124E8D8002EBB18 /* ModalViewViewController.swift in Sources */,
 				38FEA1BD212C8A7A00561CF4 /* StorageService.swift in Sources */,
 				384863A32122E6B7004222DE /* InterestingUsers.swift in Sources */,
 				00FF14DE1FA7475D00D9F6FB /* Contact.swift in Sources */,
 				006BDCC31F2F8845006DEF17 /* RegisterationFormViewController.swift in Sources */,
+				38523EA8214DB94F0078B0A1 /* SettingsHeaderView.swift in Sources */,
 				006BDCD91F2F8961006DEF17 /* ContactProfileViewController.swift in Sources */,
 				38343E701F8B9DE400F4909E /* NearbyPlacesHeaderCollectionReusableView.swift in Sources */,
 				00EBDEA01F2159A100676E70 /* MainUser.swift in Sources */,
@@ -905,7 +943,9 @@
 				0003288C1F2F874F003F81F7 /* PhoneVerificationViewController.swift in Sources */,
 				006BDCE61F2F8A09006DEF17 /* Scanning.swift in Sources */,
 				0007E4DB1F1FECD700EBA50C /* AppDelegate.swift in Sources */,
+				387A20B321501CD800B50AF4 /* SettingsModel.swift in Sources */,
 				006BDCC51F2F8863006DEF17 /* FirstContactImportViewController.swift in Sources */,
+				38523EAD214DBC390078B0A1 /* SettingsCell.swift in Sources */,
 				0007E4E31F1FECD700EBA50C /* LTios.xcdatamodeld in Sources */,
 				386466281F85264D00C18D53 /* Labels.swift in Sources */,
 				3864662C1F8526B200C18D53 /* Colors.swift in Sources */,

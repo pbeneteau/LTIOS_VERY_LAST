@@ -14,7 +14,7 @@ class InterestingUsersTableViewCell: UITableViewCell {
     
     let queue = SerialOperationQueue()
     
-    var bubble = RoundShadowView()
+    var bubble = RoundShadowImageView()
     
     var user = InterestingUser() {
         didSet {

@@ -173,7 +173,7 @@ extension MainViewController {
     
     @objc func didTouchBubble(_ gesture: UITapGestureRecognizer) {
                 
-        if let bubble = gesture.view as? RoundShadowView {
+        if let bubble = gesture.view as? RoundShadowImageView {
             let tag = bubble.tag
             
             //bubble.didTap()

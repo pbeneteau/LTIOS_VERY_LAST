@@ -179,7 +179,10 @@ extension DatabaseService {
                 "lastName": lastname
             ],
             "publicName": "Drope",
-            "pushID": uid
+            "pushID": uid,
+            "settings": [0: [0: false, 1: false, 2: false],
+                         1: [0: false, 1: false],
+                         2: [0: false]]
         ]) { err in
             if let err = err {
                 print("Error creating user: \(err.localizedDescription).")
@@ -187,8 +190,20 @@ extension DatabaseService {
         }
     }
     
-    func onDisconnectHandler() {
+    func updateOnOffSettings(section: Int, row: Int, state: Bool, completion: @escaping(Bool) -> Void) {
         
+        let ref = self.db.document("users/\(String(describing: mainUserInstance.uid!))")
+        
+        ref.updateData([
+            "settings.\(section).\(row)" : state
+        ]) { err in
+            if let err = err {
+                print("[Error] updating notifications settings: \(err.localizedDescription)")
+                completion(false)
+            } else {
+                completion(true)
+            }
+        }
     }
     
 }

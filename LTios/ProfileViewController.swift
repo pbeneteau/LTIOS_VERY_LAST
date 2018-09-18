@@ -242,9 +242,7 @@ extension ProfileViewController {
         controller.view.frame = self.containerView.bounds
         controller.view.backgroundColor = .clear
         
-        controller.willMove(toParentViewController: self)
-        self.containerView.addSubview(controller.view)
         self.addChildViewController(controller)
-        controller.didMove(toParentViewController: self)
+        self.containerView.addSubview(controller.view)
     }
 }

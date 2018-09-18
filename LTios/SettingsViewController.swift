@@ -17,7 +17,7 @@ class SettingsViewController: ModalViewViewController {
     
     private var tableView = UITableView()
     
-    private var settings = [[Settings]]()
+    internal var settingsModel = SettingsModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,13 +33,18 @@ class SettingsViewController: ModalViewViewController {
         email.textColor = .gray
         email.textAlignment = .left
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView = UITableView(frame: CGRect.zero, style: .grouped)
+        tableView.sectionHeaderHeight = 70
         tableView.allowsMultipleSelection = false
         tableView.alwaysBounceVertical = true
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
         tableView.delegate = self
         tableView.dataSource = self
+        let cellNib = UINib(nibName: "SettingsCell", bundle: nil)
+        tableView.register(cellNib, forCellReuseIdentifier: "Cell")
+        let headerNib = UINib(nibName: "SettingsUITableViewHeader", bundle: nil)
+        tableView.register(headerNib, forHeaderFooterViewReuseIdentifier: "SettingsUITableViewHeader")
         
         profilePictureView.alpha = 0
         publicName.alpha = 0
@@ -47,8 +52,6 @@ class SettingsViewController: ModalViewViewController {
         tableView.alpha = 0
         
         initData()
-        
-        tableView.reloadData()
         
         view.addSubview(profilePictureView)
         view.addSubview(publicName)
@@ -75,53 +78,73 @@ class SettingsViewController: ModalViewViewController {
         publicName.text = mainUserInstance.publicName
         email.text = mainUserInstance.mail
         
-        let sections = ["Notifications", "Social", "Privacy"]
+        let userSettings = [0: [0: true, 1: false, 2: false],
+                            1: [0: true, 1: true],
+                            2: [0: false]]
         
-        for i in 0..<3 {
-            
-            settings.append([Settings]())
-            
-            for j in 0..<4 {
-             
-                settings[i].append(Settings(sectionName: sections[i], name: "Push Notifications \(j)", type: .onOff))
-            }
-        }
+        settingsModel = SettingsModel(userSettings: userSettings)
+        
+        tableView.reloadData()
     }
     
 }
 
-// MARK: Table View Delegate
-extension SettingsViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Section: \(settings[indexPath.section][indexPath.row].sectionName)")
-        print("Row: \(settings[indexPath.section][indexPath.row].name)")
-    }
-    
-    
-}
-
-// MARK: Table View Datasource
-extension SettingsViewController: UITableViewDataSource {
+// MARK: Table View Delegate & Datasource
+extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return settings.count
+        return settingsModel.getTotalSections()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return settings[section].count
+        return settingsModel.getTotalRows(section: section)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt: IndexPath) -> CGFloat {
+        return 90
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    
+        let cell: SettingsCell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! SettingsCell
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath as IndexPath)
-        cell.textLabel!.text = "\(settings[indexPath.section][indexPath.row].name)"
+        let section = indexPath.section
+        let row = indexPath.row
+        
+        cell.titleLabel.text = settingsModel.getName(section: section, row: row)
+        cell.descriptionLabel.text = settingsModel.getDescription(section: section, row: row)
+        cell.switchButton.isOn = settingsModel.getState(section: section, row: row)
+        cell.type = settingsModel.getType(section: section, row: row)
+        cell.section = section
+        cell.row = row
+        
+        if (row == 0) {
+            cell.containerView.position = .first
+        } else if (row == settingsModel.getTotalRows(section: section) - 1) {
+            cell.containerView.position = .last
+        } else {
+            cell.containerView.position = .middle
+        }
+        
+        cell.selectionStyle = .none
         
         return cell
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return settings[section][0].sectionName
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        
+        let headerView: SettingsHeaderView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "SettingsUITableViewHeader") as! SettingsHeaderView
+        
+        headerView.titleLabel.text = settingsModel.getSectionName(section: section)
+        
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if (indexPath.section == 2 && indexPath.row == 0) { // Snapchat
+            print("Snapchat cell touched") // -> Segue
+        }
     }
     
 }
