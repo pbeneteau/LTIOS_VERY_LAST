@@ -36,6 +36,7 @@ class SettingsCell: UITableViewCell {
         super.layoutSubviews()
         
         clipsToBounds = true
+        
         descriptionLabel.sizeToFit()
         
         if type == .onOff {
@@ -66,6 +67,8 @@ class SettingsCellContainerView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
+        clipsToBounds = false
         
         if shadowLayer == nil {
             

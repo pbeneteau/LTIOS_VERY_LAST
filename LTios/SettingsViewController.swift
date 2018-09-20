@@ -15,12 +15,15 @@ class SettingsViewController: ModalViewViewController {
     private let publicName = UILabel()
     private let email = UILabel()
     
-    private var tableView = UITableView()
+    private var tableView = SettingsTableView()
     
     internal var settingsModel = SettingsModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.delegate = self
+        tableView.dataSource = self
         
         profilePictureView.image = UIImage(named: "profilePicture")
         profilePictureView.contentMode = .scaleAspectFill
@@ -32,19 +35,6 @@ class SettingsViewController: ModalViewViewController {
         email.font = UIFont(name: "Roboto-Regular", size: 18)
         email.textColor = .gray
         email.textAlignment = .left
-        
-        tableView = UITableView(frame: CGRect.zero, style: .grouped)
-        tableView.sectionHeaderHeight = 70
-        tableView.allowsMultipleSelection = false
-        tableView.alwaysBounceVertical = true
-        tableView.backgroundColor = .clear
-        tableView.separatorStyle = .none
-        tableView.delegate = self
-        tableView.dataSource = self
-        let cellNib = UINib(nibName: "SettingsCell", bundle: nil)
-        tableView.register(cellNib, forCellReuseIdentifier: "Cell")
-        let headerNib = UINib(nibName: "SettingsUITableViewHeader", bundle: nil)
-        tableView.register(headerNib, forHeaderFooterViewReuseIdentifier: "SettingsUITableViewHeader")
         
         profilePictureView.alpha = 0
         publicName.alpha = 0
@@ -105,8 +95,8 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    
-        let cell: SettingsCell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! SettingsCell
+        
+        let cell: SettingsCell = tableView.dequeueReusableCell(withIdentifier: "SettingsCell", for: indexPath) as! SettingsCell
         
         let section = indexPath.section
         let row = indexPath.row
@@ -131,13 +121,19 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 80
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        let headerView: SettingsHeaderView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "SettingsUITableViewHeader") as! SettingsHeaderView
+        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "SettingsHeader") as? SettingsHeaderView else {
+            return nil
+        }
         
-        headerView.titleLabel.text = settingsModel.getSectionName(section: section)
+        header.titleLabel.text = settingsModel.getSectionName(section: section)
         
-        return headerView
+        return header
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -186,3 +182,4 @@ extension SettingsViewController {
     }
     
 }
+

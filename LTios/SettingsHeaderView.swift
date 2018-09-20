@@ -12,14 +12,15 @@ class SettingsHeaderView: UITableViewHeaderFooterView {
     
     @IBOutlet weak var titleLabel: UILabel!
     
+    override public init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
+        
+        autoresizingMask = []
+        
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
- 
     
 }
