@@ -98,6 +98,8 @@ extension MainViewController {
         
             InterestingUsers.shared.getInterestingUsers(nearbyUsers: nearbyUsers) { interestingUsers in
                 
+                print(nearbyUsers)
+                
                 guard let interestingUsers = interestingUsers else { print("[Error] while unwrapping nearby users"); return }
                 print(interestingUsers)
                 self.addDataToTableView(newInterestingUsers: interestingUsers)
