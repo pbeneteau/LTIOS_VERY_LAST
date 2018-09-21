@@ -64,9 +64,11 @@ class InterestingUsers {
     func getInterestingUsers(nearbyUsers: [InterestingUser], completion: @escaping([InterestingUser]?) -> Void) {
         
         if nearbyUsers.count <= 0 { completion(nil); return }
+        
         var interestingUsers = [InterestingUser]()
         guard let latitude = mainUserInstance.location?.latitude,
             let longitude = mainUserInstance.location?.longitude else { print("[Error] Main user location not set."); return }
+        
         let mainUserLocation = CLLocation(latitude: latitude, longitude: longitude)
         
         for user in nearbyUsers {
