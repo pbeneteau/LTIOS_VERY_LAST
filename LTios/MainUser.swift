@@ -25,6 +25,7 @@ class MainUser: GlobalUser {
             notifyDidUpdateLocation()
         }
     }
+    
     var place: CLPlacemark? {
         willSet(newPlace) {
             guard let newLocation = newPlace?.location, let lastLocation = self.place?.location else { return }
@@ -36,16 +37,18 @@ class MainUser: GlobalUser {
             updateUserLocation(place: place!)
         }
     }
+    
     override var photo: UIImage? {
         didSet {
             uploadPhoto()
         }
     }
+    
     override init() {
         super.init()
         
         authHandle = Auth.auth().addStateDidChangeListener() { (auth, user) in
-            print(auth)
+
             if let user = user {
                 print("User logged in: \(user.uid)")
                 self.uid = user.uid

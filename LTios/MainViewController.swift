@@ -15,7 +15,9 @@ class MainViewController: ModalViewViewController {
     
     private var didSetupConstraints = false
     
-    private var interestingUsers = [InterestingUser]()
+    private var NearbyInterestingUsers = [InterestingUser]()
+    private var bluetoothInterestingUsers = [InterestingUser]()
+    
     private var locator = LocationService.shared
     private var reachability = Reachability()!
     private var isPrivate = false
@@ -29,6 +31,8 @@ class MainViewController: ModalViewViewController {
     private var errorLabel = errorLabelLabel()
     
     private var tableView = InterestingUsersTableView()
+    
+    private var bluetoothSession: BluetoothServices!
     
     enum Alert {
         case reachability
@@ -73,10 +77,25 @@ class MainViewController: ModalViewViewController {
 // MARK: Data Management
 extension MainViewController {
     
-    @objc func didUpdateNearbyUsers(_ notification: NSNotification) {
+    @objc func didUpdateUserProfile(_ notification: NSNotification) {
+        
+        print("Scanning nearby bluetooth devices ...")
+        // Start nearby bluetooth devices scan
+        bluetoothSession = BluetoothServices()
+        bluetoothSession.updateAdvertisingData()
+    }
+    
+    @objc func didFoundNearbyBluetoothUsers(_ notification: NSNotification) {
+        
+        if let userInfo = notification.userInfo {
+            print(userInfo)
+        }
+    }
+    
+    @objc func didFoundNearbyUsers(_ notification: NSNotification) {
         
         if let userInfo = notification.userInfo, let nearbyUsers = userInfo["closeUsers"] as? [InterestingUser] {
-            
+        
             InterestingUsers.shared.getInterestingUsers(nearbyUsers: nearbyUsers) { interestingUsers in
                 
                 guard let interestingUsers = interestingUsers else { print("[Error] while unwrapping nearby users"); return }
@@ -90,21 +109,23 @@ extension MainViewController {
         MenuInstance.stopLoadingAnimation()
         
         if newInterestingUsers.count > 0 {
-            self.interestingUsers = newInterestingUsers
-            self.interestingPeopleNumbersLabel.text = "\(interestingUsers.count) interesting people found close to you"
+            self.NearbyInterestingUsers = newInterestingUsers
+            self.interestingPeopleNumbersLabel.text = "\(NearbyInterestingUsers.count) interesting people found close to you"
             self.tableView.reloadData()
         } else {
             self.interestingPeopleNumbersLabel.text = "Arf... We haven't found anyone around you"
-            self.interestingUsers.removeAll()
+            self.NearbyInterestingUsers.removeAll()
         }
     }
     
     @objc func didUpdateLocation(_ notification: NSNotification) {
+        
         MenuInstance.updatePlaceName(name: mainUserInstance.place?.name ?? "")
         DatabaseService.shared.listenForNearbyUsers()
     }
     
     @objc func didRequestPrivacyChange(_ notification: NSNotification) {
+        
         if isPrivate {
             removeAlert()
             MenuInstance.privacyDidChange(ghost: false)
@@ -121,7 +142,7 @@ extension MainViewController {
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return interestingUsers.count
+        return NearbyInterestingUsers.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -131,10 +152,10 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt: IndexPath) -> CGFloat {
-        if interestingUsers[heightForRowAt.row].friendsInCommonNb > 3 {
+        if NearbyInterestingUsers[heightForRowAt.row].friendsInCommonNb > 3 {
             return CGFloat(self.tableView.frame.width * (3/8))
         }
-        return CGFloat(self.tableView.frame.width) * CGFloat(interestingUsers[heightForRowAt.row].friendsInCommonNb/8)
+        return CGFloat(self.tableView.frame.width) * CGFloat(NearbyInterestingUsers[heightForRowAt.row].friendsInCommonNb/8)
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -161,7 +182,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
                 let tap = UITapGestureRecognizer(target: self, action: #selector(self.didTouchBubble(_:)))
                 cell.bubble.addGestureRecognizer(tap)
                 
-                cell.user = self.interestingUsers[indexPath.row]
+                cell.user = self.NearbyInterestingUsers[indexPath.row]
             })
         }
         cell.queue.addOperation(operation)
@@ -178,16 +199,16 @@ extension MainViewController {
             
             //bubble.didTap()
             
-            print("Selected: \(String(describing: interestingUsers[tag].fullName!)) (\(tag))")
+            print("Selected: \(String(describing: NearbyInterestingUsers[tag].fullName!)) (\(tag))")
             
             let vc = UserProfileViewController()
             
             vc.allowedDismissDirection = dismissDirection(rawValue: 0)!
             vc.directionLock = true
             vc.maskType = InteractiveMaskType(rawValue: UInt(0))!
-            vc.userNameLabel.text = interestingUsers[tag].fullName
-            vc.userTitle.text = interestingUsers[tag].publicName
-            vc.profilePictureView.image = interestingUsers[tag].photo
+            vc.userNameLabel.text = NearbyInterestingUsers[tag].fullName
+            vc.userTitle.text = NearbyInterestingUsers[tag].publicName
+            vc.profilePictureView.image = NearbyInterestingUsers[tag].photo
             vc.showInteractive()
         }
     }
@@ -198,13 +219,20 @@ extension MainViewController {
     
     func addNotificationsObserver() {
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.didUpdateUserProfile), name: Notification.Name(rawValue:"didUpdateUserInformation"), object: nil)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.didUpdateLocation(_:)), name: Notification.Name(rawValue:"didUpdateLocation"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.showTurnOnLocationServiceAlert(_:)), name: Notification.Name(rawValue:"showTurnOnLocationServiceAlert"), object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.didUpdateNearbyUsers(_:)), name: Notification.Name(rawValue:"didUpdateCloseUsers"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.didFoundNearbyUsers(_:)), name: Notification.Name(rawValue:"didFoundNearbyUsers"), object: nil)
+        
+           NotificationCenter.default.addObserver(self, selector: #selector(self.didFoundNearbyBluetoothUsers(_:)), name: Notification.Name(rawValue:"didFoundNearbyBluetoothUsers"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.didRequestPrivacyChange(_:)), name: Notification.Name(rawValue:"didRequestPrivacyChange"), object: nil)
+        
+     
+        
         
         NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(_:)), name: .reachabilityChanged, object: reachability)
     }

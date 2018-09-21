@@ -71,7 +71,14 @@ extension DatabaseService {
                 }
                 
                 if usersCollection.count > 0 {
-                    self.fetchUsersProfile(usersCollection: usersCollection) { users in
+                    
+                    var uids = [String]()
+                    
+                    for doc in usersCollection {
+                        uids.append(doc.documentID)
+                    }
+                    
+                    self.fetchUsersProfile(uids: uids) { users in
                         guard let nearbyUsers = users else { print("[Error] unwrapping nearby users profile"); return }
                         self.notifyDidUpdateNearbyUsers(nearbyUsers: nearbyUsers) // Notify viewControllers
                     }
@@ -79,26 +86,33 @@ extension DatabaseService {
         }
     }
     
+    
+    
     func stopListeningForNearbyUsers() {
         nearbyUserListener.remove()
     }
     
-    private func fetchUsersProfile(usersCollection: [QueryDocumentSnapshot], completion: @escaping([InterestingUser]?) -> Void) {
+    func fetchUsersProfile(uids: [String], completion: @escaping([InterestingUser]?) -> Void) {
         
-        if usersCollection.count != 0 {
+        if uids.count != 0 {
             
             var nearbyUsers = [InterestingUser]()
             let dispatchGroup = DispatchGroup()
             
-            for doc in usersCollection {
-                if doc.documentID != mainUserInstance.uid {
+            for uid in uids {
+                
+                if uid != mainUserInstance.uid {
+                    
                     dispatchGroup.enter()
-                    DatabaseService.shared.getUserInformation(uid: doc.documentID) { document in
+                    
+                    DatabaseService.shared.getUserInformation(uid: uid) { document in
+                        
                         guard let document = document else { dispatchGroup.leave(); return }
                         
                         let newUser = InterestingUser(document: document)
                         
                         StorageService.shared.downloadUserPicture(uid: newUser.uid) { photo in
+                            
                             guard let photo = photo else { dispatchGroup.leave(); return }
                             newUser.photo = photo
                             nearbyUsers.append(newUser)
@@ -212,6 +226,6 @@ extension DatabaseService {
 extension DatabaseService {
     
     func notifyDidUpdateNearbyUsers(nearbyUsers: [InterestingUser]) {
-        NotificationCenter.default.post(name: Notification.Name(rawValue:"didUpdateCloseUsers"), object: nil, userInfo: ["closeUsers" : nearbyUsers])
+        NotificationCenter.default.post(name: Notification.Name(rawValue:"didFoundNearbyUsers"), object: nil, userInfo: ["closeUsers" : nearbyUsers])
     }
 }
