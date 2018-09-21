@@ -77,9 +77,11 @@ extension DatabaseService {
                     for doc in usersCollection {
                         uids.append(doc.documentID)
                     }
+                    print(uids)
                     
                     self.fetchUsersProfile(uids: uids) { users in
                         guard let nearbyUsers = users else { print("[Error] unwrapping nearby users profile"); return }
+                        
                         self.notifyDidUpdateNearbyUsers(nearbyUsers: nearbyUsers) // Notify viewControllers
                     }
                 }
@@ -107,13 +109,19 @@ extension DatabaseService {
                     
                     DatabaseService.shared.getUserInformation(uid: uid) { document in
                         
-                        guard let document = document else { dispatchGroup.leave(); return }
+                        guard let document = document else {
+                            print("[Error] unwrapping nearby user information")
+                            dispatchGroup.leave(); return
+                        }
                         
                         let newUser = InterestingUser(document: document)
                         
                         StorageService.shared.downloadUserPicture(uid: newUser.uid) { photo in
                             
-                            guard let photo = photo else { dispatchGroup.leave(); return }
+                            guard let photo = photo else {
+                                print("[Error] fetching user photo")
+                                dispatchGroup.leave(); return
+                            }
                             newUser.photo = photo
                             nearbyUsers.append(newUser)
                             dispatchGroup.leave()
@@ -160,7 +168,7 @@ extension DatabaseService {
         
         db.collection("users").document(uid).getDocument { (documentSnapshot, error) in
             guard let document = documentSnapshot else {
-                print("[Error] fetching document: \(error!)")
+                print("[Error] fetching user information: \(error!)")
                 completion(nil)
                 return
             }
