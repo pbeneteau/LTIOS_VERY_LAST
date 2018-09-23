@@ -69,33 +69,27 @@ class ProfileViewController: ModalViewViewController {
         containerView.addSubview(contactsBox)
         
         addNotificationsObserver()
-        
-        handleSnapchatLogin()
-        
     }
     
     func handleSnapchatLogin() {
         
         if  !SCSDKLoginClient.isUserLoggedIn {
-            
+                        
             SCSDKLoginClient.login(from: self, completion: { success, error in
-                
+
                 if let error = error {
                     print(error.localizedDescription)
                     return
                 }
                 if success {
-                    BitmojiServices.shared.fetchAvatarURL { url in
-                        guard let url = url else { print("[Error] unwrapping Bitmoji url"); return }
-                        //print(url)
-                    }
+//                    BitmojiServices.shared.fetchAvatarURL { url in
+//                        guard url != nil else { print("[Error] unwrapping Bitmoji url"); return }
+//                        //print(url)
+//                    }
                 }
             })
         } else {
-            BitmojiServices.shared.fetchAvatarURL { url in
-                guard let url = url else { print("[Error] unwrapping Bitmoji url"); return }
-                //print(url)
-            }
+            
         }
     }
     

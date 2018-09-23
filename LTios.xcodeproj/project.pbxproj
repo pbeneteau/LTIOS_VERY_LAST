@@ -71,7 +71,7 @@
 		386466281F85264D00C18D53 /* Labels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386466271F85264D00C18D53 /* Labels.swift */; };
 		3864662A1F85267D00C18D53 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386466291F85267D00C18D53 /* Fonts.swift */; };
 		3864662C1F8526B200C18D53 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3864662B1F8526B200C18D53 /* Colors.swift */; };
-		38700AE7214C2A8D000ACE44 /* BitmojiServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38700AE6214C2A8D000ACE44 /* BitmojiServices.swift */; };
+		38700AE7214C2A8D000ACE44 /* SnapchatServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38700AE6214C2A8D000ACE44 /* SnapchatServices.swift */; };
 		387A20B321501CD800B50AF4 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387A20B221501CD800B50AF4 /* SettingsModel.swift */; };
 		387FC5C22153DB730064DA08 /* SettingsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387FC5C12153DB720064DA08 /* SettingsTableView.swift */; };
 		38B8526E21233F9E002EBB18 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 38B8526D21233F9E002EBB18 /* GoogleService-Info.plist */; };
@@ -182,7 +182,7 @@
 		386466271F85264D00C18D53 /* Labels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Labels.swift; sourceTree = "<group>"; };
 		386466291F85267D00C18D53 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		3864662B1F8526B200C18D53 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
-		38700AE6214C2A8D000ACE44 /* BitmojiServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitmojiServices.swift; sourceTree = "<group>"; };
+		38700AE6214C2A8D000ACE44 /* SnapchatServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapchatServices.swift; sourceTree = "<group>"; };
 		387A20B221501CD800B50AF4 /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 		387FC5C12153DB720064DA08 /* SettingsTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableView.swift; sourceTree = "<group>"; };
 		38B8526D21233F9E002EBB18 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -499,7 +499,7 @@
 				384863A62122E70D004222DE /* LocationService.swift */,
 				384863A72122E70E004222DE /* ContactsService.swift */,
 				38FEA1BC212C8A7A00561CF4 /* StorageService.swift */,
-				38700AE6214C2A8D000ACE44 /* BitmojiServices.swift */,
+				38700AE6214C2A8D000ACE44 /* SnapchatServices.swift */,
 				38D0D97621546D7500FAB683 /* BluetoothServices.swift */,
 			);
 			name = Services;
@@ -991,7 +991,7 @@
 				38B8527821243AB7002EBB18 /* InteractiveViewController.swift in Sources */,
 				0029BA661F30A37F00C67810 /* Extension.swift in Sources */,
 				006BDCCB1F2F88A7006DEF17 /* SettingsViewController.swift in Sources */,
-				38700AE7214C2A8D000ACE44 /* BitmojiServices.swift in Sources */,
+				38700AE7214C2A8D000ACE44 /* SnapchatServices.swift in Sources */,
 				38B852852128935B002EBB18 /* InterestingUsersTableViewCell.swift in Sources */,
 				3864662A1F85267D00C18D53 /* Fonts.swift in Sources */,
 				004289411F4AE3B6007FD732 /* GlobalUser.swift in Sources */,
