@@ -9,7 +9,6 @@
 import CoreLocation
 import GooglePlaces
 import Firebase
-import SwiftLocation
 
 class LocationService: NSObject, CLLocationManagerDelegate {
     
