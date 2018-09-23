@@ -139,7 +139,10 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if (indexPath.section == 2 && indexPath.row == 0) { // Snapchat
-            print("Snapchat cell touched") // -> Segue
+            print("Snapchat cell touched")
+            
+            let SnapchatVC = SnapchatLoginViewController()
+            present(SnapchatVC, animated: true, completion: nil)
         }
     }
     

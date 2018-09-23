@@ -79,7 +79,6 @@ extension MainViewController {
     
     @objc func didUpdateUserProfile(_ notification: NSNotification) {
         
-        print("Scanning nearby bluetooth devices ...")
         // Start nearby bluetooth devices scan
         bluetoothSession = BluetoothServices()
         bluetoothSession.updateAdvertisingData()
@@ -230,9 +229,6 @@ extension MainViewController {
            NotificationCenter.default.addObserver(self, selector: #selector(self.didFoundNearbyBluetoothUsers(_:)), name: Notification.Name(rawValue:"didFoundNearbyBluetoothUsers"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.didRequestPrivacyChange(_:)), name: Notification.Name(rawValue:"didRequestPrivacyChange"), object: nil)
-        
-     
-        
         
         NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(_:)), name: .reachabilityChanged, object: reachability)
     }

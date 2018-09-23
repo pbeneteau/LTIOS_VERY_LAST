@@ -189,9 +189,6 @@ extension LocationService {
     }
     
     internal func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .authorizedWhenInUse {
-            print("Location authorization did change.")
-        }
     }
     
 }

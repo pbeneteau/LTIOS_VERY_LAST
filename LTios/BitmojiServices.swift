@@ -20,7 +20,7 @@ class BitmojiServices {
         SCSDKBitmojiClient.fetchAvatarURL { (avatarURL: String?, error: Error?) in
             
             if let error = error {
-                print("[Error] " + error.localizedDescription)
+                print("[Error] fetching Bitmoji: " + error.localizedDescription)
                 completion(nil)
                 return
             } else {

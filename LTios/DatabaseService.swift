@@ -77,7 +77,6 @@ extension DatabaseService {
                     for doc in usersCollection {
                         uids.append(doc.documentID)
                     }
-                    print(uids)
                     
                     self.fetchUsersProfile(uids: uids) { users in
                         guard let nearbyUsers = users else { print("[Error] unwrapping nearby users profile"); return }

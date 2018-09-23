@@ -33,7 +33,7 @@ target 'LTios' do
   pod 'Spring'
   pod 'ViewAnimator'
   pod 'SCLAlertView'
-  pod 'TextFieldEffects'
+  #pod 'TextFieldEffects'
   
   # Constraints
   pod 'SnapKit'

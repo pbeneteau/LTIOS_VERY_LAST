@@ -88,6 +88,7 @@
 		38D0D97721546D7500FAB683 /* BluetoothServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D0D97621546D7500FAB683 /* BluetoothServices.swift */; };
 		38D0D97921546E0F00FAB683 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D0D97821546E0F00FAB683 /* Constants.swift */; };
 		38D0D97C21546E6F00FAB683 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D0D97B21546E6F00FAB683 /* Device.swift */; };
+		38D0D9802156ED7B00FAB683 /* SnapchatLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D0D97F2156ED7B00FAB683 /* SnapchatLoginViewController.swift */; };
 		38FEA1BD212C8A7A00561CF4 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38FEA1BC212C8A7A00561CF4 /* StorageService.swift */; };
 		98CA6EFB58DD7B6491BEE45C /* Pods_LTiosUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D63D386CE37523546D50354D /* Pods_LTiosUITests.framework */; };
 		9A502145D7C38C05BE014890 /* Pods_LTios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ACEF576580160AAA28DC6F2 /* Pods_LTios.framework */; };
@@ -198,6 +199,7 @@
 		38D0D97621546D7500FAB683 /* BluetoothServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothServices.swift; sourceTree = "<group>"; };
 		38D0D97821546E0F00FAB683 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		38D0D97B21546E6F00FAB683 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
+		38D0D97F2156ED7B00FAB683 /* SnapchatLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapchatLoginViewController.swift; sourceTree = "<group>"; };
 		38FEA1BC212C8A7A00561CF4 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		6ABAAA08C0B5E246906D3643 /* Pods_LTiosTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LTiosTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		71D3A809CBE0D3BB16C4D7CF /* Pods-LTiosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LTiosUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LTiosUITests/Pods-LTiosUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -511,6 +513,7 @@
 				387A20B521501D2000B50AF4 /* Cells */,
 				38523EA5214DB7BC0078B0A1 /* SettingsUITableViewHeader.xib */,
 				38523EA7214DB94F0078B0A1 /* SettingsHeaderView.swift */,
+				38D0D9832156F47900FAB683 /* Snapchat */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -578,6 +581,14 @@
 				38D0D97821546E0F00FAB683 /* Constants.swift */,
 			);
 			name = Constants;
+			sourceTree = "<group>";
+		};
+		38D0D9832156F47900FAB683 /* Snapchat */ = {
+			isa = PBXGroup;
+			children = (
+				38D0D97F2156ED7B00FAB683 /* SnapchatLoginViewController.swift */,
+			);
+			name = Snapchat;
 			sourceTree = "<group>";
 		};
 		53E49E158886914849036045 /* Pods */ = {
@@ -772,7 +783,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-LTios/Pods-LTios-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-LTios/Pods-LTios-resources.sh",
 				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
 				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
 			);
@@ -783,7 +794,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LTios/Pods-LTios-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LTios/Pods-LTios-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		320B501CBBB8E2FD805BE927 /* [CP] Check Pods Manifest.lock */ = {
@@ -810,7 +821,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-LTios/Pods-LTios-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-LTios/Pods-LTios-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
 				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
@@ -829,7 +840,6 @@
 				"${BUILT_PRODUCTS_DIR}/Spring/Spring.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftLocation/SwiftLocation.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
-				"${BUILT_PRODUCTS_DIR}/TextFieldEffects/TextFieldEffects.framework",
 				"${BUILT_PRODUCTS_DIR}/ViewAnimator/ViewAnimator.framework",
 				"${BUILT_PRODUCTS_DIR}/YYImage/YYImage.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
@@ -860,7 +870,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Spring.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftLocation.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TextFieldEffects.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ViewAnimator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
@@ -873,7 +882,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LTios/Pods-LTios-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LTios/Pods-LTios-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		BCCE959AB011C0C79D598EE1 /* [CP] Check Pods Manifest.lock */ = {
@@ -925,6 +934,7 @@
 				00FF14E21FA752E600D9F6FB /* ContactsSearchController.swift in Sources */,
 				38343E721F8C009700F4909E /* PlaceCollectionViewCell.swift in Sources */,
 				004288F51F33B591007FD732 /* MenuViewController.swift in Sources */,
+				38D0D9802156ED7B00FAB683 /* SnapchatLoginViewController.swift in Sources */,
 				006BDCD31F2F88E1006DEF17 /* ContactsViewController.swift in Sources */,
 				006BDCE81F2F8A0F006DEF17 /* Profile.swift in Sources */,
 				384863A92122E70F004222DE /* LocationService.swift in Sources */,

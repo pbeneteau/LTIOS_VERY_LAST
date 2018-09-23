@@ -16,7 +16,6 @@ class SettingsHeaderView: UITableViewHeaderFooterView {
         super.init(reuseIdentifier: reuseIdentifier)
         
         autoresizingMask = []
-        
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -39,7 +39,7 @@ class ProfileViewController: ModalViewViewController {
         profilePictureView.image = UIImage(named: "profilePicture")
         profilePictureView.contentMode = .scaleAspectFill
         
-        settingsButton.setBackgroundImage(UIImage(named: "settings"), for: .normal)
+        settingsButton.setImage(UIImage(named: "settings"), for: .normal)
         settingsButton.addTarget(self, action: #selector(didTapSettingsButton), for: .touchUpInside)
         containerView.addSubview(settingsButton)
         
@@ -70,6 +70,8 @@ class ProfileViewController: ModalViewViewController {
         
         addNotificationsObserver()
         
+        handleSnapchatLogin()
+        
     }
     
     func handleSnapchatLogin() {
@@ -84,13 +86,15 @@ class ProfileViewController: ModalViewViewController {
                 }
                 if success {
                     BitmojiServices.shared.fetchAvatarURL { url in
-                        print(url!)
+                        guard let url = url else { print("[Error] unwrapping Bitmoji url"); return }
+                        //print(url)
                     }
                 }
             })
         } else {
             BitmojiServices.shared.fetchAvatarURL { url in
-                print(url!)
+                guard let url = url else { print("[Error] unwrapping Bitmoji url"); return }
+                //print(url)
             }
         }
     }
@@ -189,7 +193,7 @@ extension ProfileViewController {
         }
         settingsButton.snp.makeConstraints { (make) -> Void in
             make.width.equalTo(33)
-            make.height.equalTo(9)
+            make.height.equalTo(33)
             make.right.equalTo(containerView).inset(20)
             make.top.equalTo(containerView).inset(20)
         }

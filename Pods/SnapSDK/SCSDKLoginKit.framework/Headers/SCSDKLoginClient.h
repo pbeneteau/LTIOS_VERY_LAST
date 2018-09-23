@@ -8,6 +8,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  * Callback to trigger when fetch resource success.
  *
@@ -23,6 +25,30 @@ typedef void(^SCOAuth2GetResourcesSuccessCompletionBlock)(NSDictionary * _Nullab
  */
 typedef void(^SCOAuth2GetResourcesFailureCompletionBlock)(NSError * _Nullable error, BOOL isUserLoggedOut);
 
+/**
+ * Protocol for observing all changes that occur for a user's login status. Notifications will always occur
+ * on the main queue.
+ */
+@protocol SCSDKLoginStatusObserver <NSObject>
+
+@optional
+/**
+ * Called whenever a user successfully authorizes with their Snapchat account.
+ */
+- (void)scsdkLoginLinkDidSucceed;
+
+/**
+ * Called whenever a user's authorization process fails.
+ */
+- (void)scsdkLoginLinkDidFail;
+
+/**
+ * Called whenever a user either explicitly unlinks their Snapchat account, or access to the user's account
+ * is revoked.
+ */
+- (void)scsdkLoginDidUnlink;
+
+@end
 
 @interface SCSDKLoginClient : NSObject
 
@@ -33,8 +59,8 @@ typedef void(^SCOAuth2GetResourcesFailureCompletionBlock)(NSError * _Nullable er
  *
  * @param viewController that shows the in-app auth page.
  */
-+ (void)loginFromViewController:(UIViewController *_Nonnull)viewController
-                     completion:(void (^_Nullable)(BOOL success, NSError * _Nullable error))completion;
++ (void)loginFromViewController:(UIViewController *)viewController
+                     completion:(nullable void (^)(BOOL success, NSError * _Nullable error))completion;
 
 /**
  * Finish auth with Snapchat.
@@ -44,8 +70,8 @@ typedef void(^SCOAuth2GetResourcesFailureCompletionBlock)(NSError * _Nullable er
  * @param options for the url to handle
  * @return YES if Snapchat can open the the url, NO if it cannot
  */
-+ (BOOL)application:(UIApplication *_Nonnull)application
-            openURL:(NSURL *_Nonnull)url
++ (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
             options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *_Nullable)options;
 
 /**
@@ -60,7 +86,7 @@ typedef void(^SCOAuth2GetResourcesFailureCompletionBlock)(NSError * _Nullable er
  *
  * @param completion block be trigged when finish revoking session.
  */
-+ (void)unlinkAllSessionsWithCompletion:(nonnull void (^)(BOOL success))completion;
++ (void)unlinkAllSessionsWithCompletion:(void (^)(BOOL success))completion;
 
 /**
  * Interface to fetch user data from resource server.
@@ -69,10 +95,10 @@ typedef void(^SCOAuth2GetResourcesFailureCompletionBlock)(NSError * _Nullable er
  * @param success Success block when fetch data succeed.
  * @param failure Failure block when fetch data failed.
  */
-+ (void)fetchUserDataWithQuery:(nonnull NSString *)query
++ (void)fetchUserDataWithQuery:(NSString *)query
                      variables:(nullable NSDictionary<NSString *, id> *)variables
-                       success:(nonnull SCOAuth2GetResourcesSuccessCompletionBlock)success
-                       failure:(nonnull SCOAuth2GetResourcesFailureCompletionBlock)failure;
+                       success:(SCOAuth2GetResourcesSuccessCompletionBlock)success
+                       failure:(SCOAuth2GetResourcesFailureCompletionBlock)failure;
 
 /**
  * Determines whether the user has authorized the current session to have access to resources
@@ -83,4 +109,20 @@ typedef void(^SCOAuth2GetResourcesFailureCompletionBlock)(NSError * _Nullable er
  */
 + (BOOL)hasAccessToScope:(NSString *)scope;
 
+/**
+ * Add an observer to receive updates to the user's login status
+ *
+ * @param observer The object that will receive updates
+ */
++ (void)addLoginStatusObserver:(id<SCSDKLoginStatusObserver>)observer NS_SWIFT_NAME(addLoginStatusObserver(_:));
+
+/**
+ * Remove an observer to stop receiving updates to the user's login status
+ *
+ * @param observer The object currently receiving updates
+ */
++ (void)removeLoginStatusObserver:(id<SCSDKLoginStatusObserver>)observer NS_SWIFT_NAME(removeLoginStatusObserver(_:));
+
 @end
+
+NS_ASSUME_NONNULL_END

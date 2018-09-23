@@ -209,3 +209,30 @@ class roundedCornerView: UIView {
         }
     }
 }
+
+
+
+class RoundCornerShadowView: UIView {
+    
+    private var shadowLayer: CAShapeLayer!
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        if shadowLayer == nil {
+            
+            shadowLayer = CAShapeLayer()
+            
+            shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: 10).cgPath
+            shadowLayer.fillColor = UIColor.white.cgColor
+            
+            shadowLayer.shadowColor = UIColor.black.cgColor
+            shadowLayer.shadowPath = shadowLayer.path
+            shadowLayer.shadowOffset = CGSize(width: 0.0, height: 10.0)
+            shadowLayer.shadowOpacity = 0.08
+            shadowLayer.shadowRadius = 10
+            
+            layer.insertSublayer(shadowLayer, at: 0)
+        }
+    }
+}
