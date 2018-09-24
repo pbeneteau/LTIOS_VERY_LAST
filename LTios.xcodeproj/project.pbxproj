@@ -511,8 +511,7 @@
 				387FC5C12153DB720064DA08 /* SettingsTableView.swift */,
 				387A20B421501D0000B50AF4 /* ViewModel */,
 				387A20B521501D2000B50AF4 /* Cells */,
-				38523EA5214DB7BC0078B0A1 /* SettingsUITableViewHeader.xib */,
-				38523EA7214DB94F0078B0A1 /* SettingsHeaderView.swift */,
+				389D462921580FBD00263FB5 /* SectionHeader */,
 				38D0D9832156F47900FAB683 /* Snapchat */,
 			);
 			name = Settings;
@@ -533,6 +532,15 @@
 				38523EAC214DBC390078B0A1 /* SettingsCell.swift */,
 			);
 			name = Cells;
+			sourceTree = "<group>";
+		};
+		389D462921580FBD00263FB5 /* SectionHeader */ = {
+			isa = PBXGroup;
+			children = (
+				38523EA5214DB7BC0078B0A1 /* SettingsUITableViewHeader.xib */,
+				38523EA7214DB94F0078B0A1 /* SettingsHeaderView.swift */,
+			);
+			name = SectionHeader;
 			sourceTree = "<group>";
 		};
 		38B8527B21258E70002EBB18 /* Start */ = {

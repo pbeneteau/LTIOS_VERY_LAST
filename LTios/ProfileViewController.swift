@@ -39,7 +39,7 @@ class ProfileViewController: ModalViewViewController {
         profilePictureView.image = UIImage(named: "profilePicture")
         profilePictureView.contentMode = .scaleAspectFill
         
-        settingsButton.setImage(UIImage(named: "settings"), for: .normal)
+        settingsButton.setImage(UIImage(named: "SettingsButton"), for: .normal)
         settingsButton.addTarget(self, action: #selector(didTapSettingsButton), for: .touchUpInside)
         containerView.addSubview(settingsButton)
         
@@ -141,6 +141,8 @@ extension ProfileViewController {
     
     
     func prepareSettingsSegue(completion: @escaping(Bool) -> Void) {
+        
+        settingsButton.isHidden = true
         
         profilePictureView.snp.remakeConstraints { (make) -> Void in
             make.height.width.equalTo(95)

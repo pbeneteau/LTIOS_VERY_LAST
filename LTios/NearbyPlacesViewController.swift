@@ -20,6 +20,13 @@ class NearbyPlacesViewController: ModalViewViewController {
 
     private var nearbyPlaces = [[NearbyPlace]]()
     
+    private var hundredMettersLabel = UILabel()
+    private var fiveHundredMettersLabel = UILabel()
+    private var ThousandLabel = UILabel()
+    private var distanceLineContainer = UIView()
+    private var distanceLine = UIProgressView()
+    private var currentSection = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,7 +37,34 @@ class NearbyPlacesViewController: ModalViewViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         
+        hundredMettersLabel.textAlignment = .center
+        hundredMettersLabel.text = "100m"
+        hundredMettersLabel.font = UIFont(name: "Roboto-Medium", size: 35)
+        hundredMettersLabel.textColor = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
+        
+        fiveHundredMettersLabel.textAlignment = .center
+        fiveHundredMettersLabel.text = "500m"
+        fiveHundredMettersLabel.font = UIFont(name: "Roboto-Medium", size: 21)
+        fiveHundredMettersLabel.textColor = UIColor(red:0.88, green:0.88, blue:0.88, alpha:1.0)
+        
+        ThousandLabel.textAlignment = .center
+        ThousandLabel.text = "1000m"
+        ThousandLabel.font = UIFont(name: "Roboto-Medium", size: 21)
+        ThousandLabel.textColor = UIColor(red:0.88, green:0.88, blue:0.88, alpha:1.0)
+        
+        distanceLine.progress = 0.0015
+        distanceLine.progressTintColor = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
+        distanceLine.trackTintColor = UIColor(red:0.88, green:0.88, blue:0.88, alpha:1.0)
+        
         view.addSubview(containerView)
+        
+        containerView.addSubview(hundredMettersLabel)
+        containerView.addSubview(fiveHundredMettersLabel)
+        containerView.addSubview(ThousandLabel)
+        
+        distanceLineContainer.addSubview(distanceLine)
+        containerView.addSubview(distanceLineContainer)
+        
         containerView.addSubview(collectionView)
         
         nearbyPlaces.append([NearbyPlace]())
@@ -43,7 +77,7 @@ class NearbyPlacesViewController: ModalViewViewController {
     }
     
     @objc func didUpdateLocation(_ notification: NSNotification) {
-        //getPlaces()
+        getPlaces()
     }
     
     func appendPlaceToNearbyPlaces(place: NearbyPlace) {
@@ -69,6 +103,54 @@ class NearbyPlacesViewController: ModalViewViewController {
     
     func getPlaces() {
         
+        for _ in 0..<6 {
+            self.nearbyPlaces[0].append(
+                NearbyPlace(ID: "place.placeID",
+                            name: "place.name",
+                            status: 1,
+                            description: "place.description",
+                            distance: 0,
+                            category: "place.types.first",
+                            city: "",
+                            price: 2,
+                            averageRating: 3,
+                            image: UIImage(named: "barPic")!))
+        }
+        
+        for _ in 0..<3 {
+            self.nearbyPlaces[1].append(
+                NearbyPlace(ID: "place.placeID",
+                            name: "place.name",
+                            status: 1,
+                            description: "place.description",
+                            distance: 0,
+                            category: "place.types.first",
+                            city: "",
+                            price: 2,
+                            averageRating: 3,
+                            image: UIImage(named: "barPic")!))
+        }
+        
+        for _ in 0..<10 {
+            self.nearbyPlaces[2].append(
+                NearbyPlace(ID: "place.placeID",
+                            name: "place.name",
+                            status: 1,
+                            description: "place.description",
+                            distance: 0,
+                            category: "place.types.first",
+                            city: "",
+                            price: 2,
+                            averageRating: 3,
+                            image: UIImage(named: "barPic")!))
+        }
+        
+        self.collectionView.reloadData()
+        UIView.animate(views: self.collectionView.visibleCells, animations: self.animations, completion: {
+        })
+        
+        return
+        
         let asyncOperation = AsyncOperation(numberOfSimultaneousActions: 20, dispatchQueueLabel: "fetchingNearbyPlacesInfo")
         asyncOperation.whenCompleteAll = {
             self.collectionView.reloadData()
@@ -92,8 +174,8 @@ class NearbyPlacesViewController: ModalViewViewController {
                         
                         guard let photo = photo else { completeClosure(); return }
                         
+                        for _ in 0..<20 {
                         self.appendPlaceToNearbyPlaces(place:
-                            
                             NearbyPlace(ID: place.placeID,
                                         name: place.name,
                                         status: place.openNowStatus.rawValue,
@@ -102,8 +184,8 @@ class NearbyPlacesViewController: ModalViewViewController {
                                         category: place.types.first ?? "",
                                         city: "", price: place.priceLevel.rawValue,
                                         averageRating: place.rating,
-                                        image: photo)
-                        )
+                                        image: photo))
+                        }
                         completeClosure()
                     }
                 }
@@ -115,6 +197,7 @@ class NearbyPlacesViewController: ModalViewViewController {
         super.viewDidLayoutSubviews()
         
         containerView.roundCorners(corners: [.topLeft , .topRight], radius: 10)
+        
     }
 
 }
@@ -202,8 +285,113 @@ extension NearbyPlacesViewController: UICollectionViewDelegateFlowLayout, UIColl
             return CGSize(width: 0, height: 0)
         }
         return CGSize(width: UIScreen.main.bounds.width, height: 70)
+    }
+    
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        let currentSection = currentDistanceSection(scrollView: scrollView)
+        setCurrentDistanceSection(section: currentSection)
+        
+        let rowsNumber = nearbyPlaces[0].count + nearbyPlaces[1].count + nearbyPlaces[2].count
+        
+        let firstSectionOffset = maxContentOffset(scrollView: scrollView) * Float(nearbyPlaces[0].count) / Float(rowsNumber)
+        let secondSectionOffset = maxContentOffset(scrollView: scrollView) * Float(nearbyPlaces[1].count) / Float(rowsNumber)
+        let thirdSectionOffset = maxContentOffset(scrollView: scrollView) * Float(nearbyPlaces[2].count) / Float(rowsNumber)
+        
+        var progress: Float = 0.0
+        
+        if currentSection == 0 {
+            progress = (Float(scrollView.contentOffset.y) / firstSectionOffset)
+        } else if currentSection == 1 {
+            progress = (Float(scrollView.contentOffset.y) - firstSectionOffset) / secondSectionOffset
+        } else {
+            progress = (Float(scrollView.contentOffset.y) - firstSectionOffset - secondSectionOffset) / thirdSectionOffset
+        }
+        
+        distanceLine.progress = progress
+    }
+    
+    func maxContentOffset(scrollView: UIScrollView) -> Float {
+        return Float(scrollView.contentSize.height - scrollView.bounds.height + scrollView.contentInset.bottom)
+    }
+    
+    func currentDistanceSection(scrollView: UIScrollView) -> Int {
+        
+        let rowsNumber = nearbyPlaces[0].count + nearbyPlaces[1].count + nearbyPlaces[2].count
+        
+        let firstSection = Float(nearbyPlaces[0].count) / Float(rowsNumber)
+        let secondSection = Float(nearbyPlaces[1].count) / Float(rowsNumber)
+        
+        let maxOffset = maxContentOffset(scrollView: scrollView)
+        
+        if (Float(scrollView.contentOffset.y) < firstSection * maxOffset) {
+            return 0
+        } else if (Float(scrollView.contentOffset.y) < (firstSection + secondSection) * maxOffset) {
+            return 1
+        } else {
+            return 2
+        }
+    }
+    
+    func setCurrentDistanceSection(section: Int) {
+        
+        if section == 0 && self.currentSection != 0 {
+            self.hundredMettersLabel.textColor = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
+            self.fiveHundredMettersLabel.textColor = UIColor(red:0.88, green:0.88, blue:0.88, alpha:1.0)
+            
+            self.hundredMettersLabel.animate(fontSize: 35, duration: 0.2, animateAnchorPoint: LabelAnimateAnchorPoint.centerXCenterY)
+            self.fiveHundredMettersLabel.animate(fontSize: 21, duration: 0.2, animateAnchorPoint: LabelAnimateAnchorPoint.centerXCenterY)
+            
+            distanceLine.snp.remakeConstraints { (make) -> Void in
+                make.width.equalTo(95)
+                make.height.equalTo(3)
+                make.centerX.equalTo(distanceLineContainer).multipliedBy(0.4)
+                make.top.equalTo(distanceLineContainer)
+            }
+            self.currentSection = section
+            
+        } else if section == 1 && self.currentSection != 1 {
+            self.fiveHundredMettersLabel.textColor = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
+            self.hundredMettersLabel.textColor = UIColor(red:0.88, green:0.88, blue:0.88, alpha:1.0)
+            self.ThousandLabel.textColor = UIColor(red:0.88, green:0.88, blue:0.88, alpha:1.0)
+            
+            self.fiveHundredMettersLabel.animate(fontSize: 35, duration: 0.2, animateAnchorPoint: LabelAnimateAnchorPoint.centerXCenterY)
+            self.hundredMettersLabel.animate(fontSize: 21, duration: 0.2, animateAnchorPoint: LabelAnimateAnchorPoint.centerXCenterY)
+            self.ThousandLabel.animate(fontSize: 21, duration: 0.2, animateAnchorPoint: LabelAnimateAnchorPoint.centerXCenterY)
+            
+            distanceLine.snp.remakeConstraints { (make) -> Void in
+                make.width.equalTo(95)
+                make.height.equalTo(3)
+                make.centerX.equalTo(distanceLineContainer)
+                make.top.equalTo(distanceLineContainer)
+            }
+            self.currentSection = section
+            
+        } else if section == 2 && self.currentSection != 2 {
+            self.ThousandLabel.textColor = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
+            self.fiveHundredMettersLabel.textColor = UIColor(red:0.88, green:0.88, blue:0.88, alpha:1.0)
+            
+            self.ThousandLabel.animate(fontSize: 35, duration: 0.2, animateAnchorPoint: LabelAnimateAnchorPoint.centerXCenterY)
+            self.fiveHundredMettersLabel.animate(fontSize: 21, duration: 0.2, animateAnchorPoint: LabelAnimateAnchorPoint.centerXCenterY)
+            
+            distanceLine.snp.remakeConstraints { (make) -> Void in
+                make.width.equalTo(95)
+                make.height.equalTo(3)
+                make.centerX.equalTo(distanceLineContainer).multipliedBy(1.6)
+                make.top.equalTo(distanceLineContainer)
+            }
+            self.currentSection = section
+        }
+        
+        UIView.animate(withDuration: TimeInterval(0.2), animations: {
+            self.distanceLineContainer.layoutIfNeeded()
+        })
+        
         
     }
+    
+    
 }
 
 // MARK: Segues
@@ -225,7 +413,6 @@ extension NearbyPlacesViewController {
     func addNotificationsObserver() {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.didUpdateLocation(_:)), name: Notification.Name(rawValue:"didUpdateLocation"), object: nil)
-        
     }
 }
 
@@ -243,15 +430,92 @@ extension NearbyPlacesViewController {
                 make.bottom.equalTo(view)
             }
             
+            fiveHundredMettersLabel.snp.makeConstraints { (make) -> Void in
+                make.width.equalTo(95)
+                make.height.equalTo(35)
+                make.centerX.equalTo(containerView)
+                make.bottom.equalTo(containerView.snp.top).offset(55)
+            }
+            
+            hundredMettersLabel.snp.makeConstraints { (make) -> Void in
+                make.width.equalTo(95)
+                make.height.equalTo(35)
+                make.centerX.equalTo(fiveHundredMettersLabel.snp.centerX).multipliedBy(0.4)
+                make.bottom.equalTo(containerView.snp.top).offset(55)
+            }
+            
+            ThousandLabel.snp.makeConstraints { (make) -> Void in
+                make.width.equalTo(95)
+                make.height.equalTo(35)
+                make.centerX.equalTo(fiveHundredMettersLabel.snp.centerX).multipliedBy(1.6)
+                make.bottom.equalTo(containerView.snp.top).offset(55)
+            }
+            
+            distanceLineContainer.snp.makeConstraints { (make) -> Void in
+                make.width.equalTo(containerView)
+                make.height.equalTo(3)
+                make.centerX.equalTo(containerView)
+                make.top.equalTo(containerView).offset(60)
+            }
+            
+            distanceLine.snp.makeConstraints { (make) -> Void in
+                make.width.equalTo(95)
+                make.height.equalTo(3)
+                make.centerX.equalTo(distanceLineContainer).multipliedBy(0.4)
+                make.top.equalTo(distanceLineContainer)
+            }
+            
             collectionView.snp.makeConstraints { (make) -> Void in
                 make.width.equalTo(containerView)
-                make.height.equalTo(containerView)
+                make.height.equalTo(containerView).multipliedBy(0.85)
                 make.centerX.equalTo(containerView)
-                make.top.equalTo(containerView)
+                make.bottom.equalTo(containerView)
             }
+            
+            
             
             didSetupConstraints = true
         }
         super.updateViewConstraints()
+    }
+}
+
+struct LabelAnimateAnchorPoint {
+
+    static let leadingCenterY         = CGPoint.init(x: 0, y: 0.5)
+    static let trailingCenterY        = CGPoint.init(x: 1, y: 0.5)
+    static let centerXCenterY         = CGPoint.init(x: 0.5, y: 0.5)
+    static let leadingTop             = CGPoint.init(x: 0, y: 0)
+}
+
+extension UILabel {
+    
+    func animate(fontSize: CGFloat, duration: TimeInterval, animateAnchorPoint: CGPoint) {
+        let startTransform = transform
+        let oldFrame = frame
+        var newFrame = oldFrame
+        let archorPoint = layer.anchorPoint
+        let scaleRatio = fontSize / font.pointSize
+        
+        layer.anchorPoint = animateAnchorPoint
+        
+        newFrame.size.width *= scaleRatio
+        newFrame.size.height *= scaleRatio
+        newFrame.origin.x = oldFrame.origin.x - (newFrame.size.width - oldFrame.size.width) * animateAnchorPoint.x
+        newFrame.origin.y = oldFrame.origin.y - (newFrame.size.height - oldFrame.size.height) * animateAnchorPoint.y
+        frame = newFrame
+        
+        font = font.withSize(fontSize)
+        
+        transform = CGAffineTransform.init(scaleX: 1 / scaleRatio, y: 1 / scaleRatio);
+        layoutIfNeeded()
+        
+        UIView.animate(withDuration: duration, animations: {
+            self.transform = startTransform
+            newFrame = self.frame
+        }) { (Bool) in
+            self.layer.anchorPoint = archorPoint
+            self.frame = newFrame
+        }
     }
 }

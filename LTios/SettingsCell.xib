@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.15" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.9"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,54 +18,82 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="SettingsCell" customModule="LTios" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jck-c6-7Yb" customClass="SettingsCellContainerView" customModule="LTios" customModuleProvider="target">
-                    <rect key="frame" x="12" y="-19" width="347" height="128"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jck-c6-7Yb">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
                     <subviews>
-                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RX8-PX-kPn">
-                            <rect key="frame" x="277" y="44" width="51" height="31"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="onTintColor" red="0.42352941176470588" green="0.49411764705882355" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
-                        </switch>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Push Notifications" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f18-QB-cV7">
-                            <rect key="frame" x="20" y="40" width="209" height="20"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Receive weekly push notifications" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jDh-po-TlC">
-                            <rect key="frame" x="20" y="63" width="209" height="38"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CellBackgroundSolo" translatesAutoresizingMaskIntoConstraints="NO" id="0NL-Ld-Mfc">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Receive weekly push notifications" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jDh-po-TlC">
+                            <rect key="frame" x="31" y="42" width="246" height="35"/>
                             <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="14"/>
                             <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="cell_segue_icon" translatesAutoresizingMaskIntoConstraints="NO" id="GQz-7w-6oz">
-                            <rect key="frame" x="318" y="51" width="8" height="16"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RX8-PX-kPn">
+                            <rect key="frame" x="293" y="30" width="51" height="30"/>
+                            <color key="onTintColor" red="0.42352941176470588" green="0.49411764705882355" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
+                        </switch>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cell_segue_icon" translatesAutoresizingMaskIntoConstraints="NO" id="GQz-7w-6oz">
+                            <rect key="frame" x="334" y="37" width="8" height="16"/>
                         </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Push Notifications" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f18-QB-cV7">
+                            <rect key="frame" x="31" y="21" width="140" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="b9v-aM-Xhq"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="RX8-PX-kPn" firstAttribute="leading" secondItem="jDh-po-TlC" secondAttribute="trailing" constant="16" id="8bO-Q6-UJH"/>
+                        <constraint firstItem="0NL-Ld-Mfc" firstAttribute="top" secondItem="jck-c6-7Yb" secondAttribute="top" id="ALD-TL-Anc"/>
+                        <constraint firstItem="0NL-Ld-Mfc" firstAttribute="leading" secondItem="jck-c6-7Yb" secondAttribute="leading" id="DoE-UP-a9r"/>
+                        <constraint firstAttribute="bottom" secondItem="0NL-Ld-Mfc" secondAttribute="bottom" id="GBX-Td-5kW"/>
+                        <constraint firstAttribute="trailing" secondItem="GQz-7w-6oz" secondAttribute="trailing" constant="33" id="SC9-7J-dMs"/>
+                        <constraint firstItem="f18-QB-cV7" firstAttribute="leading" secondItem="jDh-po-TlC" secondAttribute="leading" id="SLl-hh-ESY"/>
+                        <constraint firstItem="jDh-po-TlC" firstAttribute="top" secondItem="f18-QB-cV7" secondAttribute="bottom" constant="1" id="T1O-c4-pRH"/>
+                        <constraint firstAttribute="trailing" secondItem="0NL-Ld-Mfc" secondAttribute="trailing" id="ZcT-ha-7kJ"/>
+                        <constraint firstAttribute="bottom" secondItem="jDh-po-TlC" secondAttribute="bottom" constant="13" id="abi-EB-VRz"/>
+                        <constraint firstItem="GQz-7w-6oz" firstAttribute="leading" secondItem="jDh-po-TlC" secondAttribute="trailing" constant="57" id="gew-pf-Dlc"/>
+                        <constraint firstItem="f18-QB-cV7" firstAttribute="leading" secondItem="jck-c6-7Yb" secondAttribute="leading" constant="31" id="ljr-xJ-REh"/>
+                        <constraint firstItem="RX8-PX-kPn" firstAttribute="trailing" secondItem="GQz-7w-6oz" secondAttribute="trailing" id="mr9-Pw-XVx"/>
+                        <constraint firstItem="0NL-Ld-Mfc" firstAttribute="centerY" secondItem="RX8-PX-kPn" secondAttribute="centerY" id="odf-cE-6Ua"/>
+                        <constraint firstItem="RX8-PX-kPn" firstAttribute="top" secondItem="jck-c6-7Yb" secondAttribute="top" constant="30" id="qBt-Eq-uGg"/>
+                        <constraint firstItem="GQz-7w-6oz" firstAttribute="top" secondItem="jck-c6-7Yb" secondAttribute="top" constant="37" id="qVn-fF-BW3"/>
+                        <constraint firstItem="f18-QB-cV7" firstAttribute="top" secondItem="jck-c6-7Yb" secondAttribute="top" constant="21" id="wQQ-16-rbz"/>
+                        <constraint firstItem="RX8-PX-kPn" firstAttribute="centerY" secondItem="GQz-7w-6oz" secondAttribute="centerY" id="ww7-tk-kh7"/>
+                    </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="jck-c6-7Yb" secondAttribute="trailing" id="0Cc-jT-Qh3"/>
+                <constraint firstItem="jck-c6-7Yb" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="BFv-Vq-Pgf"/>
+                <constraint firstItem="jck-c6-7Yb" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="EI8-8L-kce"/>
+                <constraint firstItem="jck-c6-7Yb" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ri0-Fv-5pb"/>
+            </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
+                <outlet property="backgroundImage" destination="0NL-Ld-Mfc" id="ryt-CE-dKJ"/>
                 <outlet property="containerView" destination="jck-c6-7Yb" id="GfY-FY-K2V"/>
                 <outlet property="descriptionLabel" destination="jDh-po-TlC" id="08I-JW-gxh"/>
                 <outlet property="segueIcon" destination="GQz-7w-6oz" id="3HK-Ad-EBI"/>
                 <outlet property="switchButton" destination="RX8-PX-kPn" id="D64-yJ-DLA"/>
                 <outlet property="titleLabel" destination="f18-QB-cV7" id="gVB-oA-m2w"/>
             </connections>
-            <point key="canvasLocation" x="53.600000000000001" y="48.575712143928037"/>
+            <point key="canvasLocation" x="53.600000000000001" y="53.973013493253376"/>
         </view>
     </objects>
     <resources>
+        <image name="CellBackgroundSolo" width="370" height="97"/>
         <image name="cell_segue_icon" width="6" height="9"/>
     </resources>
 </document>

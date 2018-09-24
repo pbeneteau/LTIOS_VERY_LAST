@@ -20,7 +20,7 @@ class SettingsModel: NSObject {
     
     let descriptions = [
         ["Receive weekly push notifications", "Receive chat notifications", "Receive friends notifications"],
-        ["Be hidden from other users", "Disable location when Little World is close"],
+        ["Be hidden from other users", "Disable location when Little World is closed"],
         ["Unlock cool Snapchat stuff"]]
     
     let types: [[SettingsCellType]] = [

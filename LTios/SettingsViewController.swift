@@ -12,6 +12,8 @@ class SettingsViewController: ModalViewViewController {
     
     private var profilePictureView = RoundImageView()
     
+    private let closeButton = UIButton()
+    
     private let publicName = UILabel()
     private let email = UILabel()
     
@@ -27,6 +29,9 @@ class SettingsViewController: ModalViewViewController {
         
         profilePictureView.image = UIImage(named: "profilePicture")
         profilePictureView.contentMode = .scaleAspectFill
+        
+        closeButton.setBackgroundImage(UIImage(named: "CloseButton"), for: .normal)
+        closeButton.addTarget(self, action: #selector(didTapCloseButton), for: .touchUpInside)
         
         publicName.font = UIFont(name: "Roboto-Medium", size: 23)
         publicName.textColor = UIColor(red:0.00, green:0.05, blue:0.25, alpha:1.0)
@@ -44,6 +49,7 @@ class SettingsViewController: ModalViewViewController {
         initData()
         
         view.addSubview(profilePictureView)
+        view.addSubview(closeButton)
         view.addSubview(publicName)
         view.addSubview(email)
         view.addSubview(tableView)
@@ -56,6 +62,7 @@ class SettingsViewController: ModalViewViewController {
         
         UIView.animate(withDuration: TimeInterval(0.5), animations: {
             self.profilePictureView.alpha = 1
+            self.closeButton.alpha = 1
             self.publicName.alpha = 1
             self.email.alpha = 1
             self.tableView.alpha = 1
@@ -77,6 +84,18 @@ class SettingsViewController: ModalViewViewController {
         tableView.reloadData()
     }
     
+    @objc func didTapCloseButton() {
+        
+        UIView.animate(withDuration: TimeInterval(0.5), animations: {
+            self.profilePictureView.alpha = 0
+            self.closeButton.alpha = 0
+            self.publicName.alpha = 0
+            self.email.alpha = 0
+            self.tableView.alpha = 0
+        })
+        
+    }
+    
 }
 
 // MARK: Table View Delegate & Datasource
@@ -91,7 +110,19 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt: IndexPath) -> CGFloat {
-        return 90
+        
+        let section = heightForRowAt.section
+        let row = heightForRowAt.row
+        
+        if settingsModel.getTotalRows(section: section) == 1 {
+            return 97
+        } else if row == 0 {
+            return 90
+        } else if row == settingsModel.getTotalRows(section: section) - 1 {
+            return 90
+        } else {
+            return 80
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -101,20 +132,19 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         let section = indexPath.section
         let row = indexPath.row
         
-        cell.titleLabel.text = settingsModel.getName(section: section, row: row)
-        cell.descriptionLabel.text = settingsModel.getDescription(section: section, row: row)
-        cell.switchButton.isOn = settingsModel.getState(section: section, row: row)
-        cell.type = settingsModel.getType(section: section, row: row)
-        cell.section = section
-        cell.row = row
+        cell.indexPath = indexPath
         
-        if (row == 0) {
-            cell.containerView.position = .first
+        if settingsModel.getTotalRows(section: section) == 1 {
+            cell.position = .solo
+        } else if (row == 0) {
+            cell.position = .first
         } else if (row == settingsModel.getTotalRows(section: section) - 1) {
-            cell.containerView.position = .last
+            cell.position = .last
         } else {
-            cell.containerView.position = .middle
+            cell.position = .middle
         }
+        
+        cell.commonInit()
         
         cell.selectionStyle = .none
         
@@ -122,7 +152,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 80
+        return 40
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -158,6 +188,13 @@ extension SettingsViewController {
             make.height.width.equalTo(95)
             make.left.equalTo(25)
             make.top.equalTo(25)
+        }
+        
+        closeButton.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(22)
+            make.height.equalTo(22)
+            make.right.equalTo(view).inset(20)
+            make.top.equalTo(view).offset(20)
         }
         
         publicName.snp.makeConstraints { (make) -> Void in
