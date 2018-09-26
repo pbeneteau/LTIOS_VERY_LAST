@@ -11,7 +11,7 @@ import UIKit
 
 class SettingsCell: UITableViewCell {
     
-    internal var settingsModel = SettingsModel()
+    internal var userSettings = mainUserInstance.settings
     
     @IBOutlet var backgroundImage: UIImageView!
     
@@ -52,10 +52,10 @@ class SettingsCell: UITableViewCell {
         let section = indexPath.section
         let row = indexPath.row
         
-        titleLabel.text = settingsModel.getName(section: section, row: row)
-        descriptionLabel.text = settingsModel.getDescription(section: section, row: row)
-        switchButton.isOn = settingsModel.getState(section: section, row: row)
-        type = settingsModel.getType(section: section, row: row)
+        titleLabel.text = userSettings?.getName(section: section, row: row)
+        descriptionLabel.text = userSettings?.getDescription(section: section, row: row)
+        switchButton.isOn = userSettings?.getState(section: section, row: row) ?? false
+        type = userSettings?.getType(section: section, row: row)
         
         if type == .onOff {
             switchButton.isHidden = false

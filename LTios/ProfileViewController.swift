@@ -16,7 +16,7 @@ class ProfileViewController: ModalViewViewController {
     
     private var settingsButton = UIButton()
     
-    private var profilePictureView = RoundImageView()
+    private var profilePictureView = RoundShadowImageView()
     
     private var usernameLabel = UILabel()
     private var badgeLabel = UILabel()
@@ -36,7 +36,6 @@ class ProfileViewController: ModalViewViewController {
         
         view.addSubview(containerView)
         
-        profilePictureView.image = UIImage(named: "profilePicture")
         profilePictureView.contentMode = .scaleAspectFill
         
         settingsButton.setImage(UIImage(named: "SettingsButton"), for: .normal)
@@ -44,17 +43,16 @@ class ProfileViewController: ModalViewViewController {
         containerView.addSubview(settingsButton)
         
         usernameLabel.font = UIFont.boldSystemFont(ofSize: 25)
-        usernameLabel.textColor = UIColor(red:0.00, green:0.05, blue:0.25, alpha:1.0)
+        usernameLabel.textColor = Color.Profile.publicName
         usernameLabel.textAlignment = .center
         containerView.addSubview(usernameLabel)
         
         badgeLabel.font = UIFont.boldSystemFont(ofSize: 15)
-        badgeLabel.textColor = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
+        badgeLabel.textColor = Color.Profile.badge
         badgeLabel.textAlignment = .center
         containerView.addSubview(badgeLabel)
         
-        lineView.backgroundColor = .gray
-        lineView.alpha = 0.15
+        lineView.backgroundColor = Color.separatorLine
         containerView.addSubview(lineView)
         
         block1.image = #imageLiteral(resourceName: "profile_block_1")
@@ -63,33 +61,24 @@ class ProfileViewController: ModalViewViewController {
         containerView.addSubview(block1)
         containerView.addSubview(profilePictureView)
         
-        contactsBox.backgroundColor = .white
+        contactsBox.backgroundColor = Color.roundedBlockView
         contactsBox.withShadow = true
         contactsBox.cornerRadius = 10
         containerView.addSubview(contactsBox)
         
         addNotificationsObserver()
+        
+        handleSnapchatLogin()
     }
     
     func handleSnapchatLogin() {
         
-        if  !SCSDKLoginClient.isUserLoggedIn {
-                        
-            SCSDKLoginClient.login(from: self, completion: { success, error in
-
-                if let error = error {
-                    print(error.localizedDescription)
-                    return
-                }
-                if success {
-//                    BitmojiServices.shared.fetchAvatarURL { url in
-//                        guard url != nil else { print("[Error] unwrapping Bitmoji url"); return }
-//                        //print(url)
-//                    }
-                }
-            })
-        } else {
-            
+        if  SCSDKLoginClient.isUserLoggedIn  {
+            // Crash ?
+//            SnapchatServices.shared.fetchAvatarURL { url in
+//                guard url != nil else { print("[Error] unwrapping Bitmoji url"); return }
+//                print(url ?? "Error")
+//            }
         }
     }
     
@@ -106,7 +95,7 @@ class ProfileViewController: ModalViewViewController {
         
         do { try Auth.auth().signOut() }
         catch let error {
-            print("[Error] while signing out: \(error.localizedDescription)")
+            print("[Error] signing out: \(error.localizedDescription)")
         }
     }
     
@@ -117,7 +106,7 @@ class ProfileViewController: ModalViewViewController {
         
         if mainUserInstance.photo == nil {
             StorageService.shared.downloadUserPicture(uid: mainUserInstance.uid) { photo in
-                guard let photo = photo else {print("[Error] unwrapping user photo"); return }
+                guard let photo = photo else { print("[Error] unwrapping user photo"); return }
                 self.profilePictureView.image = photo
             }
         } else {
@@ -203,7 +192,7 @@ extension ProfileViewController {
             make.width.equalTo(containerView).multipliedBy(0.7)
             make.height.equalTo(25)
             make.centerX.equalTo(containerView)
-            make.top.equalTo(profilePictureView.snp.bottom).offset(10)
+            make.top.equalTo(profilePictureView.snp.bottom).offset(15)
         }
         badgeLabel.snp.makeConstraints { (make) -> Void in
             make.width.equalTo(containerView).multipliedBy(0.7)

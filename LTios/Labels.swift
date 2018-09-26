@@ -20,7 +20,6 @@ class TitleLabel: UILabel {
     }
     
     func commonInit(){
-        textColor = TextColor.Dark.title
         textAlignment = .center
         font = LTFont.Menu.title
     }
@@ -38,7 +37,6 @@ class DescriptionLabel: UILabel {
     }
     
     func commonInit(){
-        textColor = TextColor.Dark.text
         textAlignment = .center
         font = LTFont.regular.text
         numberOfLines = 10
@@ -57,7 +55,6 @@ class NameLabel: UILabel {
     }
     
     func commonInit(){
-        textColor = TextColor.Dark.text
         textAlignment = .justified
         font = LTFont.regular.bigText
     }

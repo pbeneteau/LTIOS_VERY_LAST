@@ -19,7 +19,7 @@ class SettingsViewController: ModalViewViewController {
     
     private var tableView = SettingsTableView()
     
-    internal var settingsModel = SettingsModel()
+    var userSettings: UserSettings!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,11 +75,12 @@ class SettingsViewController: ModalViewViewController {
         publicName.text = mainUserInstance.publicName
         email.text = mainUserInstance.mail
         
-        let userSettings = [0: [0: true, 1: false, 2: false],
-                            1: [0: true, 1: true],
-                            2: [0: false]]
+        guard let settings = mainUserInstance.settings else {
+            print("[Error] unwrapping user settings")
+            return
+        }
         
-        settingsModel = SettingsModel(userSettings: userSettings)
+        userSettings = settings
         
         tableView.reloadData()
     }
@@ -102,11 +103,11 @@ class SettingsViewController: ModalViewViewController {
 extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return settingsModel.getTotalSections()
+        return userSettings.getTotalSections()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return settingsModel.getTotalRows(section: section)
+        return userSettings.getTotalRows(section: section)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt: IndexPath) -> CGFloat {
@@ -114,11 +115,11 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         let section = heightForRowAt.section
         let row = heightForRowAt.row
         
-        if settingsModel.getTotalRows(section: section) == 1 {
+        if userSettings.getTotalRows(section: section) == 1 {
             return 97
         } else if row == 0 {
             return 90
-        } else if row == settingsModel.getTotalRows(section: section) - 1 {
+        } else if row == userSettings.getTotalRows(section: section) - 1 {
             return 90
         } else {
             return 80
@@ -134,11 +135,11 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.indexPath = indexPath
         
-        if settingsModel.getTotalRows(section: section) == 1 {
+        if userSettings.getTotalRows(section: section) == 1 {
             cell.position = .solo
         } else if (row == 0) {
             cell.position = .first
-        } else if (row == settingsModel.getTotalRows(section: section) - 1) {
+        } else if (row == userSettings.getTotalRows(section: section) - 1) {
             cell.position = .last
         } else {
             cell.position = .middle
@@ -161,7 +162,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             return nil
         }
         
-        header.titleLabel.text = settingsModel.getSectionName(section: section)
+        header.titleLabel.text = userSettings.getSectionName(section: section)
         
         return header
     }

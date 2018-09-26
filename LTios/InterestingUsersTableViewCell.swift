@@ -39,10 +39,6 @@ class InterestingUsersTableViewCell: UITableViewCell {
         // initializations
         contentView.backgroundColor = .clear
 
-        bubble.backgroundColor = .red
-        bubble.shadowOpacity = 0.1
-        bubble.shadowOffset = CGSize(width: 0, height: 10)
-        bubble.shadowRadius = 10
         bubble.isUserInteractionEnabled = true
         
         // Layout

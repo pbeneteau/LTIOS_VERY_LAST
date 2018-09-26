@@ -48,7 +48,7 @@ class MenuViewController: UIViewController, UIScrollViewDelegate {
         let view = TitleLabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.text = currentPlaceName
-        view.textColor = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
+        view.textColor = Color.Menu.Title.normal
         view.alpha = 1.0
         view.sizeToFit()
         return view
@@ -103,7 +103,7 @@ class MenuViewController: UIViewController, UIScrollViewDelegate {
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.didTapHomeButton(_:)))
         homeMenuButton.addGestureRecognizer(tap)
-        homeMenuButton.updateCirclesColor(color: .white)
+        homeMenuButton.updateCirclesColor(color: Color.Menu.Button.normal)
         let forceTouch = ForceTouchGestureRecognizer(target: self, action: #selector(self.didForceTouchHomeButton(_:)))
         
         if traitCollection.forceTouchCapability == UIForceTouchCapability.available {
@@ -112,7 +112,7 @@ class MenuViewController: UIViewController, UIScrollViewDelegate {
         
         placesMenuButton.addTarget(self, action: #selector(didTapPlacesButton), for: .touchUpInside)
         
-        selectionMenuBar.backgroundColor = UIColor(red:0.11, green:0.20, blue:0.35, alpha:1.0)
+        selectionMenuBar.backgroundColor = Color.Menu.SelectionBar.normal
         selectionMenuBar.layer.cornerRadius = 6
         
         view.addSubview(profileMenuButton)
@@ -243,13 +243,11 @@ extension MenuViewController {
                 let alpha = (scrollView.contentOffset.x  - view.frame.size.width) / (view.frame.size.width)
                 colorEffectView.image = #imageLiteral(resourceName: "background_gradient_right")
                 colorEffectView.alpha = alpha
-                //statusBarWindow?.alpha = 1 - alpha * 5
                 currentController = 1
             } else if scrollView.contentOffset.x < view.frame.size.width {
                 let alpha = (scrollView.contentOffset.x / view.frame.size.width)
                 colorEffectView.image = #imageLiteral(resourceName: "background_gradient_left")
                 colorEffectView.alpha = 1 - alpha
-                //statusBarWindow?.alpha = alpha
                 currentController = -1
             } else {
                 currentController = 0
@@ -266,7 +264,6 @@ extension MenuViewController {
             if scrollView.contentOffset.y > 0 { // contactsVC
                 let alpha = (scrollView.contentOffset.y) / (view.frame.size.height)
                 colorEffectView.alpha = alpha
-                //statusBarWindow?.alpha = 1 - alpha * 5
             }
         }
     }
@@ -283,12 +280,12 @@ extension MenuViewController {
                 self.titleLabel.text = currentPlaceName
                 let alpha = ((scrollX - view.frame.width * 1.5) * 4) / (view.frame.width * 2)
                 self.titleLabel.alpha = alpha * -1
-                self.titleLabel.textColor = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
+                self.titleLabel.textColor = Color.Menu.Title.mainView
             } else {
                 let alpha = ((scrollX - view.frame.width * 1.5) * 4) / (view.frame.width * 2)
                 self.titleLabel.alpha = alpha
                 self.titleLabel.text = "Nearby Places"
-                self.titleLabel.textColor = .white
+                self.titleLabel.textColor = Color.Menu.Title.normal
             }
         } else if scrollX < view.frame.size.width { // ProfileVC
             self.titleLabel.snp.updateConstraints { (make) -> Void in
@@ -298,12 +295,12 @@ extension MenuViewController {
                 self.titleLabel.text = currentPlaceName
                 let alpha = 1 - (scrollX * 2) / view.frame.width
                 self.titleLabel.alpha = alpha * -1
-                self.titleLabel.textColor = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
+                self.titleLabel.textColor = Color.Menu.Title.mainView
             } else {
                 self.titleLabel.text = "Profile"
                 let alpha = 1 - (scrollX * 2) / view.frame.width
                 self.titleLabel.alpha = alpha
-                self.titleLabel.textColor = .white
+                self.titleLabel.textColor = Color.Menu.Title.normal
             }
         }
     }
@@ -431,33 +428,35 @@ extension MenuViewController {
 extension MenuViewController {
     
     func reachabilityDidChange(reachable: Bool) {
+        
         if !reachable {
-            profileMenuButton.tintColor = .white
-            placesMenuButton.tintColor = .white
-            selectionMenuBar.backgroundColor = UIColor.white
-            homeMenuButton.updateCirclesColor(color: .white)
+            profileMenuButton.tintColor = Color.Menu.Button.unreachable
+            placesMenuButton.tintColor = Color.Menu.Button.unreachable
+            selectionMenuBar.backgroundColor = Color.Menu.Button.unreachable
+            homeMenuButton.updateCirclesColor(color: Color.Menu.Button.unreachable)
             titleLabel.isHidden = true
         } else {
-            profileMenuButton.tintColor = UIColor(red:0.11, green:0.20, blue:0.35, alpha:1.0)
-            placesMenuButton.tintColor = UIColor(red:0.11, green:0.20, blue:0.35, alpha:1.0)
-            selectionMenuBar.backgroundColor = UIColor(red:0.11, green:0.20, blue:0.35, alpha:1.0)
-            homeMenuButton.updateCirclesColor(color: UIColor(red:0.11, green:0.20, blue:0.35, alpha:1.0))
+            profileMenuButton.tintColor = Color.Menu.Button.normal
+            placesMenuButton.tintColor = Color.Menu.Button.normal
+            selectionMenuBar.backgroundColor = Color.Menu.Button.normal
+            homeMenuButton.updateCirclesColor(color: Color.Menu.Button.normal)
             titleLabel.isHidden = false
         }
     }
     
     func privacyDidChange(ghost: Bool) {
+        
         if ghost {
-            profileMenuButton.tintColor = .white
-            placesMenuButton.tintColor = .white
-            selectionMenuBar.backgroundColor = UIColor.white
-            homeMenuButton.updateCirclesColor(color: .white)
+            profileMenuButton.tintColor = Color.Menu.Button.ghost
+            placesMenuButton.tintColor = Color.Menu.Button.ghost
+            selectionMenuBar.backgroundColor = Color.Menu.Button.ghost
+            homeMenuButton.updateCirclesColor(color: Color.Menu.Button.ghost)
             titleLabel.isHidden = true
         } else {
-            profileMenuButton.tintColor = UIColor(red:0.11, green:0.20, blue:0.35, alpha:1.0)
-            placesMenuButton.tintColor = UIColor(red:0.11, green:0.20, blue:0.35, alpha:1.0)
-            selectionMenuBar.backgroundColor = UIColor(red:0.11, green:0.20, blue:0.35, alpha:1.0)
-            homeMenuButton.updateCirclesColor(color: UIColor(red:0.11, green:0.20, blue:0.35, alpha:1.0))
+            profileMenuButton.tintColor = Color.Menu.Button.normal
+            placesMenuButton.tintColor = Color.Menu.Button.normal
+            selectionMenuBar.backgroundColor = Color.Menu.Button.normal
+            homeMenuButton.updateCirclesColor(color: Color.Menu.Button.normal)
             titleLabel.isHidden = false
         }
     }

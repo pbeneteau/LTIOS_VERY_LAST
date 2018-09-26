@@ -16,8 +16,8 @@ var mainUserInstance: MainUser!
 class MainUser: GlobalUser {
     
     private var authHandle: AuthStateDidChangeListenerHandle?
-    
     private var FIRUser = Auth.auth().currentUser!
+    
     var mail: String?
     var address: Address?
     var location: GeoPoint? {
@@ -43,6 +43,8 @@ class MainUser: GlobalUser {
             uploadPhoto()
         }
     }
+    
+    var settings: UserSettings!
     
     override init() {
         super.init()
@@ -96,6 +98,12 @@ class MainUser: GlobalUser {
         self.firstName = (name!["firstName"])!
         self.lastName = (name!["lastName"])!
         
+        if let settings = data["settings"] as? [String : [String: Bool]] {
+            self.settings = UserSettings(userSettings: settings)
+        } else {
+            print("[Error] unwrapping user settings")
+        }
+                
         saveBasicInformation()
         notifyDidUpdateUserInformation()
     }

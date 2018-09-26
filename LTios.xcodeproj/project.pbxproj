@@ -72,7 +72,7 @@
 		3864662A1F85267D00C18D53 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386466291F85267D00C18D53 /* Fonts.swift */; };
 		3864662C1F8526B200C18D53 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3864662B1F8526B200C18D53 /* Colors.swift */; };
 		38700AE7214C2A8D000ACE44 /* SnapchatServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38700AE6214C2A8D000ACE44 /* SnapchatServices.swift */; };
-		387A20B321501CD800B50AF4 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387A20B221501CD800B50AF4 /* SettingsModel.swift */; };
+		387A20B321501CD800B50AF4 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387A20B221501CD800B50AF4 /* Settings.swift */; };
 		387FC5C22153DB730064DA08 /* SettingsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387FC5C12153DB720064DA08 /* SettingsTableView.swift */; };
 		38B8526E21233F9E002EBB18 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 38B8526D21233F9E002EBB18 /* GoogleService-Info.plist */; };
 		38B85270212340C1002EBB18 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38B8526F212340C1002EBB18 /* MapKit.framework */; };
@@ -183,7 +183,7 @@
 		386466291F85267D00C18D53 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		3864662B1F8526B200C18D53 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		38700AE6214C2A8D000ACE44 /* SnapchatServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapchatServices.swift; sourceTree = "<group>"; };
-		387A20B221501CD800B50AF4 /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
+		387A20B221501CD800B50AF4 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		387FC5C12153DB720064DA08 /* SettingsTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableView.swift; sourceTree = "<group>"; };
 		38B8526D21233F9E002EBB18 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		38B8526F212340C1002EBB18 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -467,8 +467,7 @@
 				002D61551F24DB4E00C2768F /* Variables.swift */,
 				0029BA651F30A37F00C67810 /* Extension.swift */,
 				386466271F85264D00C18D53 /* Labels.swift */,
-				386466291F85267D00C18D53 /* Fonts.swift */,
-				3864662B1F8526B200C18D53 /* Colors.swift */,
+				387A20B221501CD800B50AF4 /* Settings.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -509,20 +508,11 @@
 			isa = PBXGroup;
 			children = (
 				387FC5C12153DB720064DA08 /* SettingsTableView.swift */,
-				387A20B421501D0000B50AF4 /* ViewModel */,
 				387A20B521501D2000B50AF4 /* Cells */,
 				389D462921580FBD00263FB5 /* SectionHeader */,
 				38D0D9832156F47900FAB683 /* Snapchat */,
 			);
 			name = Settings;
-			sourceTree = "<group>";
-		};
-		387A20B421501D0000B50AF4 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				387A20B221501CD800B50AF4 /* SettingsModel.swift */,
-			);
-			name = ViewModel;
 			sourceTree = "<group>";
 		};
 		387A20B521501D2000B50AF4 /* Cells */ = {
@@ -587,6 +577,8 @@
 			isa = PBXGroup;
 			children = (
 				38D0D97821546E0F00FAB683 /* Constants.swift */,
+				3864662B1F8526B200C18D53 /* Colors.swift */,
+				386466291F85267D00C18D53 /* Fonts.swift */,
 			);
 			name = Constants;
 			sourceTree = "<group>";
@@ -989,7 +981,7 @@
 				0003288C1F2F874F003F81F7 /* PhoneVerificationViewController.swift in Sources */,
 				006BDCE61F2F8A09006DEF17 /* Scanning.swift in Sources */,
 				0007E4DB1F1FECD700EBA50C /* AppDelegate.swift in Sources */,
-				387A20B321501CD800B50AF4 /* SettingsModel.swift in Sources */,
+				387A20B321501CD800B50AF4 /* Settings.swift in Sources */,
 				006BDCC51F2F8863006DEF17 /* FirstContactImportViewController.swift in Sources */,
 				38523EAD214DBC390078B0A1 /* SettingsCell.swift in Sources */,
 				0007E4E31F1FECD700EBA50C /* LTios.xcdatamodeld in Sources */,

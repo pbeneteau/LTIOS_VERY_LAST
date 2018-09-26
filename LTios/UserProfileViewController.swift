@@ -14,12 +14,12 @@ class UserProfileViewController: InteractiveViewController {
     
     private var containerView = UIView()
     
-    private var dismissLineView = roundedView()
+    private var dismissLineView = RoundView()
     
     var profilePictureView = RoundImageView()
     private let outerView = UIView()
     
-    var onlineStatut = roundedView()
+    var onlineStatut = RoundView()
     
     var userNameLabel =  UILabel()
     var userTitle = UILabel()

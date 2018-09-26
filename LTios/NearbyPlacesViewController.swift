@@ -32,7 +32,7 @@ class NearbyPlacesViewController: ModalViewViewController {
         
         view.backgroundColor = .clear
         
-        containerView.backgroundColor = .white
+        containerView.backgroundColor = Color.viewControllerBackground
         
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -40,21 +40,21 @@ class NearbyPlacesViewController: ModalViewViewController {
         hundredMettersLabel.textAlignment = .center
         hundredMettersLabel.text = "100m"
         hundredMettersLabel.font = UIFont(name: "Roboto-Medium", size: 35)
-        hundredMettersLabel.textColor = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
+        hundredMettersLabel.textColor = Color.NearbyPlaces.Distance.Label.selected
         
         fiveHundredMettersLabel.textAlignment = .center
         fiveHundredMettersLabel.text = "500m"
         fiveHundredMettersLabel.font = UIFont(name: "Roboto-Medium", size: 21)
-        fiveHundredMettersLabel.textColor = UIColor(red:0.88, green:0.88, blue:0.88, alpha:1.0)
+        fiveHundredMettersLabel.textColor = Color.NearbyPlaces.Distance.Label.normal
         
         ThousandLabel.textAlignment = .center
         ThousandLabel.text = "1000m"
         ThousandLabel.font = UIFont(name: "Roboto-Medium", size: 21)
-        ThousandLabel.textColor = UIColor(red:0.88, green:0.88, blue:0.88, alpha:1.0)
+        ThousandLabel.textColor = Color.NearbyPlaces.Distance.Label.normal
         
         distanceLine.progress = 0.0015
-        distanceLine.progressTintColor = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
-        distanceLine.trackTintColor = UIColor(red:0.88, green:0.88, blue:0.88, alpha:1.0)
+        distanceLine.progressTintColor = Color.NearbyPlaces.Distance.ProgressView.progress
+        distanceLine.trackTintColor = Color.NearbyPlaces.Distance.ProgressView.background
         
         view.addSubview(containerView)
         
@@ -337,8 +337,8 @@ extension NearbyPlacesViewController: UICollectionViewDelegateFlowLayout, UIColl
     func setCurrentDistanceSection(section: Int) {
         
         if section == 0 && self.currentSection != 0 {
-            self.hundredMettersLabel.textColor = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
-            self.fiveHundredMettersLabel.textColor = UIColor(red:0.88, green:0.88, blue:0.88, alpha:1.0)
+            self.hundredMettersLabel.textColor = Color.NearbyPlaces.Distance.Label.selected
+            self.fiveHundredMettersLabel.textColor = Color.NearbyPlaces.Distance.Label.normal
             
             self.hundredMettersLabel.animate(fontSize: 35, duration: 0.2, animateAnchorPoint: LabelAnimateAnchorPoint.centerXCenterY)
             self.fiveHundredMettersLabel.animate(fontSize: 21, duration: 0.2, animateAnchorPoint: LabelAnimateAnchorPoint.centerXCenterY)
@@ -352,9 +352,9 @@ extension NearbyPlacesViewController: UICollectionViewDelegateFlowLayout, UIColl
             self.currentSection = section
             
         } else if section == 1 && self.currentSection != 1 {
-            self.fiveHundredMettersLabel.textColor = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
-            self.hundredMettersLabel.textColor = UIColor(red:0.88, green:0.88, blue:0.88, alpha:1.0)
-            self.ThousandLabel.textColor = UIColor(red:0.88, green:0.88, blue:0.88, alpha:1.0)
+            self.fiveHundredMettersLabel.textColor = Color.NearbyPlaces.Distance.Label.selected
+            self.hundredMettersLabel.textColor = Color.NearbyPlaces.Distance.Label.normal
+            self.ThousandLabel.textColor = Color.NearbyPlaces.Distance.Label.normal
             
             self.fiveHundredMettersLabel.animate(fontSize: 35, duration: 0.2, animateAnchorPoint: LabelAnimateAnchorPoint.centerXCenterY)
             self.hundredMettersLabel.animate(fontSize: 21, duration: 0.2, animateAnchorPoint: LabelAnimateAnchorPoint.centerXCenterY)
@@ -369,8 +369,8 @@ extension NearbyPlacesViewController: UICollectionViewDelegateFlowLayout, UIColl
             self.currentSection = section
             
         } else if section == 2 && self.currentSection != 2 {
-            self.ThousandLabel.textColor = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
-            self.fiveHundredMettersLabel.textColor = UIColor(red:0.88, green:0.88, blue:0.88, alpha:1.0)
+            self.ThousandLabel.textColor = Color.NearbyPlaces.Distance.Label.selected
+            self.fiveHundredMettersLabel.textColor = Color.NearbyPlaces.Distance.Label.normal
             
             self.ThousandLabel.animate(fontSize: 35, duration: 0.2, animateAnchorPoint: LabelAnimateAnchorPoint.centerXCenterY)
             self.fiveHundredMettersLabel.animate(fontSize: 21, duration: 0.2, animateAnchorPoint: LabelAnimateAnchorPoint.centerXCenterY)
@@ -467,7 +467,7 @@ extension NearbyPlacesViewController {
             
             collectionView.snp.makeConstraints { (make) -> Void in
                 make.width.equalTo(containerView)
-                make.height.equalTo(containerView).multipliedBy(0.85)
+                make.height.equalTo(containerView).multipliedBy(0.9)
                 make.centerX.equalTo(containerView)
                 make.bottom.equalTo(containerView)
             }
