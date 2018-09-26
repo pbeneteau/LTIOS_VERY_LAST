@@ -266,9 +266,7 @@ extension NearbyPlacesViewController: UICollectionViewDelegateFlowLayout, UIColl
                 return headerView
             }
             
-            let sectionTitles = ["Moins de 100m", "Moins de 1km", "Plus de 1km"]
-            
-            headerView.label.text = sectionTitles[indexPath.section]
+            let _ = ["Moins de 100m", "Moins de 1km", "Plus de 1km"]
             
             return headerView
             

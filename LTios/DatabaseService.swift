@@ -211,12 +211,12 @@ extension DatabaseService {
         }
     }
     
-    func updateOnOffSettings(section: Int, row: Int, state: Bool, completion: @escaping(Bool) -> Void) {
+    func updateOnOffSettings(section: String, code: String, state: Bool, completion: @escaping(Bool) -> Void) {
         
         let ref = self.db.document("users/\(String(describing: mainUserInstance.uid!))")
         
         ref.updateData([
-            "settings.\(section).\(row)" : state
+            "settings.\(section).\(code)" : state
         ]) { err in
             if let err = err {
                 print("[Error] updating notifications settings: \(err.localizedDescription)")

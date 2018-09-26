@@ -93,8 +93,11 @@ class SettingsViewController: ModalViewViewController {
             self.publicName.alpha = 0
             self.email.alpha = 0
             self.tableView.alpha = 0
+        }, completion: { end in
+            self.removeFromParentViewController()
+            self.view.removeFromSuperview()
+            self.notifyDidTapCloseButton()
         })
-        
     }
     
 }
@@ -133,7 +136,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         let section = indexPath.section
         let row = indexPath.row
         
-        cell.indexPath = indexPath
+        cell.settings = userSettings.settings[section][row]
         
         if userSettings.getTotalRows(section: section) == 1 {
             cell.position = .solo
@@ -177,6 +180,14 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+}
+
+// MARK: Notifications
+extension SettingsViewController {
+    
+    private func notifyDidTapCloseButton() {
+        NotificationCenter.default.post(name: Notification.Name(rawValue:"didCloseSettings"), object: nil)
+    }
 }
 
 

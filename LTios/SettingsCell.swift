@@ -11,7 +11,7 @@ import UIKit
 
 class SettingsCell: UITableViewCell {
     
-    internal var userSettings = mainUserInstance.settings
+    internal var settings: Settings!
     
     @IBOutlet var backgroundImage: UIImageView!
     
@@ -23,19 +23,10 @@ class SettingsCell: UITableViewCell {
     
     @IBOutlet weak var switchButton: UISwitch!
     
-    var indexPath: IndexPath!
     var position: SettingsCellPosition!
     
     var type: SettingsCellType!
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
     
     func commonInit() {
         
@@ -48,14 +39,11 @@ class SettingsCell: UITableViewCell {
         } else {
             backgroundImage.image = UIImage(named: "CellBackgroundSolo")
         }
-        
-        let section = indexPath.section
-        let row = indexPath.row
-        
-        titleLabel.text = userSettings?.getName(section: section, row: row)
-        descriptionLabel.text = userSettings?.getDescription(section: section, row: row)
-        switchButton.isOn = userSettings?.getState(section: section, row: row) ?? false
-        type = userSettings?.getType(section: section, row: row)
+
+        titleLabel.text = settings.name
+        descriptionLabel.text = settings.description
+        switchButton.isOn = settings.state
+        type = settings.type
         
         if type == .onOff {
             switchButton.isHidden = false
@@ -105,7 +93,7 @@ class SettingsCell: UITableViewCell {
         
         if type == .onOff {
             
-            DatabaseService.shared.updateOnOffSettings(section: self.indexPath.section, row: self.indexPath.row, state: switchButton.isOn) { success in
+            DatabaseService.shared.updateOnOffSettings(section: self.settings.section.lowercased(), code: self.settings.code, state: switchButton.isOn) { success in
             }
         }
     }

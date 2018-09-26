@@ -75,20 +75,48 @@ class ProfileViewController: ModalViewViewController {
         
         if  SCSDKLoginClient.isUserLoggedIn  {
             // Crash ?
-//            SnapchatServices.shared.fetchAvatarURL { url in
-//                guard url != nil else { print("[Error] unwrapping Bitmoji url"); return }
-//                print(url ?? "Error")
-//            }
+            //            SnapchatServices.shared.fetchAvatarURL { url in
+            //                guard url != nil else { print("[Error] unwrapping Bitmoji url"); return }
+            //                print(url ?? "Error")
+            //            }
         }
     }
     
     @objc func didTapSettingsButton() {
         
         let controller: SettingsViewController = SettingsViewController()
-
+        
         prepareSettingsSegue { end in
             self.segueToSettingsVC(controller: controller)
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(self.didCloseSettings), name: Notification.Name(rawValue:"didCloseSettings"), object: nil)
         }
+    }
+    
+    @objc func didCloseSettings() {
+        
+        NotificationCenter.default.removeObserver(self, name: Notification.Name(rawValue:"didCloseSettings"), object: nil)
+        
+        settingsButton.isHidden = false
+        
+        profilePictureView.snp.remakeConstraints { (make) -> Void in
+            make.width.equalTo(containerView).multipliedBy(0.3125)
+            make.height.equalTo(profilePictureView.snp.width)
+            make.centerX.equalTo(containerView)
+            make.top.equalTo(containerView).offset(40)
+        }
+        
+        UIView.animate(withDuration: TimeInterval(0.5), animations: {
+            
+            self.view.layoutIfNeeded()
+            
+            self.usernameLabel.alpha = 1
+            self.badgeLabel.alpha = 1
+            self.lineView.alpha = 1
+            self.block1.alpha = 1
+            self.contactsBox.alpha = 1
+            
+        })
     }
     
     @objc func didTapLogOutButton() {
@@ -235,3 +263,4 @@ extension ProfileViewController {
         self.containerView.addSubview(controller.view)
     }
 }
+
