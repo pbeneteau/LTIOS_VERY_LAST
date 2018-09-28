@@ -18,7 +18,7 @@ class ContactsTableViewCell: UITableViewCell {
     
     var name = UILabel()
     var surname = UILabel()
-    var profilePicture = UIImageView()
+    var profilePicture = RoundShadowImageView()
     var country = UILabel()
     var status = UILabel()
     var lineSeparator = UIView()
@@ -46,27 +46,24 @@ class ContactsTableViewCell: UITableViewCell {
         addSubview(status)
         addSubview(lineSeparator)
         
-        
         cellView.backgroundColor = UIColor(red:1.00, green:1.00, blue:1.00, alpha:0.11)
         cellView.layer.cornerRadius = 4.0
         
-        name.textColor = UIColor(red:0.11, green:0.20, blue:0.35, alpha:1.0)
+        name.textColor = UIColor.gray
         name.font = UIFont(name: "Roboto-Regular", size: 16)
         
-        surname.textColor = UIColor(red:0.11, green:0.20, blue:0.35, alpha:1.0)
+        surname.textColor = UIColor.darkGray
         surname.font = UIFont(name: "Roboto-Bold", size: 16)
         
-        country.textColor = UIColor(red:0.42, green:0.42, blue:0.42, alpha:1.0)
+        country.textColor = UIColor.lightGray
         country.font = UIFont(name: "Roboto-Regular", size: 11)
         
         status.textColor = UIColor(red:0.69, green:0.42, blue:0.70, alpha:1.0)
         status.font = UIFont(name: "Roboto-Bold", size: 11)
-        
-        profilePicture.image = #imageLiteral(resourceName: "profilePicture")
-        profilePicture.setRounded(width: 43)
-        
+        status.isHidden = true
+                
         lineSeparator.backgroundColor = .gray
-        lineSeparator.alpha = 0.45
+        lineSeparator.alpha = 0.3
         
         updateConstraints()
     }
@@ -80,23 +77,24 @@ class ContactsTableViewCell: UITableViewCell {
         if !didSetupConstraints {
             
             profilePicture.snp.makeConstraints { (make) -> Void in
-                make.width.height.equalTo(43)
+                make.height.equalTo(contentView).multipliedBy(0.8)
+                make.width.equalTo(profilePicture.snp.height)
                 make.centerY.equalTo(contentView)
                 make.left.equalTo(contentView).offset(14)
             }
             
             name.snp.makeConstraints { (make) -> Void in
-                make.top.equalTo(14)
+                make.top.equalTo(16)
                 make.left.equalTo(profilePicture.snp.right).offset(11)
             }
             
             surname.snp.makeConstraints { (make) -> Void in
-                make.top.equalTo(14)
+                make.top.equalTo(16)
                 make.left.equalTo(name.snp.right).offset(4)
             }
             
             country.snp.makeConstraints { (make) -> Void in
-                make.top.equalTo(name.snp.bottom).offset(3)
+                make.top.equalTo(name.snp.bottom).offset(4)
                 make.left.equalTo(name)
             }
             

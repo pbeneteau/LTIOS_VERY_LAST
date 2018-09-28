@@ -18,7 +18,6 @@ class MainViewController: ModalViewViewController {
     private var NearbyInterestingUsers = [InterestingUser]()
     private var bluetoothInterestingUsers = [InterestingUser]()
     
-    private var locator = LocationService.shared
     private var reachability = Reachability()!
     private var isPrivate = false
     
@@ -31,8 +30,8 @@ class MainViewController: ModalViewViewController {
     private var errorLabel = errorLabelLabel()
     
     private var tableView = InterestingUsersTableView()
-    
-    private var bluetoothSession: BluetoothServices!
+        
+    private var closeUserbannerAlertDisplayed = false
     
     enum Alert {
         case reachability
@@ -68,7 +67,7 @@ class MainViewController: ModalViewViewController {
         do {
             try reachability.startNotifier()
         } catch{
-            print("[Error] Could not start reachability notifier.")
+            print("[Error] could not start reachability notifier")
         }
     }
 }
@@ -80,8 +79,7 @@ extension MainViewController {
     @objc func didUpdateUserProfile(_ notification: NSNotification) {
         
         // Start nearby bluetooth devices scan
-        bluetoothSession = BluetoothServices()
-        bluetoothSession.updateAdvertisingData()
+        BluetoothServices.shared.updateAdvertisingData()
     }
     
     @objc func didFoundNearbyBluetoothUsers(_ notification: NSNotification) {
@@ -97,7 +95,7 @@ extension MainViewController {
         
             InterestingUsers.shared.getInterestingUsers(nearbyUsers: nearbyUsers) { interestingUsers in
                 
-                guard let interestingUsers = interestingUsers else { print("[Error] while unwrapping nearby users"); return }
+                guard let interestingUsers = interestingUsers else { print("[Error] unwrapping nearby users"); return }
                 self.addDataToTableView(newInterestingUsers: interestingUsers)
             }
         }
@@ -110,6 +108,10 @@ extension MainViewController {
         if newInterestingUsers.count > 0 {
             self.NearbyInterestingUsers = newInterestingUsers
             self.interestingPeopleNumbersLabel.text = "\(NearbyInterestingUsers.count) interesting people found close to you"
+            if !closeUserbannerAlertDisplayed {
+                showAlertBanner(.closePeople)
+                closeUserbannerAlertDisplayed = true
+            }
             self.tableView.reloadData()
         } else {
             self.interestingPeopleNumbersLabel.text = "Arf... We haven't found anyone around you"
@@ -274,6 +276,7 @@ extension MainViewController {
         
         switch alert {
         case .reachability:
+            showAlertBanner(.unreachable)
             errorIcon.image = UIImage(named: "wifi_icon")
             errorTitle.text = "Connexion issue"
             errorLabel.text = "Make sure you are connected to the internet"
@@ -328,6 +331,13 @@ extension MainViewController {
         errorIcon.isHidden = true
         errorTitle.isHidden = true
         errorLabel.isHidden = true
+    }
+    
+    func showAlertBanner(_ type: BannerType) {
+        
+        if (MenuInstance.currentController) != 0 {
+            AlertBanner.showBanner(type)
+        }
     }
     
 }

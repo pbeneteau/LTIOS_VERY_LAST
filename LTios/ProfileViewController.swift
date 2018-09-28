@@ -12,18 +12,36 @@ import SCSDKLoginKit
 
 class ProfileViewController: ModalViewViewController {
     
+    private var backgroundView = UIView()
     private var containerView = UIView()
+    
+    private lazy var scrollView: UIScrollView = {
+        let view = UIScrollView()
+        view.delegate = self
+        view.showsHorizontalScrollIndicator = false
+        view.tag = 10
+        view.backgroundColor = .clear
+        view.bounces = true
+        view.contentSize = CGSize(width: 1, height: 1)
+        if #available(iOS 11.0, *) {
+            view.contentInsetAdjustmentBehavior = .never
+        }
+        return view
+    }()
     
     private var settingsButton = UIButton()
     
     private var profilePictureView = RoundShadowImageView()
     
-    private var usernameLabel = UILabel()
-    private var badgeLabel = UILabel()
+    private var fullName = UILabel()
+    private var publicName = UILabel()
     private var lineView = UIView()
-    private var block1 = UIImageView()
     
-    private var contactsBox = roundedCornerView()
+    private var notificationsLabel = UILabel()
+    private var notificationsBlock = RoundShadowView()
+    
+    private var contactsLabel = UILabel()
+    private var contactsVC = ContactsViewController()
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -32,64 +50,93 @@ class ProfileViewController: ModalViewViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        containerView.backgroundColor = .white
-        
-        view.addSubview(containerView)
+        backgroundView.backgroundColor = Color.viewControllerBackground
+        containerView.backgroundColor = Color.viewControllerBackground
+        scrollView.backgroundColor = Color.viewControllerBackground
         
         profilePictureView.contentMode = .scaleAspectFill
         
         settingsButton.setImage(UIImage(named: "SettingsButton"), for: .normal)
         settingsButton.addTarget(self, action: #selector(didTapSettingsButton), for: .touchUpInside)
-        containerView.addSubview(settingsButton)
         
-        usernameLabel.font = UIFont.boldSystemFont(ofSize: 25)
-        usernameLabel.textColor = Color.Profile.publicName
-        usernameLabel.textAlignment = .center
-        containerView.addSubview(usernameLabel)
+        fullName.font = UIFont(name: "Roboto-Medium", size: 25)
+        fullName.textColor = Color.Profile.publicName
+        fullName.textAlignment = .center
         
-        badgeLabel.font = UIFont.boldSystemFont(ofSize: 15)
-        badgeLabel.textColor = Color.Profile.badge
-        badgeLabel.textAlignment = .center
-        containerView.addSubview(badgeLabel)
+        publicName.font = UIFont.boldSystemFont(ofSize: 15)
+        publicName.textColor = Color.Profile.badge
+        publicName.textAlignment = .center
         
         lineView.backgroundColor = Color.separatorLine
+        
+        notificationsLabel.text = "Notifications"
+        notificationsLabel.font = UIFont(name: "Roboto-Regular", size: 20)
+        notificationsLabel.textColor = UIColor.lightGray
+        
+        notificationsBlock.backgroundColor = .white
+        
+        contactsLabel.text = "Contacts"
+        contactsLabel.font = UIFont(name: "Roboto-Regular", size: 20)
+        contactsLabel.textColor = UIColor.lightGray
+        
+        view.addSubview(backgroundView)
+        view.addSubview(containerView)
+        view.addSubview(scrollView)
+        
+        containerView.addSubview(settingsButton)
+        containerView.addSubview(fullName)
+        containerView.addSubview(publicName)
         containerView.addSubview(lineView)
-        
-        block1.image = #imageLiteral(resourceName: "profile_block_1")
-        block1.contentMode = .scaleAspectFill
-        
-        containerView.addSubview(block1)
         containerView.addSubview(profilePictureView)
         
-        contactsBox.backgroundColor = Color.roundedBlockView
-        contactsBox.withShadow = true
-        contactsBox.cornerRadius = 10
-        containerView.addSubview(contactsBox)
+        scrollView.addSubview(notificationsLabel)
+        scrollView.addSubview(notificationsBlock)
+        scrollView.addSubview(contactsLabel)
         
-        addNotificationsObserver()
+        addContactsVC()
         
-        handleSnapchatLogin()
+        addNotificationsObservers()
     }
     
-    func handleSnapchatLogin() {
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
-        if  SCSDKLoginClient.isUserLoggedIn  {
-            // Crash ?
-            //            SnapchatServices.shared.fetchAvatarURL { url in
-            //                guard url != nil else { print("[Error] unwrapping Bitmoji url"); return }
-            //                print(url ?? "Error")
-            //            }
-        }
+        scrollView.contentSize = CGSize(width: view.frame.size.width, height: CGFloat(Float(view.frame.height) + contactsVC.getTableViewContentOffset()) + 50)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        containerView.roundCorners(corners: [.topLeft , .topRight], radius: 10)
+    }
+    
+    func addContactsVC() {
+        
+        contactsVC.view.backgroundColor = .white
+        
+        addChildViewController(contactsVC)
+        scrollView.addSubview(contactsVC.view)
     }
     
     @objc func didTapSettingsButton() {
         
-        let controller: SettingsViewController = SettingsViewController()
+        var delay: TimeInterval = 0
         
-        prepareSettingsSegue { end in
-            self.segueToSettingsVC(controller: controller)
+        if scrollView.contentOffset.y != 0 {
+            delay = 0.4
+            scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
             
-            NotificationCenter.default.addObserver(self, selector: #selector(self.didCloseSettings), name: Notification.Name(rawValue:"didCloseSettings"), object: nil)
+            let controller: SettingsViewController = SettingsViewController()
+            
+            self.prepareSettingsSegue { end in
+                
+                self.segueToSettingsVC(controller: controller)
+                
+                NotificationCenter.default.addObserver(self, selector: #selector(self.didCloseSettings), name: Notification.Name(rawValue:"didCloseSettings"), object: nil)
+            }
         }
     }
     
@@ -100,22 +147,22 @@ class ProfileViewController: ModalViewViewController {
         settingsButton.isHidden = false
         
         profilePictureView.snp.remakeConstraints { (make) -> Void in
-            make.width.equalTo(containerView).multipliedBy(0.3125)
-            make.height.equalTo(profilePictureView.snp.width)
+            make.height.equalTo(containerView).multipliedBy(0.4)
+            make.width.equalTo(profilePictureView.snp.height)
             make.centerX.equalTo(containerView)
-            make.top.equalTo(containerView).offset(40)
+            make.top.equalTo(containerView).offset(40 - 25 * (Float(scrollView.contentOffset.y) / maxContentOffset() * 4))
         }
         
         UIView.animate(withDuration: TimeInterval(0.5), animations: {
             
             self.view.layoutIfNeeded()
             
-            self.usernameLabel.alpha = 1
-            self.badgeLabel.alpha = 1
+            self.fullName.alpha = 1
+            self.publicName.alpha = 1
             self.lineView.alpha = 1
-            self.block1.alpha = 1
-            self.contactsBox.alpha = 1
-            
+            self.notificationsBlock.alpha = 1
+            self.scrollView.alpha = 1
+            self.containerView.alpha = 1
         })
     }
     
@@ -129,8 +176,8 @@ class ProfileViewController: ModalViewViewController {
     
     @objc func didUpdateUserProfile() {
         
-        usernameLabel.text = mainUserInstance.fullName
-        badgeLabel.text = mainUserInstance.publicName
+        fullName.text = mainUserInstance.fullName
+        publicName.text = mainUserInstance.publicName
         
         if mainUserInstance.photo == nil {
             StorageService.shared.downloadUserPicture(uid: mainUserInstance.uid) { photo in
@@ -144,10 +191,55 @@ class ProfileViewController: ModalViewViewController {
     
 }
 
+// MARK: Scroll View Delegate
+extension ProfileViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        if scrollView.contentOffset.y <= view.frame.height * 0.4 && scrollView.contentOffset.y >= 30 {
+            
+            let multiplicator = (Float(scrollView.contentOffset.y) / maxContentOffset() * 4)
+            
+            containerView.snp.remakeConstraints { (make) -> Void in
+                make.width.equalTo(view)
+                make.height.equalTo(view).multipliedBy(0.3).offset(-160 * multiplicator)
+                make.centerX.equalTo(view)
+                make.top.equalTo(view).offset(90)
+            }
+            
+            profilePictureView.snp.makeConstraints { (make) -> Void in
+                make.height.equalTo(containerView).multipliedBy(0.4)
+                make.width.equalTo(profilePictureView.snp.height)
+                make.centerX.equalTo(containerView)
+                make.top.equalTo(containerView).offset(40 - 25 * multiplicator)
+            }
+            
+            fullName.snp.makeConstraints { (make) -> Void in
+                make.width.equalTo(containerView).multipliedBy(0.7)
+                make.height.equalTo(25)
+                make.centerX.equalTo(containerView)
+                make.top.equalTo(profilePictureView.snp.bottom).offset(15 - 10 * multiplicator)
+            }
+            
+            fullName.font = UIFont(name: "Roboto-Medium", size: CGFloat(25 - 10 * multiplicator))
+            
+            publicName.alpha = CGFloat(1 - multiplicator * 2)
+            lineView.alpha = CGFloat(1 - multiplicator * 2)
+            
+            containerView.layoutSubviews()
+        }
+    }
+    
+    func maxContentOffset() -> Float {
+        return Float(scrollView.contentSize.height - scrollView.bounds.height + scrollView.contentInset.bottom)
+    }
+    
+}
+
 // MARK: Norifications Observer
 extension ProfileViewController {
     
-    func addNotificationsObserver() {
+    func addNotificationsObservers() {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.didUpdateUserProfile), name: Notification.Name(rawValue:"didUpdateUserInformation"), object: nil)
     }
@@ -155,7 +247,6 @@ extension ProfileViewController {
 
 // MARK: Animations
 extension ProfileViewController {
-    
     
     func prepareSettingsSegue(completion: @escaping(Bool) -> Void) {
         
@@ -170,11 +261,11 @@ extension ProfileViewController {
         UIView.animate(withDuration: TimeInterval(0.5), animations: {
             self.view.layoutIfNeeded()
             
-            self.usernameLabel.alpha = 0
-            self.badgeLabel.alpha = 0
+            self.fullName.alpha = 0
+            self.publicName.alpha = 0
             self.lineView.alpha = 0
-            self.block1.alpha = 0
-            self.contactsBox.alpha = 0
+            self.notificationsBlock.alpha = 0
+            self.scrollView.alpha = 0
             
         }, completion: { end in
             completion(true)
@@ -186,65 +277,92 @@ extension ProfileViewController {
 // MARK: Constraints
 extension ProfileViewController {
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        containerView.layer.cornerRadius = 10
-        containerView.layer.shadowColor = UIColor.black.cgColor
-        containerView.layer.shadowOpacity = 0.15
-        containerView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        containerView.layer.shadowRadius = 5
-    }
-    
     override func updateViewConstraints() {
+        
+        backgroundView.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(view)
+            make.height.equalTo(view)
+            make.centerX.equalTo(view)
+            make.top.equalTo(view).offset(100)
+        }
         
         containerView.snp.makeConstraints { (make) -> Void in
             make.width.equalTo(view)
-            make.height.equalTo(view).multipliedBy(0.9)
+            make.height.equalTo(view).multipliedBy(0.3)
             make.centerX.equalTo(view)
-            make.bottom.equalTo(view)
+            make.top.equalTo(view).offset(90)
         }
+        
         settingsButton.snp.makeConstraints { (make) -> Void in
             make.width.equalTo(33)
             make.height.equalTo(33)
             make.right.equalTo(containerView).inset(20)
             make.top.equalTo(containerView).inset(20)
         }
+        
         profilePictureView.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(containerView).multipliedBy(0.3125)
-            make.height.equalTo(profilePictureView.snp.width)
+            make.height.equalTo(containerView).multipliedBy(0.4)
+            make.width.equalTo(profilePictureView.snp.height)
             make.centerX.equalTo(containerView)
             make.top.equalTo(containerView).offset(40)
         }
-        usernameLabel.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(containerView).multipliedBy(0.7)
+        
+        fullName.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(containerView.snp.height).multipliedBy(0.7)
             make.height.equalTo(25)
             make.centerX.equalTo(containerView)
             make.top.equalTo(profilePictureView.snp.bottom).offset(15)
         }
-        badgeLabel.snp.makeConstraints { (make) -> Void in
+        
+        publicName.snp.makeConstraints { (make) -> Void in
             make.width.equalTo(containerView).multipliedBy(0.7)
             make.height.equalTo(25)
             make.centerX.equalTo(containerView)
-            make.top.equalTo(usernameLabel.snp.bottom).offset(3)
+            make.top.equalTo(fullName.snp.bottom).offset(3)
         }
+        
         lineView.snp.makeConstraints { (make) -> Void in
             make.width.equalTo(containerView).multipliedBy(0.3)
             make.height.equalTo(0.5)
             make.centerX.equalTo(containerView)
-            make.top.equalTo(badgeLabel.snp.bottom).offset(8)
+            make.top.equalTo(publicName.snp.bottom).offset(8)
         }
-        block1.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(containerView).multipliedBy(0.9)
-            make.height.equalTo(89)
-            make.centerX.equalTo(containerView)
-            make.top.equalTo(lineView.snp.bottom).offset(20)
+        
+        scrollView.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(view)
+            make.height.equalTo(contactsVC.getTableViewContentOffset())
+            make.centerX.equalTo(view)
+            make.top.equalTo(containerView.snp.bottom).offset(-10)
         }
-        contactsBox.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(containerView).multipliedBy(0.9)
+        
+        notificationsLabel.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(scrollView).multipliedBy(0.7)
+            make.height.equalTo(20)
+            make.left.equalTo(notificationsBlock)
+            make.top.equalTo(scrollView).offset(20)
+        }
+        
+        notificationsBlock.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(scrollView).multipliedBy(0.9)
             make.height.equalTo(containerView).multipliedBy(0.35)
-            make.centerX.equalTo(containerView)
-            make.bottom.equalTo(containerView).offset(-75)
+            make.centerX.equalTo(scrollView)
+            make.top.equalTo(notificationsLabel.snp.bottom).offset(15)
+        }
+        
+        contactsLabel.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(scrollView).multipliedBy(0.7)
+            make.height.equalTo(20)
+            make.left.equalTo(notificationsBlock)
+            make.top.equalTo(notificationsBlock.snp.bottom).offset(20)
+        }
+        
+        let height = Float(view.frame.height) + contactsVC.getTableViewContentOffset()
+        
+        contactsVC.view.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(scrollView)
+            make.height.equalTo(height)
+            make.top.equalTo(contactsLabel.snp.bottom).offset(10)
+            make.centerX.equalTo(scrollView)
         }
         
         super.updateViewConstraints()
@@ -256,11 +374,14 @@ extension ProfileViewController {
     
     func segueToSettingsVC(controller: SettingsViewController) {
         
-        controller.view.frame = self.containerView.bounds
+        controller.view.frame = view.bounds
         controller.view.backgroundColor = .clear
         
         self.addChildViewController(controller)
-        self.containerView.addSubview(controller.view)
+        view.addSubview(controller.view)
     }
+    
 }
+
+
 

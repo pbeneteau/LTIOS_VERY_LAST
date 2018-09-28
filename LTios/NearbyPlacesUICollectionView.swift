@@ -26,8 +26,10 @@ class NearbyPlacesUICollectionView: UICollectionView {
     
     allowsMultipleSelection = false
     backgroundColor = .clear
-    
+    bounces = false
+
     frame = UIScreen.main.bounds
+    
     self.register(NearbyPlacesUICollectionViewCell.self, forCellWithReuseIdentifier: "nearbyPlaceCell")
     
     register(NearbyPlacesHeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "NearbyPlaceHeader_0")

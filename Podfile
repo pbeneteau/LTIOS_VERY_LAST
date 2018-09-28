@@ -30,6 +30,8 @@ target 'LTios' do
   pod 'Spring'
   pod 'ViewAnimator'
   pod 'SCLAlertView'
+  pod 'NotificationBannerSwift', '1.6.3'
+  pod 'MarqueeLabel/Swift'
   #pod 'TextFieldEffects'
   
   # Constraints

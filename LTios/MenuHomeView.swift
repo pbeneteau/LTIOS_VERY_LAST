@@ -142,7 +142,7 @@ class MenuHomeButtonView: UIView {
         shouldStopAnimation = true
     }
     
-    func decreaseCirclesSizeAnimation(withDuration: Float, completion: @escaping(Bool) -> Void) {
+    func decreaseCirclesSizeAnimation(withDuration: TimeInterval, completion: @escaping(Bool) -> Void) {
         
         let viewHeight = self.frame.size.height
         let factor: CGFloat = decreaseFactor
@@ -166,14 +166,14 @@ class MenuHomeButtonView: UIView {
             make.center.equalTo(center)
         }
         
-        UIView.animate(withDuration: TimeInterval(withDuration), animations: {
+        UIView.animate(withDuration: withDuration, delay: 0, options: .curveEaseInOut, animations: {
             self.superview?.layoutIfNeeded()
         }, completion: { end in
             completion(true)
         })
     }
     
-    func moveCirclesAnimation(withDuration: Float, completion: @escaping(Bool) -> Void) {
+    func moveCirclesAnimation(withDuration: TimeInterval, completion: @escaping(Bool) -> Void) {
         
         let factor: CGFloat = decreaseFactor
         let viewHeight = self.frame.size.height
@@ -197,7 +197,7 @@ class MenuHomeButtonView: UIView {
             make.center.equalTo(center)
         }
         
-        UIView.animate(withDuration: TimeInterval(withDuration), animations: {
+        UIView.animate(withDuration: (withDuration), animations: {
             self.superview?.layoutIfNeeded()
         }, completion: { end in
             completion(true)
@@ -205,7 +205,7 @@ class MenuHomeButtonView: UIView {
     }
     
     
-    func increaseCirclesSizeAnimation(withDuration: Float, completion: @escaping(Bool) -> Void) {
+    func increaseCirclesSizeAnimation(withDuration: TimeInterval, completion: @escaping(Bool) -> Void) {
         
         let viewHeight = self.frame.size.height
         var center = CGPoint()
@@ -228,7 +228,7 @@ class MenuHomeButtonView: UIView {
             make.center.equalTo(center)
         }
         
-        UIView.animate(withDuration: TimeInterval(withDuration), animations: {
+        UIView.animate(withDuration: withDuration, delay: 0, options: .curveEaseInOut, animations: {
             self.superview?.layoutIfNeeded()
         }, completion: { end in
             completion(true)

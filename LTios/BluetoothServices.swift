@@ -12,6 +12,8 @@ import CoreBluetooth
 
 class BluetoothServices: NSObject {
     
+    public static var shared = BluetoothServices()
+    
     var visibleDevices = Array<Device>()
     var cachedDevices = Array<Device>()
     var cachedPeripheralNames = Dictionary<String, String>()

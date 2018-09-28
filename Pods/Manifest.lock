@@ -93,11 +93,15 @@ PODS:
     - gRPC-RxLibrary (= 1.14.0)
   - GTMSessionFetcher/Core (1.2.0)
   - leveldb-library (1.20)
+  - MarqueeLabel/Swift (3.2.0)
   - nanopb (0.3.8):
     - nanopb/decode (= 0.3.8)
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
+  - NotificationBannerSwift (1.6.3):
+    - MarqueeLabel/Swift
+    - SnapKit (~> 4.0)
   - PhoneNumberKit (2.1.0):
     - PhoneNumberKit/PhoneNumberKitCore (= 2.1.0)
     - PhoneNumberKit/UIKit (= 2.1.0)
@@ -137,6 +141,8 @@ DEPENDENCIES:
   - Firebase/Storage
   - GoogleMaps
   - GooglePlaces
+  - MarqueeLabel/Swift
+  - NotificationBannerSwift (= 1.6.3)
   - PhoneNumberKit
   - PINCache
   - ReachabilitySwift
@@ -167,7 +173,9 @@ SPEC REPOS:
     - gRPC-RxLibrary
     - GTMSessionFetcher
     - leveldb-library
+    - MarqueeLabel
     - nanopb
+    - NotificationBannerSwift
     - PhoneNumberKit
     - PINCache
     - PINOperation
@@ -200,7 +208,9 @@ SPEC CHECKSUMS:
   gRPC-RxLibrary: 3c305f32155024b116b780f389323c73a28197e6
   GTMSessionFetcher: 0c4baf0a73acd0041bf9f71ea018deedab5ea84e
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
+  MarqueeLabel: 440a502b91a9179bd98f9fff00ba1150650a1c0e
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  NotificationBannerSwift: b231e4c3244848ef300e1c53ce027b9756b9b06f
   PhoneNumberKit: 62003f40ff75315fd3738286558bc365365ac222
   PINCache: ce36ed282031b92fc7733ffe831f474ff80fddc2
   PINOperation: a6219e6fc9db9c269eb7a7b871ac193bcf400aac
@@ -213,6 +223,6 @@ SPEC CHECKSUMS:
   ViewAnimator: 20df9a24a076c6ee78b77a4dbf1943808c94954e
   YYImage: 1e1b62a9997399593e4b9c4ecfbbabbf1d3f3b54
 
-PODFILE CHECKSUM: 0cfac70be33c174a1392c9c81ecdd39512c4f64a
+PODFILE CHECKSUM: 2941aa93e2aaca44676d0becf588d56e06005015
 
 COCOAPODS: 1.6.0.beta.1

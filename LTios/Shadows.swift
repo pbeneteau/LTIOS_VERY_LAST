@@ -10,9 +10,8 @@ import UIKit
 
 class RoundShadowView: UIView {
     
-    
     /// The corner radius of the `ShadowView`, inspectable in Interface Builder
-    @IBInspectable var cornerRadius: CGFloat = 5.0 {
+    @IBInspectable var cornerRadius: CGFloat = 10.0 {
         didSet {
             self.updateProperties()
         }
@@ -24,19 +23,19 @@ class RoundShadowView: UIView {
         }
     }
     /// The shadow offset of the `ShadowView`, inspectable in Interface Builder
-    @IBInspectable var shadowOffset: CGSize = CGSize(width: 0.0, height: 2) {
+    @IBInspectable var shadowOffset: CGSize = CGSize(width: 0.0, height: 10) {
         didSet {
             self.updateProperties()
         }
     }
     /// The shadow radius of the `ShadowView`, inspectable in Interface Builder
-    @IBInspectable var shadowRadius: CGFloat = 4.0 {
+    @IBInspectable var shadowRadius: CGFloat = 10 {
         didSet {
             self.updateProperties()
         }
     }
     /// The shadow opacity of the `ShadowView`, inspectable in Interface Builder
-    @IBInspectable var shadowOpacity: Float = 0.5 {
+    @IBInspectable var shadowOpacity: Float = 0.06 {
         didSet {
             self.updateProperties()
         }
@@ -58,7 +57,7 @@ class RoundShadowView: UIView {
      Updates all layer properties according to the public properties of the `ShadowView`.
      */
     fileprivate func updateProperties() {
-        self.layer.cornerRadius = self.frame.height / 2
+        self.layer.cornerRadius = self.cornerRadius
         self.layer.shadowColor = self.shadowColor.cgColor
         self.layer.shadowOffset = self.shadowOffset
         self.layer.shadowRadius = self.shadowRadius
@@ -142,71 +141,5 @@ class RoundView: UIView {
         let radius: CGFloat = self.bounds.size.height / 2.0
         layer.cornerRadius = radius
         clipsToBounds = true
-    }
-}
-
-class roundedCornerView: UIView {
-    
-    var cornerRadius: CGFloat = 0
-    var withShadow = false
-    private var shadowLayer: CAShapeLayer!
-    private var fillColor: UIColor = .white
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        self.layer.cornerRadius = cornerRadius
-        
-        if withShadow {
-            if shadowLayer == nil {
-                shadowLayer = CAShapeLayer()
-                
-                shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).cgPath
-                shadowLayer.fillColor = fillColor.cgColor
-                
-                shadowLayer.shadowColor = UIColor.black.cgColor
-                shadowLayer.shadowPath = shadowLayer.path
-                shadowLayer.shadowOffset = CGSize(width: 0.0, height: 5)
-                shadowLayer.shadowOpacity = 0.15
-                shadowLayer.shadowRadius = 10
-                
-                layer.insertSublayer(shadowLayer, at: 0)
-            }
-        }
-    }
-}
-
-
-
-class RoundCornerShadowView: UIView {
-    
-    private var shadowLayer: CAShapeLayer!
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        if shadowLayer == nil {
-            
-            shadowLayer = CAShapeLayer()
-            
-            shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: 10).cgPath
-            shadowLayer.fillColor = UIColor.white.cgColor
-            
-            shadowLayer.shadowColor = UIColor.black.cgColor
-            shadowLayer.shadowPath = shadowLayer.path
-            shadowLayer.shadowOffset = CGSize(width: 0.0, height: 10.0)
-            shadowLayer.shadowOpacity = 0.08
-            shadowLayer.shadowRadius = 10
-            
-            layer.insertSublayer(shadowLayer, at: 0)
-        }
     }
 }

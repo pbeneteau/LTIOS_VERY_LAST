@@ -72,6 +72,11 @@
 		3864662A1F85267D00C18D53 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386466291F85267D00C18D53 /* Fonts.swift */; };
 		3864662C1F8526B200C18D53 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3864662B1F8526B200C18D53 /* Colors.swift */; };
 		38700AE7214C2A8D000ACE44 /* SnapchatServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38700AE6214C2A8D000ACE44 /* SnapchatServices.swift */; };
+		38799293215C50FE00AE0DF0 /* AlertBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38799292215C50FE00AE0DF0 /* AlertBanner.swift */; };
+		38799295215C52B900AE0DF0 /* AlertBannnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38799294215C52B900AE0DF0 /* AlertBannnerView.swift */; };
+		3879929A215C92C500AE0DF0 /* NotificationsContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38799299215C92C500AE0DF0 /* NotificationsContactsViewController.swift */; };
+		3879929C215C93B400AE0DF0 /* NotificationsBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3879929B215C93B400AE0DF0 /* NotificationsBlockView.swift */; };
+		3879929E215C93E500AE0DF0 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3879929D215C93E500AE0DF0 /* Notification.swift */; };
 		387A20B321501CD800B50AF4 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387A20B221501CD800B50AF4 /* Settings.swift */; };
 		387FC5C22153DB730064DA08 /* SettingsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387FC5C12153DB720064DA08 /* SettingsTableView.swift */; };
 		38B8526E21233F9E002EBB18 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 38B8526D21233F9E002EBB18 /* GoogleService-Info.plist */; };
@@ -82,8 +87,8 @@
 		38B8527E21259066002EBB18 /* MenuHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B8527D21259066002EBB18 /* MenuHomeView.swift */; };
 		38B8528321289019002EBB18 /* InterestingUsersTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B8528221289019002EBB18 /* InterestingUsersTableView.swift */; };
 		38B852852128935B002EBB18 /* InterestingUsersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B852842128935B002EBB18 /* InterestingUsersTableViewCell.swift */; };
-		38B852882128D21B002EBB18 /* RoundShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B852872128D21B002EBB18 /* RoundShadowView.swift */; };
-		38B8528C2129AE0A002EBB18 /* ImageViewWithGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B8528B2129AE09002EBB18 /* ImageViewWithGradient.swift */; };
+		38B852882128D21B002EBB18 /* Shadows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B852872128D21B002EBB18 /* Shadows.swift */; };
+		38B8528C2129AE0A002EBB18 /* Gradients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B8528B2129AE09002EBB18 /* Gradients.swift */; };
 		38B8528E2129C2D0002EBB18 /* RoundedBorderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B8528D2129C2D0002EBB18 /* RoundedBorderButton.swift */; };
 		38D0D97721546D7500FAB683 /* BluetoothServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D0D97621546D7500FAB683 /* BluetoothServices.swift */; };
 		38D0D97921546E0F00FAB683 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D0D97821546E0F00FAB683 /* Constants.swift */; };
@@ -183,6 +188,11 @@
 		386466291F85267D00C18D53 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		3864662B1F8526B200C18D53 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		38700AE6214C2A8D000ACE44 /* SnapchatServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapchatServices.swift; sourceTree = "<group>"; };
+		38799292215C50FE00AE0DF0 /* AlertBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertBanner.swift; sourceTree = "<group>"; };
+		38799294215C52B900AE0DF0 /* AlertBannnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertBannnerView.swift; sourceTree = "<group>"; };
+		38799299215C92C500AE0DF0 /* NotificationsContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsContactsViewController.swift; sourceTree = "<group>"; };
+		3879929B215C93B400AE0DF0 /* NotificationsBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsBlockView.swift; sourceTree = "<group>"; };
+		3879929D215C93E500AE0DF0 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		387A20B221501CD800B50AF4 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		387FC5C12153DB720064DA08 /* SettingsTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableView.swift; sourceTree = "<group>"; };
 		38B8526D21233F9E002EBB18 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -193,8 +203,8 @@
 		38B8527D21259066002EBB18 /* MenuHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuHomeView.swift; sourceTree = "<group>"; };
 		38B8528221289019002EBB18 /* InterestingUsersTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestingUsersTableView.swift; sourceTree = "<group>"; };
 		38B852842128935B002EBB18 /* InterestingUsersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestingUsersTableViewCell.swift; sourceTree = "<group>"; };
-		38B852872128D21B002EBB18 /* RoundShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundShadowView.swift; sourceTree = "<group>"; };
-		38B8528B2129AE09002EBB18 /* ImageViewWithGradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewWithGradient.swift; sourceTree = "<group>"; };
+		38B852872128D21B002EBB18 /* Shadows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shadows.swift; sourceTree = "<group>"; };
+		38B8528B2129AE09002EBB18 /* Gradients.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gradients.swift; sourceTree = "<group>"; };
 		38B8528D2129C2D0002EBB18 /* RoundedBorderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedBorderButton.swift; sourceTree = "<group>"; };
 		38D0D97621546D7500FAB683 /* BluetoothServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothServices.swift; sourceTree = "<group>"; };
 		38D0D97821546E0F00FAB683 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -290,6 +300,7 @@
 			isa = PBXGroup;
 			children = (
 				006BDCC81F2F889B006DEF17 /* ProfileViewController.swift */,
+				3879929B215C93B400AE0DF0 /* NotificationsBlockView.swift */,
 				006BDCCA1F2F88A7006DEF17 /* SettingsViewController.swift */,
 			);
 			name = Profile;
@@ -371,6 +382,7 @@
 			isa = PBXGroup;
 			children = (
 				006BDCE71F2F8A0F006DEF17 /* Profile.swift */,
+				38799299215C92C500AE0DF0 /* NotificationsContactsViewController.swift */,
 				38523EA9214DB9940078B0A1 /* Settings */,
 			);
 			name = Profile;
@@ -432,8 +444,8 @@
 				38B8527B21258E70002EBB18 /* Start */,
 				000328861F2F86E1003F81F7 /* Main */,
 				0003288A1F2F870F003F81F7 /* Profile */,
-				000328881F2F86FA003F81F7 /* NearbyPlaces */,
 				000328871F2F86F3003F81F7 /* Contacts */,
+				000328881F2F86FA003F81F7 /* NearbyPlaces */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -443,6 +455,7 @@
 			children = (
 				0029BA631F2FEE1A00C67810 /* CountrySelector.swift */,
 				38B852862128D202002EBB18 /* Utils */,
+				38799296215C52D100AE0DF0 /* Banner */,
 				38B8527F21288F41002EBB18 /* InterestingUsers */,
 				38B8527C21259044002EBB18 /* Menu */,
 				006BDCDA1F2F8994006DEF17 /* Registering */,
@@ -468,6 +481,8 @@
 				0029BA651F30A37F00C67810 /* Extension.swift */,
 				386466271F85264D00C18D53 /* Labels.swift */,
 				387A20B221501CD800B50AF4 /* Settings.swift */,
+				3879929D215C93E500AE0DF0 /* Notification.swift */,
+				38799292215C50FE00AE0DF0 /* AlertBanner.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -513,6 +528,14 @@
 				38D0D9832156F47900FAB683 /* Snapchat */,
 			);
 			name = Settings;
+			sourceTree = "<group>";
+		};
+		38799296215C52D100AE0DF0 /* Banner */ = {
+			isa = PBXGroup;
+			children = (
+				38799294215C52B900AE0DF0 /* AlertBannnerView.swift */,
+			);
+			name = Banner;
 			sourceTree = "<group>";
 		};
 		387A20B521501D2000B50AF4 /* Cells */ = {
@@ -565,8 +588,8 @@
 		38B852862128D202002EBB18 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				38B852872128D21B002EBB18 /* RoundShadowView.swift */,
-				38B8528B2129AE09002EBB18 /* ImageViewWithGradient.swift */,
+				38B852872128D21B002EBB18 /* Shadows.swift */,
+				38B8528B2129AE09002EBB18 /* Gradients.swift */,
 				38B8528D2129C2D0002EBB18 /* RoundedBorderButton.swift */,
 				38B852792124E8D8002EBB18 /* ModalViewViewController.swift */,
 			);
@@ -832,6 +855,8 @@
 				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework",
+				"${BUILT_PRODUCTS_DIR}/NotificationBannerSwift/NotificationBannerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/PINCache/PINCache.framework",
 				"${BUILT_PRODUCTS_DIR}/PINOperation/PINOperation.framework",
 				"${BUILT_PRODUCTS_DIR}/PhoneNumberKit/PhoneNumberKit.framework",
@@ -862,6 +887,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MarqueeLabel.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NotificationBannerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINCache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINOperation.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PhoneNumberKit.framework",
@@ -932,13 +959,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				38B852882128D21B002EBB18 /* RoundShadowView.swift in Sources */,
+				38B852882128D21B002EBB18 /* Shadows.swift in Sources */,
 				006AC8591FA3A4DB00AFCCCE /* ContactsTableView.swift in Sources */,
 				006AC85B1FA3A4F000AFCCCE /* ContactsTableViewCell.swift in Sources */,
 				00FF14E21FA752E600D9F6FB /* ContactsSearchController.swift in Sources */,
+				3879929C215C93B400AE0DF0 /* NotificationsBlockView.swift in Sources */,
 				38343E721F8C009700F4909E /* PlaceCollectionViewCell.swift in Sources */,
 				004288F51F33B591007FD732 /* MenuViewController.swift in Sources */,
 				38D0D9802156ED7B00FAB683 /* SnapchatLoginViewController.swift in Sources */,
+				38799295215C52B900AE0DF0 /* AlertBannnerView.swift in Sources */,
 				006BDCD31F2F88E1006DEF17 /* ContactsViewController.swift in Sources */,
 				006BDCE81F2F8A0F006DEF17 /* Profile.swift in Sources */,
 				384863A92122E70F004222DE /* LocationService.swift in Sources */,
@@ -946,6 +975,7 @@
 				006BDCCF1F2F88CA006DEF17 /* NearbyPlacesViewController.swift in Sources */,
 				38B8527E21259066002EBB18 /* MenuHomeView.swift in Sources */,
 				00FF14E41FA7537B00D9F6FB /* ContactsSearchbar.swift in Sources */,
+				3879929E215C93E500AE0DF0 /* Notification.swift in Sources */,
 				006BDCD11F2F88D4006DEF17 /* PlaceViewController.swift in Sources */,
 				384863A82122E70F004222DE /* DatabaseService.swift in Sources */,
 				38B8528321289019002EBB18 /* InterestingUsersTableView.swift in Sources */,
@@ -974,7 +1004,8 @@
 				0029BA641F2FEE1A00C67810 /* CountrySelector.swift in Sources */,
 				006BDCC71F2F8883006DEF17 /* PasswordVerificationViewController.swift in Sources */,
 				006BDCD51F2F88E9006DEF17 /* MainViewController.swift in Sources */,
-				38B8528C2129AE0A002EBB18 /* ImageViewWithGradient.swift in Sources */,
+				38B8528C2129AE0A002EBB18 /* Gradients.swift in Sources */,
+				3879929A215C92C500AE0DF0 /* NotificationsContactsViewController.swift in Sources */,
 				006BDD0C1F2F9613006DEF17 /* CountryViewController.swift in Sources */,
 				38D0D97921546E0F00FAB683 /* Constants.swift in Sources */,
 				006BDCD71F2F88F9006DEF17 /* WhereAreYouViewController.swift in Sources */,
@@ -990,6 +1021,7 @@
 				384863AC2122E832004222DE /* Utils.swift in Sources */,
 				38B8527821243AB7002EBB18 /* InteractiveViewController.swift in Sources */,
 				0029BA661F30A37F00C67810 /* Extension.swift in Sources */,
+				38799293215C50FE00AE0DF0 /* AlertBanner.swift in Sources */,
 				006BDCCB1F2F88A7006DEF17 /* SettingsViewController.swift in Sources */,
 				38700AE7214C2A8D000ACE44 /* SnapchatServices.swift in Sources */,
 				38B852852128935B002EBB18 /* InterestingUsersTableViewCell.swift in Sources */,

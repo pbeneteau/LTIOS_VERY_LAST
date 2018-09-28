@@ -27,7 +27,7 @@ class SettingsViewController: ModalViewViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        profilePictureView.image = UIImage(named: "profilePicture")
+        profilePictureView.image = mainUserInstance.photo
         profilePictureView.contentMode = .scaleAspectFill
         
         closeButton.setBackgroundImage(UIImage(named: "CloseButton"), for: .normal)
@@ -196,24 +196,24 @@ extension SettingsViewController {
     
     override func updateViewConstraints() {
         
-        profilePictureView.snp.makeConstraints { (make) -> Void in
-            make.height.width.equalTo(95)
-            make.left.equalTo(25)
-            make.top.equalTo(25)
-        }
-        
         closeButton.snp.makeConstraints { (make) -> Void in
             make.width.equalTo(22)
             make.height.equalTo(22)
             make.right.equalTo(view).inset(20)
-            make.top.equalTo(view).offset(20)
+            make.top.equalTo(view).offset(115)
+        }
+        
+        profilePictureView.snp.makeConstraints { (make) -> Void in
+            make.height.width.equalTo(95)
+            make.left.equalTo(25)
+            make.top.equalTo(closeButton.snp.centerY)
         }
         
         publicName.snp.makeConstraints { (make) -> Void in
             make.width.equalTo(view).multipliedBy(0.7)
             make.height.equalTo(25)
             make.left.equalTo(profilePictureView.snp.right).offset(20)
-            make.top.equalTo(40)
+            make.top.equalTo(profilePictureView).offset(12)
         }
         
         email.snp.makeConstraints { (make) -> Void in
@@ -225,7 +225,7 @@ extension SettingsViewController {
         
         tableView.snp.makeConstraints { (make) -> Void in
             make.width.equalTo(view)
-            make.height.equalTo(view).multipliedBy(0.8)
+            make.height.equalTo(view).multipliedBy(0.7)
             make.bottom.equalTo(view)
             make.centerX.equalTo(view)
         }

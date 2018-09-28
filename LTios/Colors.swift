@@ -10,25 +10,30 @@ import UIKit
 
 struct Color {
     
+    static let mainAppColor = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
+    
     struct Menu {
+        
         struct Button {
             static let normal = UIColor(red:0.11, green:0.20, blue:0.35, alpha:1.0)
             static let ghost = UIColor.white
             static let unreachable = UIColor.white
+            static let nearbyPlacesView = UIColor.white
         }
         struct SelectionBar {
             static let normal = UIColor(red:0.11, green:0.20, blue:0.35, alpha:1.0)
             static let ghost = UIColor.white
             static let unreachable = UIColor.white
+            static let nearbyPlacesView = UIColor.white
         }
-        
         struct Title {
             static let normal = UIColor.white
-            static let mainView = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
+            static let mainView = mainAppColor
         }
     }
     
     struct Profile {
+        
         static let publicName = UIColor(red:0.00, green:0.05, blue:0.25, alpha:1.0)
         static let badge = UIColor.lightGray
     }
@@ -36,23 +41,43 @@ struct Color {
     struct NearbyPlaces {
         
         struct Distance {
+            
             struct Label {
-                static let selected = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
+                static let selected = mainAppColor
                 static let normal = UIColor(red:0.88, green:0.88, blue:0.88, alpha:1.0)
             }
             struct ProgressView {
-                static let progress = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
+                static let progress = mainAppColor
                 static let background = UIColor(red:0.88, green:0.88, blue:0.88, alpha:1.0)
             }
         }
     }
     
-    static let separatorLine = UIColor.lightGray
+    static let separatorLine = UIColor(red:0.58, green:0.65, blue:0.65, alpha:1.0)
 
     static let roundedBlockView = UIColor.white
     
     static let viewControllerBackground = UIColor.white
     
+    struct AlertBanner {
+        
+        struct Ghost {
+            static let title = UIColor(red:0.50, green:0.55, blue:0.55, alpha:1.0)
+            static let description = UIColor(red:0.58, green:0.65, blue:0.65, alpha:1.0)
+        }
+        struct Message {
+            static let title = mainAppColor
+            static let description = UIColor(red:0.58, green:0.65, blue:0.65, alpha:1.0)
+        }
+        struct ClosePeople {
+            static let title = mainAppColor
+            static let description = UIColor(red:0.58, green:0.65, blue:0.65, alpha:1.0)
+        }
+        struct Unreachable {
+            static let title = UIColor(red:0.75, green:0.22, blue:0.17, alpha:1.0)
+            static let description = UIColor(red:0.91, green:0.30, blue:0.24, alpha:1.0)
+        }
+    }
 }
 
 

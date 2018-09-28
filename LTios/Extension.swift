@@ -53,18 +53,10 @@ extension UIView {
   }
 }
 
-extension UIImageView {
-  
-  func setRounded(width: CGFloat) {
-    self.layer.cornerRadius = width / 2
-    self.clipsToBounds = true
-  }
-}
-
-
 extension UIView {
     
     func setTopCurve() {
+        
         let offset = CGFloat(self.frame.size.height * 2)
         let bounds = self.bounds
         let rectBounds = CGRect(x: bounds.origin.x, y: bounds.origin.y + bounds.size.height/2  , width:  bounds.size.width, height: bounds.size.height / 2)

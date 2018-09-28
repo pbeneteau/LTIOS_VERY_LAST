@@ -27,7 +27,6 @@ class SettingsCell: UITableViewCell {
     
     var type: SettingsCellType!
     
-    
     func commonInit() {
         
         if position == .first {
@@ -86,7 +85,6 @@ class SettingsCell: UITableViewCell {
                 make.center.equalTo(containerView)
             }
         }
-        
     }
     
     @objc func updateSettings() {

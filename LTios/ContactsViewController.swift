@@ -10,9 +10,7 @@ import UIKit
 
 class ContactsViewController: ModalViewViewController, UITableViewDataSource {
     
-    private var containerView = UIView()
-    
-    private var tableView = ContactsTableView()
+    public var tableView = ContactsTableView()
     
     var contacts = [Contact]()
     private var filteredContacts = [Contact]()
@@ -47,6 +45,40 @@ class ContactsViewController: ModalViewViewController, UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .clear
+        
+        view.addSubview(tableView)
+        view.addSubview(searchLine)
+        view.addSubview(searchIcon)
+        view.addSubview(searchTextField)
+        
+        searchTextField.delegate = self
+        searchTextField.addTarget(self, action: #selector(searchConstraintsActive), for: .allEditingEvents)
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.isScrollEnabled = false
+        
+        searchLine.isHidden = true
+        searchIcon.isHidden = true
+        searchTextField.isHidden = true
+        
+        loadContacts()
+
+        view.setNeedsUpdateConstraints()
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+    }
+    
+    public func getTableViewContentOffset() -> Float {
+        return Float(tableView.contentSize.height)
+    }
+    
+    
+    func loadContacts() {
+        
         ContactsService.shared.loadContacts { contacts in
             
             guard let contacts = contacts else { return }
@@ -58,33 +90,10 @@ class ContactsViewController: ModalViewViewController, UITableViewDataSource {
                 
                 self.contacts.append(Contact(firstName: contact.givenName, lastName: contact.familyName, phoneNumber: formatedPhoneNumber, profilePicture: image, country: "France"))
             }
-            
+            self.tableView.reloadData()
         }
-        
-        view.backgroundColor = .clear
-        containerView.backgroundColor = .white
-        
-        view.addSubview(containerView)
-        containerView.addSubview(tableView)
-        view.addSubview(searchLine)
-        view.addSubview(searchIcon)
-        view.addSubview(searchTextField)
-        
-        searchTextField.delegate = self
-        searchTextField.addTarget(self, action: #selector(searchConstraintsActive), for: .allEditingEvents)
-        
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.reloadData()
-        
-        view.setNeedsUpdateConstraints()
-        
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        containerView.roundCorners(corners: [.topLeft , .topRight], radius: 10)
-    }
 }
 
 // MARK: Animations
@@ -95,29 +104,29 @@ extension ContactsViewController {
         UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: { () -> Void in
             
             self.tableView.snp.remakeConstraints { (make) -> Void in
-                make.width.equalTo(self.containerView).multipliedBy(0.97)
-                make.height.equalTo(self.containerView).offset(-60)
-                make.centerX.equalTo(self.containerView)
-                make.top.equalTo(self.containerView).offset(60)
+                make.width.equalTo(self.view).multipliedBy(0.97)
+                make.height.equalTo(self.view).offset(-60)
+                make.centerX.equalTo(self.view)
+                make.top.equalTo(self.view).offset(60)
             }
             
             self.searchLine.snp.remakeConstraints { (make) -> Void in
-                make.width.equalTo(self.containerView)
+                make.width.equalTo(self.view)
                 make.height.equalTo(0.5)
-                make.top.equalTo(self.containerView).offset(50)
-                make.centerX.equalTo(self.containerView)
+                make.top.equalTo(self.view).offset(50)
+                make.centerX.equalTo(self.view)
             }
             
             self.searchIcon.snp.remakeConstraints { (make) -> Void in
                 make.width.equalTo(25)
                 make.height.equalTo(25)
-                make.top.equalTo(self.containerView).offset(12.5)
-                make.left.equalTo(self.containerView).offset(16)
+                make.top.equalTo(self.view).offset(12.5)
+                make.left.equalTo(self.view).offset(16)
             }
             
             self.searchTextField.snp.remakeConstraints { (make) -> Void in
-                make.width.equalTo(self.containerView).multipliedBy(0.8)
-                make.top.equalTo(self.containerView).offset(13)
+                make.width.equalTo(self.view).multipliedBy(0.8)
+                make.top.equalTo(self.view).offset(13)
                 make.left.equalTo(self.searchIcon.snp.right).offset(10)
             }
             
@@ -130,29 +139,29 @@ extension ContactsViewController {
         UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: { () -> Void in
             
             self.tableView.snp.remakeConstraints { (make) -> Void in
-                make.width.equalTo(self.containerView).multipliedBy(0.97)
-                make.height.equalTo(self.containerView).offset(-50)
-                make.centerX.equalTo(self.containerView)
-                make.top.equalTo(self.containerView).offset(50)
+                make.width.equalTo(self.view).multipliedBy(0.97)
+                make.height.equalTo(self.view).offset(-50)
+                make.centerX.equalTo(self.view)
+                make.top.equalTo(self.view).offset(50)
             }
             
             self.searchLine.snp.remakeConstraints { (make) -> Void in
-                make.width.equalTo(self.containerView)
+                make.width.equalTo(self.view)
                 make.height.equalTo(0.5)
-                make.top.equalTo(self.containerView).offset(40)
-                make.centerX.equalTo(self.containerView)
+                make.top.equalTo(self.view).offset(40)
+                make.centerX.equalTo(self.view)
             }
             
             self.searchIcon.snp.remakeConstraints { (make) -> Void in
                 make.width.equalTo(20)
                 make.height.equalTo(20)
-                make.top.equalTo(self.containerView).offset(10)
-                make.left.equalTo(self.containerView).offset(16)
+                make.top.equalTo(self.view).offset(10)
+                make.left.equalTo(self.view).offset(16)
             }
             
             self.searchTextField.snp.remakeConstraints { (make) -> Void in
-                make.width.equalTo(self.containerView).multipliedBy(0.8)
-                make.top.equalTo(self.containerView).offset(9)
+                make.width.equalTo(self.view).multipliedBy(0.8)
+                make.top.equalTo(self.view).offset(9)
                 make.left.equalTo(self.searchIcon.snp.right).offset(10)
             }
             
@@ -229,6 +238,10 @@ extension ContactsViewController: UITableViewDelegate {
                 
                 if let operation = operation, operation.isCancelled { return }
                 
+                let images = ["26734162_2313493158876932_8470939891051211672_n", "JwyfstsTgcWQhUH53ck5ZIb5H722", "sKFKqFntCvdrxFCXqp6o2vT4ZPV2", "WPf1uJpdmAa6lQjx5gVR4IqPg3F2"]
+                
+                cell.profilePicture.image = UIImage(named: images.randomElement()!)
+                
                 if self.isSearching {
                     cell.name.text = self.filteredContacts[indexPath.row].firstName
                     cell.surname.text = self.filteredContacts[indexPath.row].lastName
@@ -240,12 +253,6 @@ extension ContactsViewController: UITableViewDelegate {
                     cell.country.text = self.contacts[indexPath.row].country
                     cell.status.text = "added 3h ago"
                 }
-                
-                if true {
-                    cell.profilePicture.layer.borderWidth = 2
-                    cell.profilePicture.layer.borderColor = UIColor(red:0.11, green:0.20, blue:0.35, alpha:1.0).cgColor
-                }
-                
             })
         }
         
@@ -267,39 +274,32 @@ extension ContactsViewController {
     
     override func updateViewConstraints() {
         
-        containerView.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(view)
-            make.height.equalTo(view).multipliedBy(0.9)
-            make.bottom.equalTo(view)
-            make.centerX.equalTo(view)
-        }
-        
         tableView.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(containerView).multipliedBy(0.97)
-            make.height.equalTo(containerView).offset(-50)
-            make.centerX.equalTo(containerView)
-            make.top.equalTo(containerView).offset(50)
+            make.width.equalTo(view)
+            make.height.equalTo(view)
+            make.centerX.equalTo(view)
+            make.top.equalTo(view)
         }
         
-        searchLine.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(containerView)
-            make.height.equalTo(0.5)
-            make.top.equalTo(containerView).offset(40)
-            make.centerX.equalTo(containerView)
-        }
-        
-        searchIcon.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(20)
-            make.height.equalTo(20)
-            make.top.equalTo(containerView).offset(10)
-            make.left.equalTo(containerView).offset(16)
-        }
-        
-        searchTextField.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(containerView).multipliedBy(0.8)
-            make.top.equalTo(containerView).offset(9)
-            make.left.equalTo(searchIcon.snp.right).offset(10)
-        }
+//        searchLine.snp.makeConstraints { (make) -> Void in
+//            make.width.equalTo(view)
+//            make.height.equalTo(0.5)
+//            make.top.equalTo(view).offset(40)
+//            make.centerX.equalTo(view)
+//        }
+//
+//        searchIcon.snp.makeConstraints { (make) -> Void in
+//            make.width.equalTo(20)
+//            make.height.equalTo(20)
+//            make.top.equalTo(view).offset(10)
+//            make.left.equalTo(view).offset(16)
+//        }
+//
+//        searchTextField.snp.makeConstraints { (make) -> Void in
+//            make.width.equalTo(view).multipliedBy(0.8)
+//            make.top.equalTo(view).offset(9)
+//            make.left.equalTo(searchIcon.snp.right).offset(10)
+//        }
         
         super.updateViewConstraints()
     }

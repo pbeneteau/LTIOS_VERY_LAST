@@ -36,21 +36,31 @@ class SnapchatServices {
         let graphQLQuery = "{me{displayName, bitmoji{avatar}}}"
         
         SCSDKLoginClient.fetchUserData(withQuery: graphQLQuery, variables: nil,
-                success: { userInfo in
-                    if let userInfo = userInfo,
-                        let data = try? JSONSerialization.data(withJSONObject: userInfo, options: .prettyPrinted) {
-                        
-                        print(data)
-                        completion(data)
-                    } else {
-                        completion(nil)
-                    }
-            }) { (error, isUserLoggedOut) in
-                print(error?.localizedDescription ?? "")
-                completion(nil)
+                                       success: { userInfo in
+                                        if let userInfo = userInfo,
+                                            let data = try? JSONSerialization.data(withJSONObject: userInfo, options: .prettyPrinted) {
+                                            
+                                            print(data)
+                                            completion(data)
+                                        } else {
+                                            completion(nil)
+                                        }
+        }) { (error, isUserLoggedOut) in
+            print(error?.localizedDescription ?? "")
+            completion(nil)
         }
     }
     
+    func handleSnapchatLogin() {
+        
+        if  SCSDKLoginClient.isUserLoggedIn  {
+            SnapchatServices.shared.fetchAvatarURL { url in
+                guard url != nil else { print("[Error] unwrapping Bitmoji url"); return }
+                print(url ?? "Error")
+            }
+        }
+    }
     
 }
+
 

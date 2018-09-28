@@ -17,7 +17,7 @@ class MenuViewController: UIViewController, UIScrollViewDelegate {
     private let statusBarWindow = UIApplication.shared.value(forKey: "statusBarWindow") as? UIWindow
     private var statusBarIsDark = Bool()
     
-    private var currentController = 0
+    var currentController = 0
     
     private var currentPlaceName = ""
     
@@ -48,17 +48,17 @@ class MenuViewController: UIViewController, UIScrollViewDelegate {
         let view = TitleLabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.text = currentPlaceName
-        view.textColor = Color.Menu.Title.normal
         view.alpha = 1.0
         view.sizeToFit()
+        view.textColor = Color.Menu.Title.mainView
         return view
     }()
     
     // MARK: Navigation Menu
-    private var profileMenuButton = UIButton()
-    private var homeMenuButton = MenuHomeButtonView()
-    private var placesMenuButton = UIButton()
-    private var selectionMenuBar = UIView()
+    var profileMenuButton = UIButton()
+    var homeMenuButton = MenuHomeButtonView()
+    var placesMenuButton = UIButton()
+    var selectionMenuBar = UIView()
     
     
     private var colorEffectView = UIImageView()
@@ -142,6 +142,7 @@ extension MenuViewController {
         
         if currentController != -1 {
             UIView.animate(withDuration: 0.3, delay: 0, options: [.beginFromCurrentState, .curveEaseOut], animations: {
+                
                 self.placesMenuButton.snp.updateConstraints { (make) -> Void in
                     make.right.equalTo(self.view.snp.right).offset(-100)
                 }
@@ -161,6 +162,11 @@ extension MenuViewController {
                     make.bottom.equalTo(self.view.snp.bottom).offset(-30)
                 }
                 self.profileMenuButton.superview?.layoutIfNeeded()
+                
+                self.homeMenuButton.updateCirclesColor(color: Color.Menu.Button.normal)
+                self.placesMenuButton.tintColor = Color.Menu.Button.normal
+                self.profileMenuButton.tintColor = Color.Menu.Button.normal
+                self.selectionMenuBar.backgroundColor = Color.Menu.Button.normal
             })
             horizontalScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
         }
@@ -190,6 +196,11 @@ extension MenuViewController {
                     make.bottom.equalTo(self.view.snp.bottom).offset(-30)
                 }
                 self.profileMenuButton.superview?.layoutIfNeeded()
+                
+                self.homeMenuButton.updateCirclesColor(color: Color.Menu.Button.normal)
+                self.placesMenuButton.tintColor = Color.Menu.Button.normal
+                self.profileMenuButton.tintColor = Color.Menu.Button.normal
+                self.selectionMenuBar.backgroundColor = Color.Menu.Button.normal
             })
             horizontalScrollView.setContentOffset(CGPoint(x: view.frame.size.width, y: 0), animated: true)
         } else {
@@ -204,6 +215,7 @@ extension MenuViewController {
     @objc func didTapPlacesButton(sender: UIButton) {
         
         if currentController != 1 {
+            
             UIView.animate(withDuration: 0.3, delay: 0, options: [.beginFromCurrentState, .curveEaseOut], animations: {
                 self.placesMenuButton.snp.updateConstraints { (make) -> Void in
                     make.right.equalTo(self.view).offset(-100)
@@ -224,6 +236,11 @@ extension MenuViewController {
                     make.bottom.equalTo(self.view).offset(-30)
                 }
                 self.profileMenuButton.superview?.layoutIfNeeded()
+                
+                self.homeMenuButton.updateCirclesColor(color: Color.Menu.Button.nearbyPlacesView)
+                self.placesMenuButton.tintColor = Color.Menu.Button.nearbyPlacesView
+                self.profileMenuButton.tintColor = Color.Menu.Button.nearbyPlacesView
+                self.selectionMenuBar.backgroundColor = Color.Menu.Button.nearbyPlacesView
             })
             horizontalScrollView.setContentOffset(CGPoint(x: view.frame.size.width * 2, y: 0), animated: true)
         }
@@ -273,6 +290,7 @@ extension MenuViewController {
         statusBarHorizontalManager(scrollX: scrollX)
         
         if scrollX > view.frame.size.width { // NearbyPlacesVC
+            
             self.titleLabel.snp.updateConstraints { (make) -> Void in
                 make.centerX.equalTo(self.view.snp.centerX).offset(((scrollX - view.frame.size.width)/10)*2.5)
             }
@@ -288,6 +306,7 @@ extension MenuViewController {
                 self.titleLabel.textColor = Color.Menu.Title.normal
             }
         } else if scrollX < view.frame.size.width { // ProfileVC
+            
             self.titleLabel.snp.updateConstraints { (make) -> Void in
                 make.centerX.equalTo(self.view.snp.centerX).inset(((scrollX - view.frame.size.width)/10)*3.5)
             }
@@ -310,6 +329,7 @@ extension MenuViewController {
         if horizontalScrollView.isDecelerating || horizontalScrollView.isDragging {
             
             if scrollX < view.frame.size.width { // Profile
+                
                 let offset = 1 - (scrollX / view.frame.width)
                 
                 self.placesMenuButton.snp.updateConstraints { (make) -> Void in
@@ -332,6 +352,7 @@ extension MenuViewController {
                 }
                 
             } else if scrollX > view.frame.size.width { // Places
+                
                 let offset = ((scrollX - view.frame.width) / view.frame.width)
                 
                 self.placesMenuButton.snp.updateConstraints { (make) -> Void in
@@ -352,6 +373,14 @@ extension MenuViewController {
                     make.centerX.equalTo(self.view.snp.centerX)
                     make.bottom.equalTo(self.view.snp.bottom).offset(-30)
                 }
+                
+                // update menu color to fit nearby places vc colors
+                let color = UIColor(red:0.11 + 0.89 * offset, green:0.20 + 0.8 * offset, blue:0.35 + 0.65 * offset, alpha:1.0)
+                
+                self.homeMenuButton.updateCirclesColor(color: color)
+                self.placesMenuButton.tintColor = color
+                self.profileMenuButton.tintColor = color
+                self.selectionMenuBar.backgroundColor = color
             }
         }
     }
@@ -362,8 +391,10 @@ extension MenuViewController {
 extension MenuViewController {
     
     func statusBarHorizontalManager(scrollX: CGFloat) {
+        
         if scrollX > view.frame.size.width {
             if scrollX < view.frame.size.width * 1.5 {
+                
                 if !statusBarIsDark {
                     makeStatusBarDark()
                 }
@@ -373,6 +404,7 @@ extension MenuViewController {
                 }
             }
         } else if scrollX < view.frame.size.width { // ProfileVC
+            
             if scrollX > view.frame.size.width / 2 {
                 if !statusBarIsDark {
                     makeStatusBarDark()
@@ -386,16 +418,19 @@ extension MenuViewController {
     }
     
     func makeStatusBarDark() {
+        
         statusBarIsDark = true
         setNeedsStatusBarAppearanceUpdate()
     }
     
     func makeStatusBarLight() {
+        
         statusBarIsDark = false
         setNeedsStatusBarAppearanceUpdate()
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
+        
         if statusBarIsDark {
             return .default
         } else {
@@ -408,6 +443,7 @@ extension MenuViewController {
 extension MenuViewController {
     
     func updatePlaceName(name: String) {
+        
         currentPlaceName = name
         if titleLabel.text != "Profile" && titleLabel.text != "Nearby Places" {
             titleLabel.text = name
@@ -415,12 +451,46 @@ extension MenuViewController {
     }
     
     func startLoadingAnimation() {
+        
         homeMenuButton.setCirclesCenters()
         homeMenuButton.startAnimation()
     }
     
     func stopLoadingAnimation() {
+        
         homeMenuButton.stopAnimation()
+    }
+    
+    func hideMenu(completion: @escaping(Bool) -> Void) {
+        
+        self.profileMenuButton.layer.removeAllAnimations()
+        self.homeMenuButton.layer.removeAllAnimations()
+        self.placesMenuButton.layer.removeAllAnimations()
+        self.selectionMenuBar.layer.removeAllAnimations()
+        
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+            self.profileMenuButton.alpha = 0
+            self.homeMenuButton.alpha = 0
+            self.placesMenuButton.alpha = 0
+            self.selectionMenuBar.alpha = 0
+        }, completion: { end in
+            completion(true)
+        })
+    }
+    
+    func showMenu() {
+        
+        self.profileMenuButton.layer.removeAllAnimations()
+        self.homeMenuButton.layer.removeAllAnimations()
+        self.placesMenuButton.layer.removeAllAnimations()
+        self.selectionMenuBar.layer.removeAllAnimations()
+        
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+            self.profileMenuButton.alpha = 1
+            self.homeMenuButton.alpha = 1
+            self.placesMenuButton.alpha = 1
+            self.selectionMenuBar.alpha = 1
+        })
     }
 }
 

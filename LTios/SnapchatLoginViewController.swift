@@ -15,7 +15,7 @@ class SnapchatLoginViewController: UIViewController {
     
     var snapchatImage = UIImageView()
     
-    var containerView = RoundCornerShadowView()
+    var containerView = RoundShadowView()
     
     var loginObserver: SCSDKLoginStatusObserver!
     
