@@ -55,6 +55,8 @@
 		00FF14E21FA752E600D9F6FB /* ContactsSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FF14E11FA752E600D9F6FB /* ContactsSearchController.swift */; };
 		00FF14E41FA7537B00D9F6FB /* ContactsSearchbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FF14E31FA7537B00D9F6FB /* ContactsSearchbar.swift */; };
 		117A79360B93C15264F4D4A7 /* Pods_LTiosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ABAAA08C0B5E246906D3643 /* Pods_LTiosTests.framework */; };
+		3821518A215F167E00A7BE9A /* NotificationsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38215189215F167E00A7BE9A /* NotificationsTableView.swift */; };
+		3821518C215FEBE300A7BE9A /* NotificationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3821518B215FEBE300A7BE9A /* NotificationsTableViewCell.swift */; };
 		38343E6C1F8AB20100F4909E /* NearbyPlacesUICollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38343E6B1F8AB20100F4909E /* NearbyPlacesUICollectionViewCell.swift */; };
 		38343E6E1F8AB2B400F4909E /* NearbyPlacesUICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38343E6D1F8AB2B300F4909E /* NearbyPlacesUICollectionView.swift */; };
 		38343E701F8B9DE400F4909E /* NearbyPlacesHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38343E6F1F8B9DE400F4909E /* NearbyPlacesHeaderCollectionReusableView.swift */; };
@@ -75,9 +77,20 @@
 		38799293215C50FE00AE0DF0 /* AlertBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38799292215C50FE00AE0DF0 /* AlertBanner.swift */; };
 		38799295215C52B900AE0DF0 /* AlertBannnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38799294215C52B900AE0DF0 /* AlertBannnerView.swift */; };
 		3879929A215C92C500AE0DF0 /* NotificationsContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38799299215C92C500AE0DF0 /* NotificationsContactsViewController.swift */; };
-		3879929C215C93B400AE0DF0 /* NotificationsBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3879929B215C93B400AE0DF0 /* NotificationsBlockView.swift */; };
 		3879929E215C93E500AE0DF0 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3879929D215C93E500AE0DF0 /* Notification.swift */; };
 		387A20B321501CD800B50AF4 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387A20B221501CD800B50AF4 /* Settings.swift */; };
+		387CE22721603BC400F51EFC /* Avenir-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 387CE22221603B9200F51EFC /* Avenir-Black.ttf */; };
+		387CE22821603BC400F51EFC /* Avenir-BlackOblique.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 387CE21A21603B9100F51EFC /* Avenir-BlackOblique.ttf */; };
+		387CE22921603BC400F51EFC /* Avenir-Book.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 387CE21D21603B9100F51EFC /* Avenir-Book.ttf */; };
+		387CE22A21603BC400F51EFC /* Avenir-BookOblique.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 387CE22021603B9200F51EFC /* Avenir-BookOblique.ttf */; };
+		387CE22B21603BC400F51EFC /* Avenir-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 387CE22321603B9200F51EFC /* Avenir-Heavy.ttf */; };
+		387CE22C21603BC400F51EFC /* Avenir-HeavyOblique.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 387CE21B21603B9100F51EFC /* Avenir-HeavyOblique.ttf */; };
+		387CE22D21603BC400F51EFC /* Avenir-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 387CE21E21603B9100F51EFC /* Avenir-Light.ttf */; };
+		387CE22E21603BC400F51EFC /* Avenir-LightOblique.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 387CE22121603B9200F51EFC /* Avenir-LightOblique.ttf */; };
+		387CE22F21603BC400F51EFC /* Avenir-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 387CE22421603B9200F51EFC /* Avenir-Medium.ttf */; };
+		387CE23021603BC400F51EFC /* Avenir-MediumOblique.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 387CE21C21603B9100F51EFC /* Avenir-MediumOblique.ttf */; };
+		387CE23121603BC400F51EFC /* Avenir-Oblique.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 387CE21F21603B9200F51EFC /* Avenir-Oblique.ttf */; };
+		387CE23221603BC400F51EFC /* Avenir-Roman.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 387CE22521603B9300F51EFC /* Avenir-Roman.ttf */; };
 		387FC5C22153DB730064DA08 /* SettingsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387FC5C12153DB720064DA08 /* SettingsTableView.swift */; };
 		38B8526E21233F9E002EBB18 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 38B8526D21233F9E002EBB18 /* GoogleService-Info.plist */; };
 		38B85270212340C1002EBB18 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38B8526F212340C1002EBB18 /* MapKit.framework */; };
@@ -171,6 +184,8 @@
 		00FF14E11FA752E600D9F6FB /* ContactsSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsSearchController.swift; sourceTree = "<group>"; };
 		00FF14E31FA7537B00D9F6FB /* ContactsSearchbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsSearchbar.swift; sourceTree = "<group>"; };
 		132C40A84842BF014D4FBBF4 /* Pods-LTios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LTios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LTios/Pods-LTios.debug.xcconfig"; sourceTree = "<group>"; };
+		38215189215F167E00A7BE9A /* NotificationsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsTableView.swift; sourceTree = "<group>"; };
+		3821518B215FEBE300A7BE9A /* NotificationsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsTableViewCell.swift; sourceTree = "<group>"; };
 		38343E6B1F8AB20100F4909E /* NearbyPlacesUICollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyPlacesUICollectionViewCell.swift; sourceTree = "<group>"; };
 		38343E6D1F8AB2B300F4909E /* NearbyPlacesUICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyPlacesUICollectionView.swift; sourceTree = "<group>"; };
 		38343E6F1F8B9DE400F4909E /* NearbyPlacesHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyPlacesHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
@@ -191,9 +206,20 @@
 		38799292215C50FE00AE0DF0 /* AlertBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertBanner.swift; sourceTree = "<group>"; };
 		38799294215C52B900AE0DF0 /* AlertBannnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertBannnerView.swift; sourceTree = "<group>"; };
 		38799299215C92C500AE0DF0 /* NotificationsContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsContactsViewController.swift; sourceTree = "<group>"; };
-		3879929B215C93B400AE0DF0 /* NotificationsBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsBlockView.swift; sourceTree = "<group>"; };
 		3879929D215C93E500AE0DF0 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		387A20B221501CD800B50AF4 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		387CE21A21603B9100F51EFC /* Avenir-BlackOblique.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Avenir-BlackOblique.ttf"; sourceTree = "<group>"; };
+		387CE21B21603B9100F51EFC /* Avenir-HeavyOblique.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Avenir-HeavyOblique.ttf"; sourceTree = "<group>"; };
+		387CE21C21603B9100F51EFC /* Avenir-MediumOblique.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Avenir-MediumOblique.ttf"; sourceTree = "<group>"; };
+		387CE21D21603B9100F51EFC /* Avenir-Book.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Avenir-Book.ttf"; sourceTree = "<group>"; };
+		387CE21E21603B9100F51EFC /* Avenir-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Avenir-Light.ttf"; sourceTree = "<group>"; };
+		387CE21F21603B9200F51EFC /* Avenir-Oblique.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Avenir-Oblique.ttf"; sourceTree = "<group>"; };
+		387CE22021603B9200F51EFC /* Avenir-BookOblique.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Avenir-BookOblique.ttf"; sourceTree = "<group>"; };
+		387CE22121603B9200F51EFC /* Avenir-LightOblique.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Avenir-LightOblique.ttf"; sourceTree = "<group>"; };
+		387CE22221603B9200F51EFC /* Avenir-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Avenir-Black.ttf"; sourceTree = "<group>"; };
+		387CE22321603B9200F51EFC /* Avenir-Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Avenir-Heavy.ttf"; sourceTree = "<group>"; };
+		387CE22421603B9200F51EFC /* Avenir-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Avenir-Medium.ttf"; sourceTree = "<group>"; };
+		387CE22521603B9300F51EFC /* Avenir-Roman.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Avenir-Roman.ttf"; sourceTree = "<group>"; };
 		387FC5C12153DB720064DA08 /* SettingsTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableView.swift; sourceTree = "<group>"; };
 		38B8526D21233F9E002EBB18 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		38B8526F212340C1002EBB18 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -300,7 +326,8 @@
 			isa = PBXGroup;
 			children = (
 				006BDCC81F2F889B006DEF17 /* ProfileViewController.swift */,
-				3879929B215C93B400AE0DF0 /* NotificationsBlockView.swift */,
+				38215189215F167E00A7BE9A /* NotificationsTableView.swift */,
+				3821518B215FEBE300A7BE9A /* NotificationsTableViewCell.swift */,
 				006BDCCA1F2F88A7006DEF17 /* SettingsViewController.swift */,
 			);
 			name = Profile;
@@ -421,18 +448,8 @@
 		006BDCF11F2F8E24006DEF17 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				006BDCF21F2F8E34006DEF17 /* Roboto-Black.ttf */,
-				006BDCF31F2F8E34006DEF17 /* Roboto-BlackItalic.ttf */,
-				006BDCF41F2F8E34006DEF17 /* Roboto-Bold.ttf */,
-				006BDCF51F2F8E34006DEF17 /* Roboto-BoldItalic.ttf */,
-				006BDCF61F2F8E34006DEF17 /* Roboto-Italic.ttf */,
-				006BDCF71F2F8E34006DEF17 /* Roboto-Light.ttf */,
-				006BDCF81F2F8E34006DEF17 /* Roboto-LightItalic.ttf */,
-				006BDCF91F2F8E34006DEF17 /* Roboto-Medium.ttf */,
-				006BDCFA1F2F8E34006DEF17 /* Roboto-MediumItalic.ttf */,
-				006BDCFB1F2F8E34006DEF17 /* Roboto-Regular.ttf */,
-				006BDCFC1F2F8E34006DEF17 /* Roboto-Thin.ttf */,
-				006BDCFD1F2F8E34006DEF17 /* Roboto-ThinItalic.ttf */,
+				387CE22621603B9900F51EFC /* Avenir */,
+				387CE21921603A0D00F51EFC /* Roboto */,
 			);
 			name = Fonts;
 			sourceTree = "<group>";
@@ -545,6 +562,44 @@
 				38523EAC214DBC390078B0A1 /* SettingsCell.swift */,
 			);
 			name = Cells;
+			sourceTree = "<group>";
+		};
+		387CE21921603A0D00F51EFC /* Roboto */ = {
+			isa = PBXGroup;
+			children = (
+				006BDCF21F2F8E34006DEF17 /* Roboto-Black.ttf */,
+				006BDCF31F2F8E34006DEF17 /* Roboto-BlackItalic.ttf */,
+				006BDCF41F2F8E34006DEF17 /* Roboto-Bold.ttf */,
+				006BDCF51F2F8E34006DEF17 /* Roboto-BoldItalic.ttf */,
+				006BDCF61F2F8E34006DEF17 /* Roboto-Italic.ttf */,
+				006BDCF71F2F8E34006DEF17 /* Roboto-Light.ttf */,
+				006BDCF81F2F8E34006DEF17 /* Roboto-LightItalic.ttf */,
+				006BDCF91F2F8E34006DEF17 /* Roboto-Medium.ttf */,
+				006BDCFA1F2F8E34006DEF17 /* Roboto-MediumItalic.ttf */,
+				006BDCFB1F2F8E34006DEF17 /* Roboto-Regular.ttf */,
+				006BDCFC1F2F8E34006DEF17 /* Roboto-Thin.ttf */,
+				006BDCFD1F2F8E34006DEF17 /* Roboto-ThinItalic.ttf */,
+			);
+			name = Roboto;
+			sourceTree = "<group>";
+		};
+		387CE22621603B9900F51EFC /* Avenir */ = {
+			isa = PBXGroup;
+			children = (
+				387CE22221603B9200F51EFC /* Avenir-Black.ttf */,
+				387CE21A21603B9100F51EFC /* Avenir-BlackOblique.ttf */,
+				387CE21D21603B9100F51EFC /* Avenir-Book.ttf */,
+				387CE22021603B9200F51EFC /* Avenir-BookOblique.ttf */,
+				387CE22321603B9200F51EFC /* Avenir-Heavy.ttf */,
+				387CE21B21603B9100F51EFC /* Avenir-HeavyOblique.ttf */,
+				387CE21E21603B9100F51EFC /* Avenir-Light.ttf */,
+				387CE22121603B9200F51EFC /* Avenir-LightOblique.ttf */,
+				387CE22421603B9200F51EFC /* Avenir-Medium.ttf */,
+				387CE21C21603B9100F51EFC /* Avenir-MediumOblique.ttf */,
+				387CE21F21603B9200F51EFC /* Avenir-Oblique.ttf */,
+				387CE22521603B9300F51EFC /* Avenir-Roman.ttf */,
+			);
+			name = Avenir;
 			sourceTree = "<group>";
 		};
 		389D462921580FBD00263FB5 /* SectionHeader */ = {
@@ -764,22 +819,34 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				387CE23021603BC400F51EFC /* Avenir-MediumOblique.ttf in Resources */,
 				006BDD0A1F2F8E8B006DEF17 /* Assets.xcassets in Resources */,
 				006BDD051F2F8E34006DEF17 /* Roboto-Medium.ttf in Resources */,
+				387CE23221603BC400F51EFC /* Avenir-Roman.ttf in Resources */,
 				38523EAB214DBB530078B0A1 /* SettingsCell.xib in Resources */,
 				006BDD011F2F8E34006DEF17 /* Roboto-BoldItalic.ttf in Resources */,
+				387CE22A21603BC400F51EFC /* Avenir-BookOblique.ttf in Resources */,
+				387CE22D21603BC400F51EFC /* Avenir-Light.ttf in Resources */,
 				006BDD001F2F8E34006DEF17 /* Roboto-Bold.ttf in Resources */,
+				387CE22821603BC400F51EFC /* Avenir-BlackOblique.ttf in Resources */,
 				006BDD021F2F8E34006DEF17 /* Roboto-Italic.ttf in Resources */,
 				006BDD071F2F8E34006DEF17 /* Roboto-Regular.ttf in Resources */,
+				387CE22C21603BC400F51EFC /* Avenir-HeavyOblique.ttf in Resources */,
+				387CE23121603BC400F51EFC /* Avenir-Oblique.ttf in Resources */,
+				387CE22921603BC400F51EFC /* Avenir-Book.ttf in Resources */,
 				006BDD041F2F8E34006DEF17 /* Roboto-LightItalic.ttf in Resources */,
 				006BDCFE1F2F8E34006DEF17 /* Roboto-Black.ttf in Resources */,
+				387CE22721603BC400F51EFC /* Avenir-Black.ttf in Resources */,
 				006BDD031F2F8E34006DEF17 /* Roboto-Light.ttf in Resources */,
 				006BDD091F2F8E34006DEF17 /* Roboto-ThinItalic.ttf in Resources */,
 				38523EA6214DB7BC0078B0A1 /* SettingsUITableViewHeader.xib in Resources */,
 				006BDD061F2F8E34006DEF17 /* Roboto-MediumItalic.ttf in Resources */,
+				387CE22B21603BC400F51EFC /* Avenir-Heavy.ttf in Resources */,
 				006BDD081F2F8E34006DEF17 /* Roboto-Thin.ttf in Resources */,
 				006BDCFF1F2F8E34006DEF17 /* Roboto-BlackItalic.ttf in Resources */,
+				387CE22E21603BC400F51EFC /* Avenir-LightOblique.ttf in Resources */,
 				38B8526E21233F9E002EBB18 /* GoogleService-Info.plist in Resources */,
+				387CE22F21603BC400F51EFC /* Avenir-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -963,7 +1030,6 @@
 				006AC8591FA3A4DB00AFCCCE /* ContactsTableView.swift in Sources */,
 				006AC85B1FA3A4F000AFCCCE /* ContactsTableViewCell.swift in Sources */,
 				00FF14E21FA752E600D9F6FB /* ContactsSearchController.swift in Sources */,
-				3879929C215C93B400AE0DF0 /* NotificationsBlockView.swift in Sources */,
 				38343E721F8C009700F4909E /* PlaceCollectionViewCell.swift in Sources */,
 				004288F51F33B591007FD732 /* MenuViewController.swift in Sources */,
 				38D0D9802156ED7B00FAB683 /* SnapchatLoginViewController.swift in Sources */,
@@ -984,6 +1050,7 @@
 				006BDCEC1F2F8A25006DEF17 /* NearbyPlace.swift in Sources */,
 				38B8527A2124E8D8002EBB18 /* ModalViewViewController.swift in Sources */,
 				38FEA1BD212C8A7A00561CF4 /* StorageService.swift in Sources */,
+				3821518C215FEBE300A7BE9A /* NotificationsTableViewCell.swift in Sources */,
 				384863A32122E6B7004222DE /* InterestingUsers.swift in Sources */,
 				387FC5C22153DB730064DA08 /* SettingsTableView.swift in Sources */,
 				00FF14DE1FA7475D00D9F6FB /* Contact.swift in Sources */,
@@ -1019,6 +1086,7 @@
 				386466281F85264D00C18D53 /* Labels.swift in Sources */,
 				3864662C1F8526B200C18D53 /* Colors.swift in Sources */,
 				384863AC2122E832004222DE /* Utils.swift in Sources */,
+				3821518A215F167E00A7BE9A /* NotificationsTableView.swift in Sources */,
 				38B8527821243AB7002EBB18 /* InteractiveViewController.swift in Sources */,
 				0029BA661F30A37F00C67810 /* Extension.swift in Sources */,
 				38799293215C50FE00AE0DF0 /* AlertBanner.swift in Sources */,

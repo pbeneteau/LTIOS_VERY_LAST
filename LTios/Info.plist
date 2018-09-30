@@ -89,6 +89,18 @@
 		<string>Roboto-Regular.ttf</string>
 		<string>Roboto-Thin.ttf</string>
 		<string>Roboto-ThinItalic.ttf</string>
+        <string>Avenir-Black.ttf</string>
+        <string>Avenir-BlackOblique.ttf</string>
+        <string>Avenir-Book.ttf</string>
+        <string>Avenir-BookOblique.ttf</string>
+        <string>Avenir-Heavy.ttf</string>
+        <string>Avenir-HeavyOblique.ttf</string>
+        <string>Avenir-Light.ttf</string>
+        <string>Avenir-LightOblique.ttf</string>
+        <string>Avenir-Medium.ttf</string>
+        <string>Avenir-MediumOblique.ttf</string>
+        <string>Avenir-Oblique.ttf</string>
+        <string>Avenir-Roman.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

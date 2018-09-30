@@ -12,21 +12,32 @@ import UIKit
 struct LTFont {
     
     struct Menu {
-        static let title = UIFont(name: "Roboto-Medium", size: 23)
+        static let title = UIFont(name: "Avenir-Medium", size: 23)
     }
+    
+    static let button = UIFont(name: "Avenir-Book", size: 13)
+
     
     struct NearbyPlaces {
         
         struct TableView {
             
-            static let headerTitle = UIFont(name: "Roboto-Regular", size: 26)
+            static let headerTitle = UIFont(name: "Avenir-Book", size: 26)
             
             struct Cell {
-                static let type = UIFont(name: "Roboto-Medium", size: 15)
-                static let name = UIFont(name: "Roboto-Black", size: 17)
-                static let distance = UIFont(name: "Roboto-Regular", size: 16)
-                static let people = UIFont(name: "Roboto-Bold", size: 20)
+                static let type = UIFont(name: "Avenir-Medium", size: 15)
+                static let name = UIFont(name: "Avenir-Black", size: 17)
+                static let distance = UIFont(name: "Avenir-Book", size: 16)
+                static let people = UIFont(name: "Avenir-Black", size: 20)
             }
+        }
+    }
+    
+    struct Profile {
+        
+        struct NotificationCell {
+            static let userFullName = UIFont(name: "Avenir-Roman", size: 17)
+            static let type = UIFont(name: "Avenir-Book", size: 13)
         }
     }
     

@@ -18,8 +18,10 @@ class MainUser: GlobalUser {
     private var authHandle: AuthStateDidChangeListenerHandle?
     private var FIRUser = Auth.auth().currentUser!
     
-    var mail: String?
+    var mailAddress: String?
+    
     var address: Address?
+    
     var location: GeoPoint? {
         didSet {
             notifyDidUpdateLocation()
@@ -57,13 +59,13 @@ class MainUser: GlobalUser {
                 DatabaseService.shared.makeUserOnline()
                 DatabaseService.shared.setOnDisconnectHandler()
                 self.getMainInformation(uid: user.uid)
-                self.mail = user.email ?? ""
+                self.mailAddress = user.email ?? ""
             }
         }
     }
     
     // init main user datas and start fetching location
-    func getMainInformation(uid: String) {
+    private func getMainInformation(uid: String) {
         
         MenuInstance.startLoadingAnimation()
         
@@ -103,7 +105,7 @@ class MainUser: GlobalUser {
         } else {
             print("[Error] unwrapping user settings")
         }
-                
+        
         saveBasicInformation()
         notifyDidUpdateUserInformation()
     }
@@ -141,6 +143,12 @@ class MainUser: GlobalUser {
         defaults.set("firstName", forKey: fullName)
         defaults.set("lsatName", forKey: fullName)
         defaults.set("pushID", forKey: pushID)
+    }
+    
+    func mapUserNotifications(data: [String : Any]) {
+        
+        
+        
     }
     
     func notifyDidUpdateLocation() {

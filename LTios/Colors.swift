@@ -12,6 +12,22 @@ struct Color {
     
     static let mainAppColor = UIColor(red:0.38, green:0.55, blue:0.96, alpha:1.0)
     
+    struct Button {
+        
+        struct Background {
+            static let normal = mainAppColor
+            static let active = UIColor.white
+        }
+        struct Border {
+            static let normal = mainAppColor
+            static let active = mainAppColor
+        }
+        struct Title {
+            static let normal = UIColor.white
+            static let active = mainAppColor
+        }
+    }
+    
     struct Menu {
         
         struct Button {
@@ -58,6 +74,8 @@ struct Color {
     static let roundedBlockView = UIColor.white
     
     static let viewControllerBackground = UIColor.white
+    
+    static let blockBackground = UIColor.white
     
     struct AlertBanner {
         

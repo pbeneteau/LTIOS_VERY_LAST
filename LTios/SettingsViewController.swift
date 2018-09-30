@@ -73,7 +73,7 @@ class SettingsViewController: ModalViewViewController {
         
         profilePictureView.image = mainUserInstance.photo
         publicName.text = mainUserInstance.publicName
-        email.text = mainUserInstance.mail
+        email.text = mainUserInstance.mailAddress
         
         guard let settings = mainUserInstance.settings else {
             print("[Error] unwrapping user settings")

@@ -14,7 +14,9 @@ import FirebaseDatabase
 class DatabaseService {
     
     public static var shared = DatabaseService()
+    
     private var nearbyUserListener: ListenerRegistration!
+    private var userNotificationListener: ListenerRegistration!
     
     private let db: Firestore!
     private let settings: FirestoreSettings!
@@ -87,10 +89,87 @@ extension DatabaseService {
         }
     }
     
+    func listenForUserNotifications() {
+        
+        if userNotificationListener != nil { return }
+        
+        userNotificationListener = self.db.collection("users").document(String(describing: mainUserInstance.uid!)).collection("notifications").addSnapshotListener { documentSnapshot, error in
+            
+            guard let userNotificationsCollection = documentSnapshot?.documents else {
+                print("[Error] listening for user notifications: \(error!.localizedDescription)")
+                return
+            }
+            
+            if userNotificationsCollection.count > 0 {
+                
+                var userNotifications = [UserNotification]()
+                
+                let dispatchGroup = DispatchGroup()
+
+                for notification in userNotificationsCollection {
+                    
+                    dispatchGroup.enter()
+                    
+                    let data = notification.data()
+                    
+                    guard let typeString = data["type"] as? String,
+                        let type = UserNotificationType(rawValue: typeString),
+                        let userSource = data["sourceUser"] as? DocumentReference,
+                        let dateTimestamp = data["date"] as? Timestamp
+                        else {
+                            print("[Error] unwrapping user notifications")
+                            dispatchGroup.leave()
+                            continue
+                    }
+                    
+                    let date = Date(timeIntervalSince1970: TimeInterval(dateTimestamp.seconds))
+                    
+                    self.getUserInformation(reference: userSource) { user in
+                        
+                        guard let user = user else { dispatchGroup.leave(); return }
+                        
+                        StorageService.shared.downloadUserPicture(uid: user.uid) { photo in
+                            
+                            guard let photo = photo else {
+                                print("[Error] unwrapping user photo")
+                                dispatchGroup.leave(); return
+                            }
+                            user.photo = photo
+                            userNotifications.append(UserNotification(type: type, user: user, date: date))
+                            dispatchGroup.leave()
+                        }
+                    }
+                }
+                dispatchGroup.notify(queue: .main, execute: {
+                    self.notifyDidUpdateUserNotifications(userNotifications: userNotifications)
+                })
+            } else {
+                print(0)
+            }
+        }
+    }
+    
+    func getUserInformation(reference: DocumentReference, completion: @escaping(GlobalUser?) -> Void) {
+        
+        reference.getDocument { doc, error in
+            
+            guard let userDocument = doc else {
+                print("[Error] retrieving a user information: \(error!.localizedDescription)")
+                completion(nil)
+                return
+            }
+            let user = GlobalUser(document: userDocument)
+            completion(user)
+        }
+    }
     
     
     func stopListeningForNearbyUsers() {
         nearbyUserListener.remove()
+    }
+    
+    func stopListeningForUserNotifications() {
+        userNotificationListener.remove()
     }
     
     func fetchUsersProfile(uids: [String], completion: @escaping([InterestingUser]?) -> Void) {
@@ -118,7 +197,7 @@ extension DatabaseService {
                         StorageService.shared.downloadUserPicture(uid: newUser.uid) { photo in
                             
                             guard let photo = photo else {
-                                print("[Error] fetching user photo")
+                                print("[Error] unwrapping user photo")
                                 dispatchGroup.leave(); return
                             }
                             newUser.photo = photo
@@ -135,6 +214,19 @@ extension DatabaseService {
             completion(nil)
         }
     }
+    
+    // upload contacts to database if necessary
+    func uploadUserContactsToDatabase(contacts: [String:String]) {
+        
+        self.db.document("users/\(String(describing: mainUserInstance.uid!))").updateData([
+            "contacts" : contacts
+        ]) { err in
+            if let err = err {
+                print("[Error] uploading contacts: \(err.localizedDescription)")
+            }
+        }
+    }
+    
     
     // Update user location in database
     func updateUserDatabaseLocation() {
@@ -175,17 +267,6 @@ extension DatabaseService {
                 completion(document)
             } else {
                 completion(nil)
-            }
-        }
-    }
-    
-    func uploadUserContactsToDatabase(contacts: [String:String]) {
-        
-        self.db.document("users/\(String(describing: mainUserInstance.uid!))").updateData([
-            "contacts" : contacts
-        ]) { err in
-            if let err = err {
-                print("[Error] uploading contacts: \(err.localizedDescription)")
             }
         }
     }
@@ -234,5 +315,9 @@ extension DatabaseService {
     
     func notifyDidUpdateNearbyUsers(nearbyUsers: [InterestingUser]) {
         NotificationCenter.default.post(name: Notification.Name(rawValue:"didFoundNearbyUsers"), object: nil, userInfo: ["closeUsers" : nearbyUsers])
+    }
+    
+    func notifyDidUpdateUserNotifications(userNotifications: [UserNotification]) {
+        NotificationCenter.default.post(name: Notification.Name(rawValue:"didUpdateUserNotifications"), object: nil, userInfo: ["userNotifications" : userNotifications])
     }
 }

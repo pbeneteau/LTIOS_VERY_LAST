@@ -55,6 +55,7 @@ class ContactsService {
                     serializedContacts[hash!] = "\(contact.givenName) \(contact.familyName)"
                 }
             }
+            
             mainUserInstance.contacts = serializedContacts
             DatabaseService.shared.uploadUserContactsToDatabase(contacts: serializedContacts)
         }

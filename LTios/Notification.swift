@@ -9,9 +9,9 @@
 import Foundation
 
 
-enum UserNotificationType {
-    case friendRequest
-    case message
+enum UserNotificationType: String {
+    case friendRequest = "friendRequest"
+    case message = "message"
     // ...
 }
 
@@ -22,13 +22,20 @@ class UserNotification {
     
     var title: String!
     var subtitle: String!
+    var date: Date {
+        didSet {
+            dateToString()
+        }
+    }
+    var dateString: String!
     
     var user: GlobalUser!
     
     
-    init(type: UserNotificationType, user: GlobalUser) {
+    init(type: UserNotificationType, user: GlobalUser, date: Date) {
         self.type = type
         self.user = user
+        self.date = date
         
         commonInit()
     }
@@ -46,6 +53,10 @@ class UserNotification {
         }
         
         title = user.fullName
+    }
+    
+    func dateToString() {
+        self.dateString = "Yesterday"
     }
 }
 

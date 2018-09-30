@@ -42,6 +42,8 @@ class ProfileViewController: ModalViewViewController {
     
     private var contactsLabel = UILabel()
     private var contactsVC = ContactsViewController()
+    private var notificationsVC: NotificationsTableView!
+
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -49,6 +51,8 @@ class ProfileViewController: ModalViewViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        notificationsVC = NotificationsTableView(style: .plain)
         
         backgroundView.backgroundColor = Color.viewControllerBackground
         containerView.backgroundColor = Color.viewControllerBackground
@@ -72,8 +76,10 @@ class ProfileViewController: ModalViewViewController {
         notificationsLabel.text = "Notifications"
         notificationsLabel.font = UIFont(name: "Roboto-Regular", size: 20)
         notificationsLabel.textColor = UIColor.lightGray
+        notificationsLabel.alpha = 0
         
-        notificationsBlock.backgroundColor = .white
+        notificationsBlock.backgroundColor = Color.blockBackground
+        notificationsBlock.alpha = 0
         
         contactsLabel.text = "Contacts"
         contactsLabel.font = UIFont(name: "Roboto-Regular", size: 20)
@@ -93,6 +99,8 @@ class ProfileViewController: ModalViewViewController {
         scrollView.addSubview(notificationsBlock)
         scrollView.addSubview(contactsLabel)
         
+        addUserNotificationsTableView()
+
         addContactsVC()
         
         addNotificationsObservers()
@@ -111,11 +119,15 @@ class ProfileViewController: ModalViewViewController {
     }
     
     func addContactsVC() {
-        
-        contactsVC.view.backgroundColor = .white
-        
+                
         addChildViewController(contactsVC)
         scrollView.addSubview(contactsVC.view)
+    }
+    
+    func addUserNotificationsTableView() {
+        
+        addChildViewController(notificationsVC)
+        notificationsBlock.addSubview(notificationsVC.view)
     }
     
     @objc func didTapSettingsButton() {
@@ -162,7 +174,6 @@ class ProfileViewController: ModalViewViewController {
             self.lineView.alpha = 1
             self.notificationsBlock.alpha = 1
             self.scrollView.alpha = 1
-            self.containerView.alpha = 1
         })
     }
     
@@ -186,6 +197,45 @@ class ProfileViewController: ModalViewViewController {
             }
         } else {
             self.profilePictureView.image = mainUserInstance.photo
+        }
+        
+        DatabaseService.shared.listenForUserNotifications()
+    }
+    
+    @objc func didUpdateUserNotifications(_ notification: NSNotification) {
+        
+        if let userInfo = notification.userInfo, let notifs = userInfo["userNotifications"] as? [UserNotification] {
+            
+            notificationsVC.notifications = notifs
+            
+            notificationsLabel.snp.remakeConstraints { (make) -> Void in
+                make.width.equalTo(scrollView).multipliedBy(0.7)
+                make.height.equalTo(20)
+                make.left.equalTo(notificationsBlock)
+                make.top.equalTo(scrollView).offset(20)
+            }
+            
+            notificationsBlock.snp.remakeConstraints { (make) -> Void in
+                make.width.equalTo(scrollView).multipliedBy(0.9)
+                make.height.equalTo(notifs.count * 80)
+                make.centerX.equalTo(scrollView)
+                make.top.equalTo(notificationsLabel.snp.bottom).offset(15)
+            }
+            
+            notificationsVC.view.snp.remakeConstraints { (make) -> Void in
+                make.width.equalTo(notificationsBlock)
+                make.height.equalTo(notificationsBlock)
+                make.center.equalTo(notificationsBlock)
+            }
+            
+            self.view.layoutSubviews()
+            self.notificationsVC.view.layoutSubviews()
+            
+            UIView.animate(withDuration: 0.4, delay: 0, options: [.curveEaseInOut], animations: {
+
+                self.notificationsLabel.alpha = 1
+                self.notificationsBlock.alpha = 1
+            })
         }
     }
     
@@ -242,6 +292,9 @@ extension ProfileViewController {
     func addNotificationsObservers() {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.didUpdateUserProfile), name: Notification.Name(rawValue:"didUpdateUserInformation"), object: nil)
+        
+         NotificationCenter.default.addObserver(self, selector: #selector(self.didUpdateUserNotifications(_:)), name: Notification.Name(rawValue:"didUpdateUserNotifications"), object: nil)
+        
     }
 }
 
@@ -337,16 +390,22 @@ extension ProfileViewController {
         
         notificationsLabel.snp.makeConstraints { (make) -> Void in
             make.width.equalTo(scrollView).multipliedBy(0.7)
-            make.height.equalTo(20)
+            make.height.equalTo(0)
             make.left.equalTo(notificationsBlock)
             make.top.equalTo(scrollView).offset(20)
         }
         
         notificationsBlock.snp.makeConstraints { (make) -> Void in
             make.width.equalTo(scrollView).multipliedBy(0.9)
-            make.height.equalTo(containerView).multipliedBy(0.35)
+            make.height.equalTo(0)
             make.centerX.equalTo(scrollView)
             make.top.equalTo(notificationsLabel.snp.bottom).offset(15)
+        }
+        
+        notificationsVC.view.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(notificationsBlock)
+            make.height.equalTo(notificationsVC.tableView.contentSize)
+            make.center.equalTo(notificationsBlock)
         }
         
         contactsLabel.snp.makeConstraints { (make) -> Void in

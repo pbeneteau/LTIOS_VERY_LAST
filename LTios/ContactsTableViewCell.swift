@@ -35,19 +35,7 @@ class ContactsTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        backgroundColor = UIColor(red:1.00, green:1.00, blue:1.00, alpha:0.0)
-        
-        addSubview(cellView)
-        
-        addSubview(name)
-        addSubview(surname)
-        addSubview(profilePicture)
-        addSubview(country)
-        addSubview(status)
-        addSubview(lineSeparator)
-        
-        cellView.backgroundColor = UIColor(red:1.00, green:1.00, blue:1.00, alpha:0.11)
-        cellView.layer.cornerRadius = 4.0
+        backgroundColor = .white
         
         name.textColor = UIColor.gray
         name.font = UIFont(name: "Roboto-Regular", size: 16)
@@ -64,6 +52,14 @@ class ContactsTableViewCell: UITableViewCell {
                 
         lineSeparator.backgroundColor = .gray
         lineSeparator.alpha = 0.3
+        
+        addSubview(cellView)
+        addSubview(name)
+        addSubview(surname)
+        addSubview(profilePicture)
+        addSubview(country)
+        addSubview(status)
+        addSubview(lineSeparator)
         
         updateConstraints()
     }

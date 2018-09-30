@@ -26,6 +26,7 @@ class TitleLabel: UILabel {
 }
 
 class DescriptionLabel: UILabel {
+    
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
         commonInit()
