@@ -1,86 +1,171 @@
 //
-//  ViewController.swift
+//  WelcomeViewController.swift
 //  LTios
 //
-//  Created by antoine beneteau on 2017-07-19.
-//  Copyright © 2017 Tastyapp. All rights reserved.
+//  Created by Antoine Beneteau on 02/11/2018.
+//  Copyright © 2018 Tastyapp. All rights reserved.
 //
 
 import UIKit
 import FirebaseAuth
 import SnapKit
-import PhoneNumberKit
 
 class StartViewController: ModalViewViewController {
     
     var didSetupConstraints = false
     var worldIsAnimating = false
     
-    let phoneNumberKit = PhoneNumberKit()
-    
     let bg = UIImageView(image: #imageLiteral(resourceName: "RegisterationBG"))
     let world = UIImageView(image: #imageLiteral(resourceName: "World"))
     let logo = LogoTitle()
     let slogan = Slogan()
-    lazy var countrySelector: CountryButton = {
-        let view = CountryButton()
-        // view.addTarget...
-        return view
-    }()
+    let startButton = StartButton()
+    let startText = StartLabel()
+    let loginButton = LoginButton()
+    let signupButton = SignupButton()
+    let termsButton = TermsButton()
     
-    lazy var phoneTextField: PhoneTextField = {
-        let view = PhoneTextField()
-        return view
-    }()
-    let phonePlaceHolder = PhonePlaceHolder()
-    let phoneTextFieldLine = PhoneTextFieldLine(frame: CGRect())
-    let flagArrow = UIImageView(image: #imageLiteral(resourceName: "FlagArrow"))
-    let nextButton = RegistrationNextButton()
     
-    let countryVC = CountryViewController()
-    var countryCodeString = "+33 "
+    // LOGIN
+    let loginBackButton = BackButton()
+    let loginDescriptionLabel = LoginFormLabel()
+    let loginEmailTextField = EmailTextField()
+    let loginPasswordTextField = PasswordTextField()
+    let loginFormButton = LoginFormButton()
+    
+    // SIGNUP
+    var formHeight: CGFloat = 0.0
+    let signupBackButton = BackButton()
+    let signupDescriptionLabel = RegisterFormLabel()
+    let signupFormView = RegisterForm()
+    let separators = [UIImageView(image: #imageLiteral(resourceName: "Separator")),UIImageView(image: #imageLiteral(resourceName: "Separator")),UIImageView(image: #imageLiteral(resourceName: "Separator")),UIImageView(image: #imageLiteral(resourceName: "Separator"))]
+    let signupFormButton = RegisterButton()
+    let signupFormagreementsLabel = RegisterAgreementsLabel()
+    let signupEmailTextField = EmailRegisterTextField()
+    let signupPseudoTextField = PseudoRegisterTextField()
+    let signupPasswordTextField = PasswordRegisterTextField()
+    let signupPasswordConfTextField = PasswordRegisterTextField()
+    let signupNameTextField = NameRegisterTextField()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        do {
+            try  Auth.auth().signOut()
+        } catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
+        }
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        
+        //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
+        //tap.cancelsTouchesInView = false
+        
+        view.addGestureRecognizer(tap)
+        
         
         view.addSubview(bg)
         view.addSubview(world)
         view.addSubview(logo)
         view.addSubview(slogan)
-        view.addSubview(countrySelector)
-        view.addSubview(phoneTextField)
-        view.addSubview(phonePlaceHolder)
-        view.addSubview(phoneTextFieldLine)
-        view.addSubview(flagArrow)
-        view.addSubview(nextButton)
+        view.addSubview(startButton)
+        view.addSubview(startText)
+        view.addSubview(loginButton)
+        view.addSubview(signupButton)
+        view.addSubview(termsButton)
         
-        addChildViewController(countryVC)
-        view.addSubview(countryVC.view)
+        // LOGIN
+        view.addSubview(loginBackButton)
+        view.addSubview(loginDescriptionLabel)
+        view.addSubview(loginEmailTextField)
+        view.addSubview(loginPasswordTextField)
+        view.addSubview(loginFormButton)
         
-        phoneTextField.delegate = self
-        phoneTextField.addTarget(self, action: #selector(textFieldChanged), for: .allEditingEvents)
-        initTextField(string: "")
+        // SIGNUP
+        formHeight = view.frame.height * CGFloat(0.3421052632)
+        view.addSubview(signupBackButton)
+        view.addSubview(signupDescriptionLabel)
+        view.addSubview(signupFormView)
+        for separator in separators {
+            view.addSubview(separator)
+        }
+        view.addSubview(signupFormButton)
+        view.addSubview(signupFormagreementsLabel)
+        view.addSubview(signupEmailTextField)
+        view.addSubview(signupPseudoTextField)
+        view.addSubview(signupPasswordTextField)
+        view.addSubview(signupPasswordConfTextField)
+        view.addSubview(signupNameTextField)
         
-        countrySelector.addTarget(self, action: #selector(openCountryView), for: .touchUpInside)
-        
-        nextButton.addTarget(self, action: #selector(nextButtonPressed), for: .touchUpInside)
+        startButton.addTarget(self, action: #selector(startButtonPressed), for: .touchUpInside)
+        loginButton.addTarget(self, action: #selector(loginButtonPressed), for: .touchUpInside)
+        signupButton.addTarget(self, action: #selector(signupButtonPressed), for: .touchUpInside)
+        termsButton.addTarget(self, action: #selector(termsButtonPressed), for: .touchUpInside)
+        signupBackButton.addTarget(self, action: #selector(signupBackButtonPressed), for: .touchUpInside)
+        loginBackButton.addTarget(self, action: #selector(loginBackButtonPressed), for: .touchUpInside)
+        loginFormButton.addTarget(self, action: #selector(loginFormButtonPressed), for: .touchUpInside)
         
         self.view.setNeedsUpdateConstraints()
     }
     
     
     override func viewDidAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(closeCountryView), name: NSNotification.Name(rawValue: "closeCountryView"), object: nil)
         if !worldIsAnimating {
             animateWorld()
             worldIsAnimating = true
         }
+    }
+    
+    
+    private func animateWorld() {
         
+        UIView.animate(withDuration: 500, delay: 0, options: [.repeat, .curveLinear], animations: { () -> Void in
+            self.world.snp.updateConstraints { make in
+                make.left.equalTo(self.view.snp.left).offset(-self.world.frame.width)
+            }
+            self.world.superview?.layoutIfNeeded()
+        })
+    }
+    
+    @objc func startButtonPressed() {
+        hideStartButton()
+        putLogoUp(n:0.15)
+        showLoginAndRegisterState()
+    }
+    
+    @objc func loginButtonPressed() {
+        hideLoginAndRegister()
+        showLogin()
+    }
+    
+    @objc func signupButtonPressed() {
+        hideLoginAndRegister()
+        putLogoUp(n:0.1)
+        showRegister()
+    }
+    
+    @objc func termsButtonPressed() {
+    }
+    
+    @objc func signupBackButtonPressed() {
+        hideRegister()
+        let when = DispatchTime.now() + 0.3
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            self.showLoginAndRegisterState()
+        }
+    }
+    
+    @objc func loginBackButtonPressed() {
+        hideLogin()
+        let when = DispatchTime.now() + 0.3
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            self.showLoginAndRegisterState()
+        }
+    }
+    
+    @objc func loginFormButtonPressed() {
         let email = "inesbenett@hotmail.fr"
         let password = "combava"
-        let firstname = "Inès"
-        let lastname = "Bénéteau"
         
         // [START headless_email_auth]
         Auth.auth().signIn(withEmail: email, password: password) { (authResult, error) in
@@ -99,161 +184,16 @@ class StartViewController: ModalViewViewController {
         // [END headless_email_auth]
     }
     
-    
-    private func animateWorld() {
-        
-        UIView.animate(withDuration: 500, delay: 0, options: [.repeat, .curveLinear], animations: { () -> Void in
-            self.world.snp.updateConstraints { make in
-                make.left.equalTo(self.view.snp.left).offset(-self.world.frame.width)
-            }
-            self.world.superview?.layoutIfNeeded()
-        })
+    @objc func signupFormButtonPressed() {
     }
     
-    
-    @objc func openCountryView() {
-        UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: { () -> Void in
-            self.countryVC.view.snp.remakeConstraints { make in
-                make.width.equalTo(self.view.snp.width)
-                make.centerX.equalTo(self.view.snp.centerX)
-                make.bottom.equalTo(self.view.snp.bottom)
-                make.height.equalTo(self.view.snp.height)
-            }
-            self.phoneTextField.superview?.layoutIfNeeded()
-        })
-        disableTextField()
-    }
-    
-    @objc func closeCountryView(notification: NSNotification){
-        UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: { () -> Void in
-            self.countryVC.view.snp.remakeConstraints { make in
-                make.width.equalTo(self.view.snp.width)
-                make.centerX.equalTo(self.view.snp.centerX)
-                make.bottom.equalTo(self.view.snp.bottom).offset(self.view.frame.height)
-                make.height.equalTo(self.view.snp.height)
-            }
-            self.phoneTextField.superview?.layoutIfNeeded()
-        })
-        countrySelector.setImage(UIImage(named: selectedCountry), for: .normal)
-        let countryCode = Int(phoneNumberKit.countryCode(for: selectedCountry)!)
-        countryCodeString = "+\(countryCode) "
-        initTextField(string: "")
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        disableTextField()
-    }
-    
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            let keyboardHeight = keyboardSize.height
-            enableTextField(keyboardHeight: keyboardHeight)
-        }
-    }
-    
-    func enableTextField(keyboardHeight: CGFloat) {
-        UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: { () -> Void in
-            self.phoneTextField.snp.remakeConstraints { make in
-                make.bottom.equalTo(self.view.snp.bottom).offset(-keyboardHeight - self.nextButton.frame.height - 70)
-                make.centerX.equalTo(self.view.snp.centerX).offset(35)
-                make.width.equalTo(self.view.snp.width).multipliedBy(0.6)
-            }
-            self.phoneTextField.superview?.layoutIfNeeded()
-        })
-        UIView.animate(withDuration: 0.1, delay: 0, options: [.curveLinear], animations: { () -> Void in
-            self.phonePlaceHolder.alpha = 0.0
-        })
-        
-        UIView.animate(withDuration: 0.2, delay: 0, options: [.curveLinear], animations: { () -> Void in
-            self.phoneTextFieldLine.snp.updateConstraints { make in
-                make.height.equalTo(3)
-                make.centerY.equalTo(self.countrySelector.snp.bottom).offset(5)
-            }
-            self.phoneTextField.superview?.layoutIfNeeded()
-        })
-    }
-    
-    func disableTextField() {
+    override func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
-        UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: { () -> Void in
-            self.phoneTextField.snp.remakeConstraints { make in
-                make.width.equalTo(self.view.snp.width).multipliedBy(0.6)
-                make.top.equalTo(self.view.snp.bottom).multipliedBy(0.75)
-                make.centerX.equalTo(self.view.snp.centerX).offset(35)
-            }
-            self.phoneTextField.superview?.layoutIfNeeded()
-        })
-        UIView.animate(withDuration: 0.1, delay: 0.3, options: [.curveLinear], animations: { () -> Void in
-            self.phonePlaceHolder.alpha = 1.0
-        })
-        UIView.animate(withDuration: 0.2, delay: 0, options: [.curveLinear], animations: { () -> Void in
-            self.phoneTextFieldLine.snp.updateConstraints { make in
-                make.height.equalTo(1)
-                make.centerY.equalTo(self.countrySelector.snp.bottom).offset(5)
-            }
-            self.phoneTextField.superview?.layoutIfNeeded()
-        })
-        UIView.animate(withDuration: 0.1, delay: 0, options: [.curveLinear], animations: { () -> Void in
-            self.nextButton.alpha = 0.0
-        })
-        initTextField(string: "")
-    }
-    
-    @objc func nextButtonPressed() {
-        let verificationVC = PhoneVerificationViewController()
-        navigationController?.pushViewController(verificationVC, animated: true)
     }
     
 }
 
-
-extension StartViewController: UITextFieldDelegate {
-    
-    func initTextField(string: String) {
-        let protectedRange = NSMakeRange(0, countryCodeString.count)
-        let attributedString = NSMutableAttributedString(string: countryCodeString)
-        attributedString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor(red:0.93, green:0.94, blue:0.95, alpha:1.0), range: protectedRange)
-        attributedString.append(NSAttributedString(string: string))
-        phoneTextField.attributedText = attributedString
-    }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        
-    }
-    
-    @objc func textFieldChanged() {
-        let partialFormatter = PartialFormatter(phoneNumberKit: phoneNumberKit, defaultRegion: selectedCountry, withPrefix: false)
-        let protectedRange = NSMakeRange(0, countryCodeString.count)
-        let substring = phoneTextField.text!.index(phoneTextField.text!.startIndex, offsetBy: protectedRange.length)
-        initTextField(string: partialFormatter.formatPartial(phoneTextField.text!.substring(from: substring)))
-        
-        if (phoneTextField.text?.count)! > protectedRange.length {
-            if nextButton.alpha != 1.0 {
-                UIView.animate(withDuration: 0.1, delay: 0, options: [.curveLinear], animations: { () -> Void in
-                    self.nextButton.alpha = 1.0
-                })
-            }
-        } else {
-            if nextButton.alpha != 0.0 {
-                UIView.animate(withDuration: 0.1, delay: 0, options: [.curveLinear], animations: { () -> Void in
-                    self.nextButton.alpha = 0.0
-                })
-            }
-        }
-    }
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let protectedRange = NSMakeRange(0, countryCodeString.count)
-        let intersection = NSIntersectionRange(protectedRange, range)
-        if intersection.length > 0 {
-            
-            return false
-        }
-        
-        return true
-    }
-    
-}
 
 //MARK: Constraints
 extension StartViewController {
@@ -274,7 +214,7 @@ extension StartViewController {
             }
             
             logo.snp.makeConstraints { (make) -> Void in
-                make.top.equalTo(view.snp.bottom).multipliedBy(0.12)
+                make.top.equalTo(view.snp.bottom).multipliedBy(0.25)
                 make.centerX.equalTo(view.snp.centerX)
             }
             
@@ -283,48 +223,160 @@ extension StartViewController {
                 make.centerX.equalTo(view.snp.centerX)
             }
             
-            phoneTextField.snp.makeConstraints { (make) -> Void in
-                make.width.equalTo(view.snp.width).multipliedBy(0.6)
-                make.top.equalTo(view.snp.bottom).multipliedBy(0.75)
-                make.centerX.equalTo(view.snp.centerX).offset(35)
-            }
-            
-            phonePlaceHolder.snp.makeConstraints { (make) -> Void in
-                make.width.equalTo(phoneTextField.snp.width).multipliedBy(0.8)
-                make.height.equalTo(21)
-                make.centerY.equalTo(phoneTextField.snp.centerY).offset(-1)
-                make.right.equalTo(phoneTextField.snp.right)
-            }
-            
-            countrySelector.snp.makeConstraints { (make) -> Void in
-                make.width.equalTo(60)
-                make.height.equalTo(40)
-                make.centerY.equalTo(phoneTextField.snp.centerY)
-                make.right.equalTo(phoneTextField.snp.left).offset(-10)
-            }
-            
-            phoneTextFieldLine.snp.makeConstraints { (make) -> Void in
-                make.width.equalTo(phoneTextField.snp.width)
-                make.height.equalTo(1)
-                make.centerY.equalTo(countrySelector.snp.bottom).offset(3)
-                make.centerX.equalTo(phoneTextField.snp.centerX)
-            }
-            
-            flagArrow.snp.makeConstraints { (make) -> Void in
-                make.top.equalTo(countrySelector.snp.bottom).offset(3)
-                make.centerX.equalTo(countrySelector.snp.centerX)
-            }
-            
-            nextButton.snp.makeConstraints { (make) -> Void in
-                make.top.equalTo(phoneTextFieldLine.snp.bottom).offset(20)
-                make.right.equalTo(view.snp.right).offset(-20)
-            }
-            
-            countryVC.view.snp.makeConstraints { (make) -> Void in
-                make.width.equalTo(view.snp.width)
+            startButton.snp.makeConstraints { (make) -> Void in
+                make.centerY.equalTo(view.snp.centerY)
                 make.centerX.equalTo(view.snp.centerX)
-                make.bottom.equalTo(view.snp.bottom).offset(self.view.frame.height)
-                make.height.equalTo(view.snp.height)
+                make.width.equalTo(182)
+                make.height.equalTo(56)
+            }
+            
+            startText.snp.makeConstraints { (make) -> Void in
+                make.top.equalTo(view.snp.bottom).multipliedBy(1.1)
+                make.centerX.equalTo(view.snp.centerX)
+                make.width.equalTo(view.snp.width).multipliedBy(0.75)
+            }
+            
+            loginButton.snp.remakeConstraints { make in
+                make.top.equalTo(startText.snp.bottom).offset(25)
+                make.centerX.equalTo(view.snp.centerX)
+                make.width.equalTo(240)
+                make.height.equalTo(44)
+            }
+            
+            signupButton.snp.remakeConstraints { make in
+                make.top.equalTo(loginButton.snp.bottom).offset(15)
+                make.centerX.equalTo(view.snp.centerX)
+                make.width.equalTo(240)
+                make.height.equalTo(44)
+            }
+            
+            termsButton.snp.remakeConstraints { make in
+                make.top.equalTo(signupButton.snp.bottom).offset(7)
+                make.centerX.equalTo(view.snp.centerX)
+                make.width.equalTo(loginButton.snp.width)
+            }
+            
+            
+            // ####### LOGIN #########
+            loginDescriptionLabel.snp.makeConstraints { (make) -> Void in
+                make.top.equalTo(view.snp.bottom).multipliedBy(1.1)
+                make.centerX.equalTo(view.snp.centerX)
+                make.width.equalTo(view.snp.width).multipliedBy(0.875)
+            }
+            
+            loginEmailTextField.snp.makeConstraints { (make) -> Void in
+                make.top.equalTo(loginDescriptionLabel.snp.bottom).offset(20)
+                make.centerX.equalTo(view.snp.centerX)
+                make.width.equalTo(view.snp.width).multipliedBy(0.875)
+                make.height.equalTo(50)
+            }
+            
+            loginPasswordTextField.snp.makeConstraints { (make) -> Void in
+                make.top.equalTo(loginEmailTextField.snp.bottom).offset(5)
+                make.centerX.equalTo(view.snp.centerX)
+                make.width.equalTo(view.snp.width).multipliedBy(0.875)
+                make.height.equalTo(50)
+            }
+            
+            loginFormButton.snp.makeConstraints { (make) -> Void in
+                make.top.equalTo(loginPasswordTextField.snp.bottom).offset(15)
+                make.centerX.equalTo(view.snp.centerX)
+                make.width.equalTo(view.snp.width).multipliedBy(0.875)
+                make.height.equalTo(55)
+            }
+            
+            loginBackButton.snp.remakeConstraints { make in
+                make.centerY.equalTo(loginDescriptionLabel.snp.centerY)
+                make.left.equalTo(loginPasswordTextField.snp.left).offset(3)
+                make.width.equalTo(26)
+                make.height.equalTo(22)
+            }
+            
+            // ####### SIGNUP ########
+            signupDescriptionLabel.snp.makeConstraints { (make) -> Void in
+                make.top.equalTo(view.snp.bottom).multipliedBy(1.1)
+                make.centerX.equalTo(view.snp.centerX)
+                make.width.equalTo(view.snp.width).multipliedBy(0.75)
+            }
+            
+            if UIScreen.main.bounds.size.width <= 414 {
+                signupFormView.snp.makeConstraints { (make) -> Void in
+                    make.top.equalTo(signupDescriptionLabel.snp.bottom).offset(10)
+                    make.centerX.equalTo(view.snp.centerX)
+                    make.width.equalTo(view.snp.width).multipliedBy(0.875)
+                    make.height.equalTo(view.snp.height).multipliedBy(0.3421052632)
+                }
+            } else {
+                formHeight = 251.66
+                signupFormView.snp.makeConstraints { (make) -> Void in
+                    make.top.equalTo(signupDescriptionLabel.snp.bottom).offset(15)
+                    make.centerX.equalTo(view.snp.centerX)
+                    make.width.equalTo(362)
+                    make.height.equalTo(251.66)
+                }
+            }
+            
+            var i : CGFloat = 1
+            for separator in separators {
+                separator.snp.makeConstraints { (make) -> Void in
+                    make.centerY.equalTo(signupFormView.snp.top).offset(i * formHeight / 5)
+                    make.left.equalTo(signupFormView.snp.left)
+                    make.right.equalTo(signupFormView.snp.right)
+                }
+                i += 1
+            }
+            separators[0].snp.makeConstraints { (make) -> Void in
+                make.centerY.equalTo(signupFormView.snp.top).offset(formHeight / 5)
+                make.left.equalTo(signupFormView.snp.left)
+                make.right.equalTo(signupFormView.snp.right)
+            }
+            signupBackButton.snp.remakeConstraints { make in
+                make.centerY.equalTo(signupDescriptionLabel.snp.centerY)
+                make.left.equalTo(signupFormView.snp.left).offset(3)
+                make.width.equalTo(26)
+                make.height.equalTo(22)
+            }
+            signupFormButton.snp.makeConstraints { (make) -> Void in
+                make.top.equalTo(signupFormView.snp.bottom).offset(17)
+                make.centerX.equalTo(view.snp.centerX)
+                make.width.equalTo(signupFormView.snp.width)
+                make.height.equalTo(56)
+            }
+            signupFormagreementsLabel.snp.makeConstraints { (make) -> Void in
+                make.top.equalTo(signupFormButton.snp.bottom).offset(8)
+                make.centerX.equalTo(signupFormButton.snp.centerX)
+            }
+            signupEmailTextField.snp.makeConstraints { (make) -> Void in
+                make.top.equalTo(signupFormView.snp.top)
+                make.centerX.equalTo(view.snp.centerX)
+                make.width.equalTo(signupFormView.snp.width)
+                make.height.equalTo(formHeight / 5)
+            }
+            signupPseudoTextField.snp.makeConstraints { (make) -> Void in
+                make.top.equalTo(signupEmailTextField.snp.top).offset(formHeight / 5)
+                make.centerX.equalTo(view.snp.centerX)
+                make.width.equalTo(signupFormView.snp.width)
+                make.height.equalTo(formHeight / 5)
+            }
+            signupPasswordTextField.snp.makeConstraints { (make) -> Void in
+                make.top.equalTo(signupPseudoTextField.snp.top).offset(formHeight / 5)
+                make.centerX.equalTo(view.snp.centerX)
+                make.width.equalTo(signupFormView.snp.width)
+                make.height.equalTo(formHeight / 5)
+            }
+            
+            signupPasswordConfTextField.snp.makeConstraints { (make) -> Void in
+                make.top.equalTo(signupPasswordTextField.snp.top).offset(formHeight / 5)
+                make.centerX.equalTo(view.snp.centerX)
+                make.width.equalTo(signupFormView.snp.width)
+                make.height.equalTo(formHeight / 5)
+            }
+            
+            signupNameTextField.snp.makeConstraints { (make) -> Void in
+                make.top.equalTo(signupPasswordConfTextField.snp.top).offset(formHeight / 5)
+                make.centerX.equalTo(view.snp.centerX)
+                make.width.equalTo(signupFormView.snp.width)
+                make.height.equalTo(formHeight / 5)
             }
             
             didSetupConstraints = true
@@ -332,3 +384,101 @@ extension StartViewController {
         super.updateViewConstraints()
     }
 }
+
+
+// ####### ANIMATIONS #######
+extension StartViewController {
+    
+    private func hideStartButton() {
+        UIView.animate(withDuration: 0.1, delay: 0, options: [.curveEaseInOut], animations: { () -> Void in
+            self.startButton.alpha = 0.0
+            self.startButton.isEnabled = false
+        })
+    }
+    
+    private func putLogoUp(n: Double) {
+        UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: { () -> Void in
+            self.logo.snp.remakeConstraints { make in
+                make.top.equalTo(self.view.snp.bottom).multipliedBy(n)
+                make.centerX.equalTo(self.view.snp.centerX)
+            }
+            self.startText.superview?.layoutIfNeeded()
+        })
+    }
+    private func showLoginAndRegisterState() {
+        UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: { () -> Void in
+            self.startText.snp.remakeConstraints { make in
+                make.top.equalTo(self.view.snp.bottom).multipliedBy(0.40)
+                make.centerX.equalTo(self.view.snp.centerX)
+                make.width.equalTo(self.view.snp.width).multipliedBy(0.75)
+            }
+            self.startText.superview?.layoutIfNeeded()
+        })
+    }
+    
+    private func hideLoginAndRegister() {
+        UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: { () -> Void in
+            self.startText.snp.remakeConstraints { make in
+                make.top.equalTo(self.view.snp.bottom).multipliedBy(1.2)
+                make.centerX.equalTo(self.view.snp.centerX)
+                make.width.equalTo(self.view.snp.width).multipliedBy(0.75)
+            }
+            self.startText.superview?.layoutIfNeeded()
+        })
+    }
+    
+    private func showLogin() {
+        let when = DispatchTime.now() + 0.3
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: { () -> Void in
+                self.loginDescriptionLabel.snp.remakeConstraints { (make) -> Void in
+                    make.top.equalTo(self.view.snp.bottom).multipliedBy(0.35)
+                    make.centerX.equalTo(self.view.snp.centerX)
+                    make.width.equalTo(self.view.snp.width).multipliedBy(0.875)
+                }
+                self.loginDescriptionLabel.superview?.layoutIfNeeded()
+            })
+        }
+    }
+    
+    private func hideLogin() {
+        UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: { () -> Void in
+            self.loginDescriptionLabel.snp.remakeConstraints { (make) -> Void in
+                make.top.equalTo(self.view.snp.bottom).multipliedBy(1.1)
+                make.centerX.equalTo(self.view.snp.centerX)
+                make.width.equalTo(self.view.snp.width).multipliedBy(0.875)
+            }
+            self.loginDescriptionLabel.superview?.layoutIfNeeded()
+        })
+    }
+    
+    private func showRegister() {
+        let when = DispatchTime.now() + 0.3
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: { () -> Void in
+                self.signupDescriptionLabel.snp.remakeConstraints { make in
+                    make.top.equalTo(self.view.snp.bottom).multipliedBy(0.20)
+                    make.centerX.equalTo(self.view.snp.centerX)
+                    make.width.equalTo(240)
+                    make.height.equalTo(44)
+                }
+                self.signupDescriptionLabel.superview?.layoutIfNeeded()
+            })
+        }
+    }
+    
+    private func hideRegister() {
+        putLogoUp(n:0.15)
+        UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: { () -> Void in
+            self.signupDescriptionLabel.snp.remakeConstraints { make in
+                make.top.equalTo(self.view.snp.bottom).multipliedBy(1.2)
+                make.centerX.equalTo(self.view.snp.centerX)
+                make.width.equalTo(240)
+                make.height.equalTo(44)
+            }
+            self.signupDescriptionLabel.superview?.layoutIfNeeded()
+        })
+    }
+    
+}
+

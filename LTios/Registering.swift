@@ -1,252 +1,15 @@
 //
-//  Registering.swift
+//  Register.swift
 //  LTios
 //
-//  Created by antoine beneteau on 2017-07-31.
-//  Copyright © 2017 Tastyapp. All rights reserved.
+//  Created by Antoine Beneteau on 02/11/2018.
+//  Copyright © 2018 Tastyapp. All rights reserved.
 //
 
 import UIKit
 import PhoneNumberKit
 import SnapKit
 
-
-// MARK: - Phone Verification
-
-
-class LogoTitle: UILabel {
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)!
-        commonInit()
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    func commonInit(){
-        translatesAutoresizingMaskIntoConstraints = false
-        text = "Little World"
-        font = UIFont(name: "Roboto-Medium", size: 36)
-        textColor = .white
-        textAlignment = .center
-        minimumScaleFactor = 0.5
-    }
-}
-
-class Slogan: UILabel {
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)!
-        commonInit()
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    func commonInit(){
-        translatesAutoresizingMaskIntoConstraints = false
-        text = "Connect the world"
-        font = UIFont(name: "Roboto-Light", size: 16)
-        textColor = .white
-        textAlignment = .center
-    }
-}
-
-
-class CountryButton: UIButton {
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)!
-        commonInit()
-    }
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    func commonInit(){
-        translatesAutoresizingMaskIntoConstraints = false
-        setImage(#imageLiteral(resourceName: "FR"), for: .normal)
-    }
-}
-
-
-class PhoneTextField: PhoneNumberTextField {
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        commonInit()
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    func commonInit(){
-        translatesAutoresizingMaskIntoConstraints = false
-        textColor = .white
-        font = UIFont(name: "Roboto-Regular", size: 20)
-        borderStyle = .none
-        keyboardType = .phonePad
-        keyboardAppearance = .light
-        returnKeyType = .go
-        autocorrectionType = .no
-        isPartialFormatterEnabled = false
-    }
-}
-
-class PhonePlaceHolder: UILabel {
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)!
-        commonInit()
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    func commonInit(){
-        translatesAutoresizingMaskIntoConstraints = false
-        text = " Enter your phone number"
-        font = UIFont(name: "Roboto-Light", size: 16)
-        textColor = .white
-        textAlignment = .center
-        minimumScaleFactor = 0.2
-        adjustsFontSizeToFitWidth = true
-    }
-}
-
-class PhoneTextFieldLine: UIImageView {
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)!
-        commonInit()
-    }
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    func commonInit(){
-        translatesAutoresizingMaskIntoConstraints = false
-        image = #imageLiteral(resourceName: "PhoneTextFieldLine")
-    }
-}
-
-class RegistrationNextButton: UIButton {
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)!
-        commonInit()
-    }
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    func commonInit(){
-        translatesAutoresizingMaskIntoConstraints = false
-        setImage(#imageLiteral(resourceName: "nextRegButton"), for: .normal)
-        alpha = 0.0
-    }
-}
-
-// Mark: - Code Verification
-
-class verificationCodeLabel: UILabel {
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)!
-        commonInit()
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    func commonInit(){
-        translatesAutoresizingMaskIntoConstraints = false
-        text = "Enter the verification code"
-        font = UIFont(name: "Roboto-Light", size: 20)
-        textColor = .white
-        textAlignment = .center
-        minimumScaleFactor = 0.5
-    }
-}
-
-class DigitTextField: UITextField {
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)!
-        commonInit()
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    func commonInit(){
-        translatesAutoresizingMaskIntoConstraints = false
-        textColor = .white
-        font = UIFont(name: "Roboto-Regular", size: 27)
-        textColor = .white
-        borderStyle = .none
-        keyboardType = .phonePad
-        keyboardAppearance = .light
-        returnKeyType = .next
-        autocorrectionType = .no
-        textAlignment = .center
-        resignFirstResponder()
-    }
-    
-    override func caretRect(for position: UITextPosition) -> CGRect {
-        return CGRect.zero
-    }
-    
-    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        return false
-    }
-    
-}
-
-class VerificationSuccessLabel: UILabel {
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)!
-        commonInit()
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    func commonInit(){
-        translatesAutoresizingMaskIntoConstraints = false
-        text = "Success !"
-        font = UIFont(name: "Roboto-Light", size: 14)
-        textColor = .white
-        textAlignment = .center
-        minimumScaleFactor = 0.5
-        alpha = 0.0
-    }
-}
-
-class BackButton: UIButton {
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)!
-        commonInit()
-    }
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    func commonInit(){
-        translatesAutoresizingMaskIntoConstraints = false
-        setImage(#imageLiteral(resourceName: "verificationBackArrow"), for: .normal)
-    }
-}
 
 // MARK: - Registeration Form
 
@@ -264,7 +27,7 @@ class RegisterFormLabel: UILabel {
     func commonInit() {
         translatesAutoresizingMaskIntoConstraints = false
         text = "Fill the form to continue"
-        font = UIFont(name: "Roboto-Light", size: 20)
+        font = UIFont(name: "Roboto-Light", size: 15)
         textColor = .white
         textAlignment = .center
         minimumScaleFactor = 0.5
@@ -290,6 +53,112 @@ class RegisterForm: UIView {
     }
 }
 
+class EmailRegisterTextField: UITextField {
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)!
+        commonInit()
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+    
+    func commonInit(){
+        setIcon(UIImage(named: "email")!)
+        
+        translatesAutoresizingMaskIntoConstraints = false
+        font = UIFont(name: "Roboto-Regular", size: 15)
+        textColor = UIColor(red:0.20, green:0.29, blue:0.37, alpha:1.0)
+        borderStyle = .roundedRect
+        keyboardType = .emailAddress
+        keyboardAppearance = .light
+        returnKeyType = .next
+        autocorrectionType = .no
+        layer.borderWidth = 0.0
+    }
+}
+
+class PseudoRegisterTextField: UITextField {
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)!
+        commonInit()
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+    
+    func commonInit(){
+        setIcon(UIImage(named: "pseudo")!)
+        
+        translatesAutoresizingMaskIntoConstraints = false
+        font = UIFont(name: "Roboto-Regular", size: 15)
+        textColor = UIColor(red:0.20, green:0.29, blue:0.37, alpha:1.0)
+        borderStyle = .roundedRect
+        keyboardType = .default
+        keyboardAppearance = .light
+        returnKeyType = .next
+        autocorrectionType = .no
+        layer.borderWidth = 0.0
+        isSecureTextEntry = true
+    }
+}
+
+class PasswordRegisterTextField: UITextField {
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)!
+        commonInit()
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+    
+    func commonInit(){
+        setIcon(UIImage(named: "password")!)
+        
+        translatesAutoresizingMaskIntoConstraints = false
+        font = UIFont(name: "Roboto-Regular", size: 15)
+        textColor = UIColor(red:0.20, green:0.29, blue:0.37, alpha:1.0)
+        borderStyle = .roundedRect
+        keyboardType = .emailAddress
+        keyboardAppearance = .light
+        returnKeyType = .next
+        autocorrectionType = .no
+        layer.borderWidth = 0.0
+        isSecureTextEntry = true
+    }
+}
+
+class NameRegisterTextField: UITextField {
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)!
+        commonInit()
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+    
+    func commonInit(){
+        setIcon(UIImage(named: "name")!)
+        
+        translatesAutoresizingMaskIntoConstraints = false
+        font = UIFont(name: "Roboto-Regular", size: 15)
+        textColor = UIColor(red:0.20, green:0.29, blue:0.37, alpha:1.0)
+        borderStyle = .roundedRect
+        keyboardType = .default
+        keyboardAppearance = .light
+        returnKeyType = .next
+        autocorrectionType = .no
+        layer.borderWidth = 0.0
+    }
+}
+
 class RegisterButton: UIButton {
     
     required init(coder aDecoder: NSCoder) {
@@ -308,7 +177,7 @@ class RegisterButton: UIButton {
         layer.cornerRadius = 5
         clipsToBounds = true
         setBackgroundColor(color: UIColor(red:0.93, green:0.94, blue:0.95, alpha:1.0), forState: .highlighted)
-        let numberAsString = "REGISTER"
+        let numberAsString = "SIGNUP"
         
         let attributes = [NSAttributedStringKey.font: UIFont(name: "Roboto-Regular", size: 15.0)!, NSAttributedStringKey.foregroundColor: UIColor.CustomColor.blue]
         
@@ -316,8 +185,6 @@ class RegisterButton: UIButton {
         
     }
 }
-
-
 
 class RegisterAgreementsLabel: UILabel {
     required init(coder aDecoder: NSCoder) {
@@ -339,7 +206,6 @@ class RegisterAgreementsLabel: UILabel {
         minimumScaleFactor = 0.5
     }
 }
-
 
 // MARK: - Import Contacts
 
@@ -410,5 +276,6 @@ class FirstContactAgreementsLabel: UILabel {
         minimumScaleFactor = 0.5
     }
 }
+
 
 

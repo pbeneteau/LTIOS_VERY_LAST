@@ -109,3 +109,27 @@ final class ForceTouchGestureRecognizer: UIGestureRecognizer {
 }
 
 
+extension UITextField {
+    func setIcon(_ image: UIImage) {
+        let iconView = UIImageView(frame:
+            CGRect(x: 15, y: 5, width: 20, height: 20))
+        iconView.image = image
+        let iconContainerView: UIView = UIView(frame:
+            CGRect(x: 20, y: 0, width: 40, height: 30))
+        iconContainerView.addSubview(iconView)
+        leftView = iconContainerView
+        leftViewMode = .always
+    }
+}
+
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}

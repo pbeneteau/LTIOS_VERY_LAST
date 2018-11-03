@@ -40,14 +40,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let frame = UIScreen.main.bounds
         window = UIWindow(frame: frame)
         
-        if ((Auth.auth().currentUser) != nil) {
-            self.window?.rootViewController = navigationVC
-            self.window?.makeKeyAndVisible()
-        } else {
-            let initialViewController = StartViewController()
-            self.window?.rootViewController = initialViewController
-            self.window?.makeKeyAndVisible()
-        }
+//        if ((Auth.auth().currentUser) != nil) {
+//            self.window?.rootViewController = navigationVC
+//            self.window?.makeKeyAndVisible()
+//        } else {
+//            let initialViewController = StartViewController()
+//            self.window?.rootViewController = initialViewController
+//            self.window?.makeKeyAndVisible()
+//        }
+        let initialViewController = StartViewController()
+        self.window?.rootViewController = initialViewController
+        self.window?.makeKeyAndVisible()
         
         return true
     }

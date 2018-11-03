@@ -50,6 +50,8 @@
 		006BDD091F2F8E34006DEF17 /* Roboto-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 006BDCFD1F2F8E34006DEF17 /* Roboto-ThinItalic.ttf */; };
 		006BDD0A1F2F8E8B006DEF17 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 006BDCEF1F2F8BFA006DEF17 /* Assets.xcassets */; };
 		006BDD0C1F2F9613006DEF17 /* CountryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006BDD0B1F2F9613006DEF17 /* CountryViewController.swift */; };
+		00A48929218DAB950092ECE3 /* SMS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A48928218DAB950092ECE3 /* SMS.swift */; };
+		00A4892B218DABAF0092ECE3 /* Starter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A4892A218DABAF0092ECE3 /* Starter.swift */; };
 		00EBDEA01F2159A100676E70 /* MainUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EBDE9F1F2159A100676E70 /* MainUser.swift */; };
 		00FF14DE1FA7475D00D9F6FB /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FF14DD1FA7475D00D9F6FB /* Contact.swift */; };
 		00FF14E21FA752E600D9F6FB /* ContactsSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FF14E11FA752E600D9F6FB /* ContactsSearchController.swift */; };
@@ -179,6 +181,8 @@
 		006BDCFC1F2F8E34006DEF17 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
 		006BDCFD1F2F8E34006DEF17 /* Roboto-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-ThinItalic.ttf"; sourceTree = "<group>"; };
 		006BDD0B1F2F9613006DEF17 /* CountryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryViewController.swift; sourceTree = "<group>"; };
+		00A48928218DAB950092ECE3 /* SMS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMS.swift; sourceTree = "<group>"; };
+		00A4892A218DABAF0092ECE3 /* Starter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Starter.swift; sourceTree = "<group>"; };
 		00EBDE9F1F2159A100676E70 /* MainUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainUser.swift; sourceTree = "<group>"; };
 		00FF14DD1FA7475D00D9F6FB /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		00FF14E11FA752E600D9F6FB /* ContactsSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsSearchController.swift; sourceTree = "<group>"; };
@@ -454,6 +458,14 @@
 			name = Fonts;
 			sourceTree = "<group>";
 		};
+		00A4892C218DABC00092ECE3 /* SMS */ = {
+			isa = PBXGroup;
+			children = (
+				00A48928218DAB950092ECE3 /* SMS.swift */,
+			);
+			name = SMS;
+			sourceTree = "<group>";
+		};
 		00CC1A8E1F1FF09500ECADAD /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -470,12 +482,14 @@
 		00CC1A8F1F1FF09A00ECADAD /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				00A4892A218DABAF0092ECE3 /* Starter.swift */,
 				0029BA631F2FEE1A00C67810 /* CountrySelector.swift */,
 				38B852862128D202002EBB18 /* Utils */,
 				38799296215C52D100AE0DF0 /* Banner */,
 				38B8527F21288F41002EBB18 /* InterestingUsers */,
 				38B8527C21259044002EBB18 /* Menu */,
 				006BDCDA1F2F8994006DEF17 /* Registering */,
+				00A4892C218DABC00092ECE3 /* SMS */,
 				006BDCDB1F2F899F006DEF17 /* Login */,
 				006BDCE01F2F89BE006DEF17 /* Scanning */,
 				006BDCDC1F2F89A5006DEF17 /* Profile */,
@@ -766,7 +780,7 @@
 				TargetAttributes = {
 					0007E4D61F1FECD700EBA50C = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = X9UAR68B43;
+						DevelopmentTeam = D8J97J3MM9;
 						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -1050,6 +1064,7 @@
 				006BDCEC1F2F8A25006DEF17 /* NearbyPlace.swift in Sources */,
 				38B8527A2124E8D8002EBB18 /* ModalViewViewController.swift in Sources */,
 				38FEA1BD212C8A7A00561CF4 /* StorageService.swift in Sources */,
+				00A4892B218DABAF0092ECE3 /* Starter.swift in Sources */,
 				3821518C215FEBE300A7BE9A /* NotificationsTableViewCell.swift in Sources */,
 				384863A32122E6B7004222DE /* InterestingUsers.swift in Sources */,
 				387FC5C22153DB730064DA08 /* SettingsTableView.swift in Sources */,
@@ -1057,6 +1072,7 @@
 				006BDCC31F2F8845006DEF17 /* RegisterationFormViewController.swift in Sources */,
 				38523EA8214DB94F0078B0A1 /* SettingsHeaderView.swift in Sources */,
 				006BDCD91F2F8961006DEF17 /* ContactProfileViewController.swift in Sources */,
+				00A48929218DAB950092ECE3 /* SMS.swift in Sources */,
 				38343E701F8B9DE400F4909E /* NearbyPlacesHeaderCollectionReusableView.swift in Sources */,
 				00EBDEA01F2159A100676E70 /* MainUser.swift in Sources */,
 				38D0D97721546D7500FAB683 /* BluetoothServices.swift in Sources */,
@@ -1247,7 +1263,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = X9UAR68B43;
+				DEVELOPMENT_TEAM = D8J97J3MM9;
 				INFOPLIST_FILE = LTios/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.littleworld.tastyapp;
@@ -1268,7 +1284,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = X9UAR68B43;
+				DEVELOPMENT_TEAM = D8J97J3MM9;
 				INFOPLIST_FILE = LTios/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.littleworld.tastyapp;
